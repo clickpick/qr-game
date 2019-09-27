@@ -1,8 +1,7 @@
 import React from 'react';
 import { string } from 'prop-types';
 
-import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
-import SpinnerComponent from '@vkontakte/vkui/dist/components/Spinner/Spinner';
+import { Panel, Spinner as SpinnerComponent } from '@vkontakte/vkui';
 
 import './Spinner.css';
 
