@@ -1,44 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import connect from '@vkontakte/vk-connect';
-import View from '@vkontakte/vkui/dist/components/View/View';
-import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
+import React from 'react';
+import { Root } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
-import Home from './panels/Home';
-import Persik from './panels/Persik';
+import Spinner from 'views/Spinner';
+import Main from 'views/Main';
 
-const App = () => {
-	const [activePanel, setActivePanel] = useState('home');
-	const [fetchedUser, setUser] = useState(null);
-	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
+import { parseQueryString, getUTCOffset } from 'helpers';
+import { auth } from 'api';
 
-	useEffect(() => {
-		connect.subscribe(({ detail: { type, data }}) => {
-			if (type === 'VKWebAppUpdateConfig') {
-				const schemeAttribute = document.createAttribute('scheme');
-				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
-				document.body.attributes.setNamedItem(schemeAttribute);
-			}
-		});
-		async function fetchData() {
-			const user = await connect.sendPromise('VKWebAppGetUserInfo');
-			setUser(user);
-			setPopout(null);
-		}
-		fetchData();
-	}, []);
+import './App.css';
 
-	const go = e => {
-		setActivePanel(e.currentTarget.dataset.to);
+export default class App extends React.Component {
+	state = {
+		activeView: 'spinner',
+		user: null
 	};
 
-	return (
-		<View activePanel={activePanel} popout={popout}>
-			<Home id='home' fetchedUser={fetchedUser} go={go} />
-			<Persik id='persik' go={go} />
-		</View>
-	);
+	header;
+
+	componentDidMount() {
+		this.headers = {
+			'Vk-Params': window.btoa(JSON.stringify({
+				...parseQueryString(window.location.search),
+				'utc_offset': getUTCOffset(),
+			})),
+			'Accept': 'application/json'
+		};
+
+		window.axios = window.axios.create({
+			baseURL: process.env.REACT_APP_API_URL,
+			headers: this.headers,
+		});
+
+		this.authorization();
+	}
+
+	render() {
+		return (
+			<Root activeView={this.state.activeView}>
+				<Main id="main" activePanel="home" user={this.state.user} />
+				<Spinner id="spinner" />
+			</Root>
+		);
+	}
+
+	authorization = () => {
+		auth()
+			.then(({ status, data: user }) => {
+				if (status === 200 || status === 201) {
+					this.setState({
+						user,
+						activeView: 'main',
+					});
+				}
+			})
+			.catch(e => console.log('auth', e));
+	}
 }
-
-export default App;
-

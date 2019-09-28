@@ -4,6 +4,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import connect from '@vkontakte/vk-connect';
 import App from './App';
+import axios from 'axios';
+
+window.axios = axios;
 // import registerServiceWorker from './sw';
 
 // Init VK  Mini App
