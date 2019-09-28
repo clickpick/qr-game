@@ -9,6 +9,7 @@ import QRCode from 'components/QRCode';
 import Button from 'components/Button';
 import Cipher from 'components/Cipher';
 import ProjectCard from 'components/ProjectCard';
+import { ReactComponent as Wave } from 'svg/wave.svg';
 
 import Icon24ShareOutline from '@vkontakte/icons/dist/24/share_outline';
 
@@ -48,23 +49,31 @@ const Home = ({
 			</div>
 
 			<div className="Home__blue-wrapper">
-				<h2 className="Home__title">
-					Сканируй QR коды друзей<br />и получи приз за весь шифр
-				</h2>
+				<div className="Home__wave">
+					<Wave className="Wave Wave--1" />
+					<Wave className="Wave Wave--2" />
+					<Wave className="Wave Wave--3" />
+				</div>
 
-				<Cipher className="Home__Cipher" activatedKeys={activatedProjectKeys} />
+				<div className="Home__content">
+					<h2 className="Home__title">
+						Сканируй QR коды друзей<br />и получи приз за весь шифр
+					</h2>
 
-				<h2 className="Home__title">При поддержке</h2>
+					<Cipher className="Home__Cipher" activatedKeys={activatedProjectKeys} />
 
-				<ProjectCard className="Home__ProjectCard" {...activeProject} />
-				
-				<Button
-					children="Помощь в сборе средств для вашего фонда"
-					size="medium"
-					theme="primary"
-					data-to="finansing"
-					full
-					onClick={openFinansingModal} />
+					<h2 className="Home__title">При поддержке</h2>
+
+					<ProjectCard className="Home__ProjectCard" {...activeProject} />
+
+					<Button
+						children="Помощь в сборе средств для вашего фонда"
+						size="medium"
+						theme="primary"
+						data-to="finansing"
+						full
+						onClick={openFinansingModal} />
+				</div>
 			</div>
 		</Panel>
 	);
