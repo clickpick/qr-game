@@ -1,5 +1,5 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { string, bool } from 'prop-types';
 
 import { View, ConfigProvider } from '@vkontakte/vkui';
 
@@ -7,6 +7,7 @@ export default class AbstractView extends React.Component {
     static propTypes = {
         id: string.isRequired,
         activePanel: string.isRequired,
+        header: bool
     };
 
     state = {
@@ -45,6 +46,7 @@ export default class AbstractView extends React.Component {
                 <View
                     id={this.props.id}
                     activePanel={this.state.activePanel}
+                    header={this.props.header}
                     children={this.renderPanels()} />
             </ConfigProvider>
         );
