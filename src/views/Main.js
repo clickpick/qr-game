@@ -1,5 +1,5 @@
 import React from 'react';
-import { object } from 'prop-types';
+import { object, string, array } from 'prop-types';
 
 import AbstractView from './AbstractView';
 
@@ -10,11 +10,21 @@ export default class Main extends AbstractView {
     static propTypes = {
         ...AbstractView.propTypes,
         user: object,
+        activeProject: object,
+        userProjectKey: string,
+        activatedProjectKeys: array
     };
 
     renderPanels = () => {
         return [
-            <Home key="home" id="home" user={this.props.user} go={this.go} />,
+            <Home
+                key="home"
+                id="home"
+                user={this.props.user}
+                activeProject={this.props.activeProject}
+                userProjectKey={this.props.userProjectKey}
+                activatedProjectKeys={this.props.activatedProjectKeys}
+                go={this.go} />,
             <Finansing key="finansing" id="finansing" goBack={this.goBack} />
         ];
     }
