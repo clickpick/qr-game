@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import vkQr from '@vkontakte/vk-qr';
 import { toDataURL } from 'helpers';
 
+import './QRCode.css';
+
 const QRCode = ({ className, userPic, token, foregroundColor, loader }) => {
     const [qrSvg, setQrSvg] = React.useState('');
 
