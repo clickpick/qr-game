@@ -12,7 +12,7 @@ const QRCode = ({ className, userPic, token, foregroundColor, loader }) => {
 
     toDataURL(userPic, (logoData) => setQrSvg(
         vkQr.createQR(token, {
-            qrSize: 180,
+            qrSize: 262,
             isShowLogo: true,
             logoData,
             foregroundColor,
