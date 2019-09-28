@@ -1,0 +1,58 @@
+.ProjectCard {
+    display: flex;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.ProjectCard__l {
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.ProjectCard__Avatar .Avatar__img {
+    width: 50px !important;
+    height: 50px !important;
+
+    border-radius: 5px !important;
+}
+
+.ProjectCard__r {
+    width: 100%;
+}
+
+.ProjectCard__name {
+    font-size: var(--font-size-16);
+    color: var(--color-white);
+    line-height: 22px;
+}
+
+.ProjectCard__description {
+    margin-bottom: 6px;
+    font-size: var(--font-size-14);
+    color: rgba(var(--color-white-rgb), 0.6);
+}
+
+.ProjectCard__progress-info {
+    margin-bottom: 6px;
+}
+
+.ProjectCard__Progress {
+    margin-bottom: 4px;
+    background-color: rgba(var(--color-white-rgb), 0.2);
+}
+
+.ProjectCard__Progress .Progress__in {
+    height: 4px;
+    background-color: var(--color-white);
+}
+
+.ProjectCard__goal {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-white);
+}
