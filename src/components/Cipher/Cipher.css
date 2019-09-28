@@ -1,0 +1,29 @@
+.Cipher {
+    display: flex;
+    justify-content: center;
+}
+
+.Cipher__symbol {
+    width: 56px;
+    height: 56px;
+    margin-right: 15px;
+
+    border-radius: 8px;
+
+    background-color: rgb(130, 157, 244);
+
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-white);
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 56px;
+}
+
+.Cipher__symbol:last-child {
+    margin-right: 0;
+}
+
+.Cipher__symbol--disabled {
+    opacity: 0.4;
+}
