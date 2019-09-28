@@ -91,19 +91,19 @@
 
 .Wave--1 {
     opacity: 1;
-    animation-duration: 10s;
+    animation-duration: 20s;
     animation-delay: -4s;
 }
 
 .Wave--2 {
     opacity: 0.4;
-    animation-duration: 6s;
+    animation-duration: 12s;
     animation-delay: -2s;
 }
 
 .Wave--3 {
     opacity: 0.2;
-    animation-duration: 4s;
+    animation-duration: 8s;
     animation-delay: 0s;
 }
 
