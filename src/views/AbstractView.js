@@ -1,7 +1,7 @@
 import React from 'react';
 import { string, bool } from 'prop-types';
 
-import { View, ConfigProvider } from '@vkontakte/vkui';
+import { View, ConfigProvider, ModalRoot } from '@vkontakte/vkui';
 
 export default class AbstractView extends React.Component {
     static propTypes = {
@@ -12,6 +12,8 @@ export default class AbstractView extends React.Component {
 
     state = {
         activePanel: this.props.activePanel,
+        activeModal: null,
+        modalHistory: [],
     };
 
     componentDidMount() {
@@ -40,6 +42,28 @@ export default class AbstractView extends React.Component {
         }
     }
 
+    modalBack = () => {
+        this.setActiveModal(this.state.modalHistory[this.state.modalHistory.length - 2]);
+    }
+
+    setActiveModal = (activeModal) => {
+        activeModal = activeModal || null;
+        let modalHistory = this.state.modalHistory ? [...this.state.modalHistory] : [];
+
+        if (activeModal === null) {
+            modalHistory = [];
+        } else if (modalHistory.indexOf(activeModal) !== -1) {
+            modalHistory = modalHistory.splice(0, modalHistory.indexOf(activeModal) + 1);
+        } else {
+            modalHistory.push(activeModal);
+        }
+
+        this.setState({
+            activeModal,
+            modalHistory
+        });
+    }
+
     render() {
         return (
             <ConfigProvider isWebView={true}>
@@ -47,12 +71,21 @@ export default class AbstractView extends React.Component {
                     id={this.props.id}
                     activePanel={this.state.activePanel}
                     header={this.props.header}
-                    children={this.renderPanels()} />
+                    children={this.renderPanels()}
+                    modal={this.renderModalRoot()} />
             </ConfigProvider>
         );
     }
 
     renderPanels() {
         return null;
+    }
+
+    renderModalRoot = () => {
+        return <ModalRoot activeModal={this.state.activeModal} children={this.renderModals()} />;
+    }
+
+    renderModals() {
+        return [];
     }
 }
