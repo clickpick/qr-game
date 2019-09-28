@@ -1,8 +1,9 @@
 import React from 'react';
-import { string, func, shape, number } from 'prop-types';
+import { string, func, shape, number, array } from 'prop-types';
 
 import connect from '@vkontakte/vk-connect';
 import { Panel } from '@vkontakte/vkui';
+import Notification from 'components/Notification';
 import Loader from 'components/Loader';
 import QRCode from 'components/QRCode';
 import Button from 'components/Button';
@@ -13,11 +14,18 @@ import Icon24ShareOutline from '@vkontakte/icons/dist/24/share_outline';
 
 import './Home.css';
 
-const Home = ({ id, go, user, activeProject, userProjectKey, activatedProjectKeys }) => {
+const Home = ({
+	id,
+	user, activeProject, userProjectKey, activatedProjectKeys,
+	notificationProps,
+	openFinansingModal
+}) => {
 	const openQR = () => connect.send('VKWebAppOpenQR');
 
 	return (
 		<Panel id={id} className="Home">
+			<Notification {...notificationProps} />
+
 			<QRCode
 				className="Home__QRCode"
 				userPic={user.avatar_200}
@@ -56,7 +64,7 @@ const Home = ({ id, go, user, activeProject, userProjectKey, activatedProjectKey
 					theme="primary"
 					data-to="finansing"
 					full
-					onClick={go} />
+					onClick={openFinansingModal} />
 			</div>
 		</Panel>
 	);
@@ -64,7 +72,6 @@ const Home = ({ id, go, user, activeProject, userProjectKey, activatedProjectKey
 
 Home.propTypes = {
 	id: string.isRequired,
-	go: func.isRequired,
 	activeProject: shape({
 		background: string,
 		name: string,
@@ -72,7 +79,10 @@ Home.propTypes = {
 		descriptiom: string,
 		raised_funds: number,
 		goal_funds: number,
-	})
+	}),
+	userProjectKey: string.isRequired,
+	activatedProjectKeys: array.isRequired,
+	openFinansingModal: func
 };
 
 export default Home;

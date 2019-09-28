@@ -1,13 +1,14 @@
 import React from 'react';
 import { string, bool } from 'prop-types';
 
-import { View, ConfigProvider, ModalRoot } from '@vkontakte/vkui';
+import { View, ConfigProvider, ModalRoot, ScreenSpinner } from '@vkontakte/vkui';
 
 export default class AbstractView extends React.Component {
     static propTypes = {
         id: string.isRequired,
         activePanel: string.isRequired,
-        header: bool
+        header: bool,
+        popout: bool,
     };
 
     state = {
@@ -72,7 +73,8 @@ export default class AbstractView extends React.Component {
                     activePanel={this.state.activePanel}
                     header={this.props.header}
                     children={this.renderPanels()}
-                    modal={this.renderModalRoot()} />
+                    modal={this.renderModalRoot()}
+                    popout={this.renderPopout()} />
             </ConfigProvider>
         );
     }
@@ -87,5 +89,13 @@ export default class AbstractView extends React.Component {
 
     renderModals() {
         return [];
+    }
+
+    renderPopout = () => {
+        if (this.props.popout) {
+            return <ScreenSpinner size='large' />;
+        }
+
+        return null;
     }
 }

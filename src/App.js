@@ -7,7 +7,7 @@ import Spinner from 'views/Spinner';
 import Main from 'views/Main';
 
 import { parseQueryString, getUTCOffset } from 'helpers';
-import { auth, activeProject, userProjectKey, activatedProjectKeys } from 'api';
+import { auth, activeProject, userProjectKey, activatedProjectKeys, activeProjectKey } from 'api';
 
 import './App.css';
 
@@ -25,7 +25,10 @@ export default class App extends React.Component {
 			background: 'https://cdnimg.rg.ru/i/gallery/c492fecf/1_62f6718f.jpg',
 		},
 		userProjectKey: null,
-		activatedProjectKeys: []
+		activatedProjectKeys: [],
+		notification: {
+			show: true,
+		},
 	};
 
 	header;
@@ -46,8 +49,10 @@ export default class App extends React.Component {
 
 		this.authorization(() => this.fetchActiveProject(this.fetchUserProjectKeyAndActivatedProjectKeys));
 
-		connect.subscribe((e) => {
-			console.log(e);
+		connect.subscribe(({ detail: { type, data } }) => {
+			if (type === 'VKWebAppOpenQRResult') {
+				this.activateProjectKey(data.qr_data);
+			}
 		});
 	}
 
@@ -61,7 +66,8 @@ export default class App extends React.Component {
 					activeProject={this.getActiveProject()}
 					userProjectKey={this.getUserProjectKey()}
 					activatedProjectKeys={this.getActivatedProjectKeys()}
-					header={false} />
+					header={false}
+					notificationProps={this.state.notification} />
 				<Spinner id="spinner" />
 			</Root>
 		);
@@ -114,5 +120,35 @@ export default class App extends React.Component {
 					activeView: 'main',
 				})
 			});
+	}
+
+	activateProjectKey = (token) => {
+		this.setState({
+			notification: {
+				show: true,
+				status: 'loading',
+				title: 'Обработка QR',
+				info: 'А ты знал, что барсы предпочитают обитать по одиночке, а не в стае?',
+			}
+		});
+
+		activeProjectKey(this.state.activeProject.id, { token })
+			.then(({ status, data }) => {
+				if (status === 200) {
+					setTimeout(() => {
+						this.setState((prevState) => ({
+							activatedProjectKeys: prevState.activatedProjectKeys.concat([data]),
+							notification: {
+								show: false,
+								status: 'success',
+								title: 'Удачно',
+								info: `Ты открыл новый символ “${data.value}”!`,
+							}
+						}));
+					});
+					return;
+				};
+			})
+			.catch((e) => console.log(JSON.stringify(e)));
 	}
 }

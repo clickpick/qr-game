@@ -4,7 +4,8 @@ import { object, string, array } from 'prop-types';
 import AbstractView from './AbstractView';
 
 import Home from 'panels/Home';
-import Finansing from 'panels/Finansing';
+
+import Finansing from 'modals/Finansing';
 
 export default class Main extends AbstractView {
     static propTypes = {
@@ -24,8 +25,19 @@ export default class Main extends AbstractView {
                 activeProject={this.props.activeProject}
                 userProjectKey={this.props.userProjectKey}
                 activatedProjectKeys={this.props.activatedProjectKeys}
-                go={this.go} />,
-            <Finansing key="finansing" id="finansing" goBack={this.goBack} />
+                go={this.go}
+                openFinansingModal={this.openFinansingModal}
+                notificationProps={this.props.notificationProps} />,
         ];
+    }
+
+    renderModals = () => {
+        return [
+            <Finansing key="finansing" id="finansing" onClose={this.modalBack} />,
+        ];
+    }
+
+    openFinansingModal = () => {
+        this.setActiveModal('finansing');
     }
 }
