@@ -17,4 +17,4 @@ export const activatedProjectKeys = (projectId) =>
     requestGet(`/projects/${projectId}/activated-project-keys`);
 
 export const activeProjectKey = (projectId, data) =>
-    requestPost(`/projects/${projectId}/user-project-key`, data);
+    requestPost(`/projects/${projectId}/activate-project-key`, data);
