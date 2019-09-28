@@ -15,7 +15,7 @@
 
     max-width: 262px;
     margin-right: auto;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     margin-left: auto;
 }
 
@@ -40,8 +40,12 @@
 
 .Home__blue-wrapper {
     flex: 1;
-    padding: 20px;
+    padding-top: 50px;
     background-color: var(--color-primary);
+}
+
+.Home__content {
+    padding: 20px;
 }
 
 .Home__title {
@@ -59,4 +63,51 @@
 
 .Home__ProjectCard {
     margin-bottom: 15px;
+}
+
+.Home__wave {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+    
+    padding-bottom: calc(800% / 75);
+    margin-top: -50px;
+}
+
+.Wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    transform: translateX(0);
+    backface-visibility: hidden;
+    animation: wave linear infinite;
+}
+
+.Wave--1 {
+    opacity: 1;
+    animation-duration: 10s;
+    animation-delay: -4s;
+}
+
+.Wave--2 {
+    opacity: 0.4;
+    animation-duration: 6s;
+    animation-delay: -2s;
+}
+
+.Wave--3 {
+    opacity: 0.2;
+    animation-duration: 4s;
+    animation-delay: 0s;
+}
+
+@keyframes wave {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
