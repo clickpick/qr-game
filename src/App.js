@@ -1,4 +1,5 @@
 import React from 'react';
+import connect from '@vkontakte/vk-connect';
 import { Root } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
@@ -44,6 +45,10 @@ export default class App extends React.Component {
 		});
 
 		this.authorization(() => this.fetchActiveProject(this.fetchUserProjectKeyAndActivatedProjectKeys));
+
+		connect.subscribe((e) => {
+			console.log(e);
+		});
 	}
 
 	render() {

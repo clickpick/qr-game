@@ -1,6 +1,7 @@
 import React from 'react';
 import { string, func, shape, number } from 'prop-types';
 
+import connect from '@vkontakte/vk-connect';
 import { Panel } from '@vkontakte/vkui';
 import Loader from 'components/Loader';
 import QRCode from 'components/QRCode';
@@ -13,6 +14,8 @@ import Icon24ShareOutline from '@vkontakte/icons/dist/24/share_outline';
 import './Home.css';
 
 const Home = ({ id, go, user, activeProject, userProjectKey, activatedProjectKeys }) => {
+	const openQR = () => connect.send('VKWebAppOpenQR');
+
 	return (
 		<Panel id={id} className="Home">
 			<QRCode
@@ -27,7 +30,8 @@ const Home = ({ id, go, user, activeProject, userProjectKey, activatedProjectKey
 					children="Сканировать QR код"
 					size="medium"
 					theme="info"
-					full />
+					full
+					onClick={openQR} />
 				<Button
 					className="Home__action  Home__action--share"
 					children={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
