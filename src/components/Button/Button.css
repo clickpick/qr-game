@@ -1,0 +1,93 @@
+.Button {
+    display: inline-block;
+
+    padding: 0 16px;
+
+    border: none;
+    border-radius: 16px;
+    
+    background-color: var(--color-white);
+    
+    font: inherit;
+    font-size: var(--font-size-14);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    text-align: center;
+    text-decoration: none;
+    line-height: 30px;
+    
+    cursor: pointer;
+
+    transition: transform 150ms ease-in;
+}
+
+.Button:active:not([disabled]) {
+    transform: scale(0.95) translateY(1px);
+}
+
+/**
+ * Темы
+ */
+.Button.Button--primary {
+    background-color: rgb(116, 144, 262);
+    color: var(--color-white);
+}
+
+.Button.Button--info {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+}
+
+/**
+ * Размеры
+ */
+.Button.Button--medium {
+    border-radius: 6px;
+
+    font-size: var(--font-size-16);
+    line-height: 44px;
+}
+
+/**
+ * Опции
+ */
+.Button.Button--full {
+    width: 100%;
+    max-width: 100%;
+}
+
+.Button--flex {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/**
+ * before content
+ */
+.Button__before {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.Button.Button--medium .Button__before {
+    margin-right: 8px;
+}
+
+/**
+ * Свойства для svg в before и aside
+ */
+.Button svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--color-primary);
+}
+
+.Button.Button--medium svg {
+    width: 24px;
+    height: 24px;
+}
+
+.Button.Button--primary svg {
+    fill: var(--color-white);
+}
