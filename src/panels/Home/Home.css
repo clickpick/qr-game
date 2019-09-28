@@ -27,6 +27,10 @@
     margin-right: 0;
 }
 
+.Home__action--scan {
+    padding: 0 16px !important;
+}
+
 .Home__action--share {
     flex-shrink: 0;
     width: 44px;
