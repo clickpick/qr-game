@@ -18,18 +18,20 @@ export default class Notification extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        this.init(nextProps);
+        this.init(nextProps);   
     }
 
     init = (props) => {
-        if (props.show) {
-           this.setState({ show: true });
-           return;
-        }
+        this.setState({ show: props.show });
 
-        setTimeout(() => {
-            this.setState({ show: false });
-        }, 1500);
+        if (props.hasOwnProperty('timeout') && !isNaN(props.timeout)) {
+            setTimeout(() => {
+                this.setState({ show: false });
+                if (this.props.hide) {
+                    this.props.hide();
+                }
+            }, props.timeout);
+        }
     }
 
     render() {
@@ -49,6 +51,7 @@ export default class Notification extends React.Component {
     }
 
     getImage = () => {
+        // eslint-disable-next-line default-case
         switch (this.props.status) {
             case 'loading':
                 return <Loader className="Notification__loader" />;
