@@ -13,7 +13,9 @@ import {
 	activeProject, projectFacts,
 	userProjectKey, activatedProjectKeys,
 	addFunds,
-	activeProjectKey } from 'api';
+	activeProjectKey,
+	requestFunding
+} from 'api';
 
 import './App.css';
 
@@ -90,7 +92,8 @@ export default class App extends React.Component {
 					header={false}
 					notificationProps={this.getNotificationProps()}
 					qrCodeRef={this.qrCode}
-					shareStory={this.shareStory} />
+					shareStory={this.shareStory}
+					sendRequestFunding={this.sendRequestFunding} />
 				<ThankYou
 					id="finish"
 					activePanel="finish"
@@ -320,5 +323,22 @@ export default class App extends React.Component {
 				raised_funds: activeProject.raised_funds + amount
 			}
 		});
+	}
+
+	sendRequestFunding = (data) => {
+		requestFunding(data)
+			.then(this.requestFundingSended)
+	}
+
+	requestFundingSended = () => {
+		this.setState(({
+			notification: {
+				show: true,
+				status: 'success',
+				title: 'Твоя заявка отправлена',
+				message: 'В скором времени с тобой свяжутся',
+				timeout: 3000
+			}
+		}));
 	}
 }

@@ -6,11 +6,11 @@ import {
     HeaderButton,
     usePlatform, ANDROID, IOS
 } from '@vkontakte/vkui';
-import AddProjectForm from 'components/AddProjectForm';
+import RequestFundingForm from 'components/RequestFundingForm';
 
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
-const Finansing = ({ id, onClose }) => {
+const RequestFunding = ({ id, onClose, onSubmit }) => {
     const platform = usePlatform();
     const renderModalHeader = () => {
         return (
@@ -28,14 +28,14 @@ const Finansing = ({ id, onClose }) => {
 
     return (
         <ModalPage id={id} header={renderModalHeader()} onClose={onClose}>
-            <AddProjectForm />
+            <RequestFundingForm onSubmit={onSubmit} />
         </ModalPage>
     );
 };
 
-Finansing.propTypes = {
+RequestFunding.propTypes = {
     id: string.isRequired,
     onClose: func.isRequired
 };
 
-export default Finansing;
+export default RequestFunding;

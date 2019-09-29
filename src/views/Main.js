@@ -5,7 +5,7 @@ import AbstractView from './AbstractView';
 
 import Home from 'panels/Home';
 
-import Finansing from 'modals/Finansing';
+import RequestFunding from 'modals/RequestFunding';
 
 export default class Main extends AbstractView {
     static propTypes = {
@@ -17,6 +17,7 @@ export default class Main extends AbstractView {
         notificationProps: object,
         qrCodeRef: object,
         shareStory: func,
+        sendRequestFunding: func,
     };
 
     renderPanels = () => {
@@ -28,7 +29,7 @@ export default class Main extends AbstractView {
                 activeProject={this.props.activeProject}
                 userProjectKey={this.props.userProjectKey}
                 activatedProjectKeys={this.props.activatedProjectKeys}
-                openFinansingModal={this.openFinansingModal}
+                openAddProjectModal={this.openAddProjectModal}
                 notificationProps={this.props.notificationProps}
                 qrCodeRef={this.props.qrCodeRef}
                 shareStory={this.props.shareStory} />,
@@ -37,11 +38,22 @@ export default class Main extends AbstractView {
 
     renderModals = () => {
         return [
-            <Finansing key="finansing" id="finansing" onClose={this.modalBack} />,
+            <RequestFunding
+                key="request-funding"
+                id="request-funding"
+                onClose={this.modalBack}
+                onSubmit={this.onRequestFundingSubmit} />,
         ];
     }
 
-    openFinansingModal = () => {
-        this.setActiveModal('finansing');
+    openAddProjectModal = () => {
+        this.setActiveModal('request-funding');
+    }
+
+    onRequestFundingSubmit = (data) => {
+        if (this.props.sendRequestFunding) {
+            this.props.sendRequestFunding(data);
+            this.modalBack();
+        }
     }
 }

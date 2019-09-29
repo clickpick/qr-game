@@ -22,7 +22,7 @@ const Home = ({
 	user, activeProject, userProjectKey, activatedProjectKeys,
 	notificationProps,
 	qrCodeRef, shareStory,
-	openFinansingModal
+	openAddProjectModal
 }) => {
 	const openQR = () => connect.send('VKWebAppOpenQR');
 	const showPayForm = () =>
@@ -81,7 +81,7 @@ const Home = ({
 						theme="primary"
 						data-to="finansing"
 						full
-						onClick={openFinansingModal} />
+						onClick={openAddProjectModal} />
 				</div>
 			</div>
 		</Panel>
@@ -100,7 +100,7 @@ Home.propTypes = {
 	}),
 	userProjectKey: string.isRequired,
 	activatedProjectKeys: array.isRequired,
-	openFinansingModal: func,
+	openAddProjectModal: func,
 	notificationProps: object,
 	qrCodeRef: object,
 	shareStory: func,
