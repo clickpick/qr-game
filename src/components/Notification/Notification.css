@@ -56,7 +56,7 @@
     color: var(--color-red);
 }
 
-.Notification__info {
+.Notification__message {
     font-size: var(--font-size-14);
     color: rgba(var(--color-light-black-rgb), 0.6);
 }

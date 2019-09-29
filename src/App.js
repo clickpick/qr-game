@@ -168,7 +168,7 @@ export default class App extends React.Component {
 				show: true,
 				status: 'loading',
 				title: 'Обработка QR',
-				info: this.getRandomFact()
+				message: this.getRandomFact()
 			}
 		});
 	}
@@ -180,7 +180,7 @@ export default class App extends React.Component {
 				show: true,
 				status: 'success',
 				title: 'Удачно',
-				info: `Ты открыл новый символ “${data.value.toUpperCase()}”!`,
+				message: `Ты открыл новый символ “${data.value.toUpperCase()}”!`,
 				timeout: 5000
 			}
 		}));
@@ -192,7 +192,7 @@ export default class App extends React.Component {
 				show: true,
 				status: 'info',
 				title: 'Sorry',
-				info: `Символ “${data.value.toUpperCase()}” у тебя уже есть.`,
+				message: `Символ “${data.value.toUpperCase()}” у тебя уже есть.`,
 				timeout: 5000
 			}
 		}));
@@ -204,7 +204,7 @@ export default class App extends React.Component {
 				show: true,
 				status: 'error',
 				title: 'Хм...',
-				info: 'Зачем ты сканируешт свой QR?',
+				message: 'Зачем ты сканируешт свой QR?',
 				timeout: 5000
 			}
 		}));

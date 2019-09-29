@@ -1,4 +1,5 @@
 import React from 'react';
+import { string, bool, number, oneOf, func } from 'prop-types';
 import classNames from 'classnames';
 
 import success from 'images/success.png';
@@ -10,9 +11,20 @@ import Loader from 'components/Loader';
 import './Notification.css';
 
 export default class Notification extends React.Component {
+    static propTypes = {
+        show: bool,
+        status: oneOf(['loading', 'success', 'error', 'info']),
+        title: string,
+        message: string,
+        timeout: number,
+        hide: func,
+    };
+
     state = {
         show: false,
     };
+
+    timerId = null;
 
     componentDidMount() {
         this.init(this.props);
@@ -26,18 +38,16 @@ export default class Notification extends React.Component {
         this.setState({ show: props.show });
 
         if (props.hasOwnProperty('timeout') && !isNaN(props.timeout)) {
-            setTimeout(() => {
+            this.timerId = setTimeout(() => {
                 this.setState({ show: false });
-                if (this.props.hide) {
-                    this.props.hide();
-                }
+                this.hide();
             }, props.timeout);
         }
     }
 
     render() {
         return (
-            <div className={classNames('Notification', { [`Notificatio--show`]: this.state.show })}>
+            <div className={classNames('Notification', { [`Notificatio--show`]: this.state.show })} onClick={this.onClick}>
                 <div className="Notification__l">
                     {this.getImage()}
                 </div>
@@ -45,10 +55,25 @@ export default class Notification extends React.Component {
                     <h4
                         className={classNames('Notification__title', `Notification__title--${this.props.status}`)}
                         children={this.props.title} />
-                    <p className="Notification__info" children={this.props.info} />
+                    <p className="Notification__message" children={this.props.message} />
                 </div>
             </div>
         );
+    }
+
+    onClick = () => {
+        if (this.state.status !== 'loading') {
+            if (this.timerId) {
+                clearTimeout(this.timerId);
+                this.hide();
+            }
+        }
+    }
+
+    hide = () => {
+        if (this.props.hide) {
+            this.props.hide();
+        }
     }
 
     getImage = () => {

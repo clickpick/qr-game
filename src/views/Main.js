@@ -1,5 +1,5 @@
 import React from 'react';
-import { object, string, array } from 'prop-types';
+import { object, string, array, func } from 'prop-types';
 
 import AbstractView from './AbstractView';
 
@@ -13,7 +13,10 @@ export default class Main extends AbstractView {
         user: object,
         activeProject: object,
         userProjectKey: string,
-        activatedProjectKeys: array
+        activatedProjectKeys: array,
+        notificationProps: object,
+        qrCodeRef: object,
+        shareStory: func,
     };
 
     renderPanels = () => {
@@ -25,7 +28,6 @@ export default class Main extends AbstractView {
                 activeProject={this.props.activeProject}
                 userProjectKey={this.props.userProjectKey}
                 activatedProjectKeys={this.props.activatedProjectKeys}
-                go={this.go}
                 openFinansingModal={this.openFinansingModal}
                 notificationProps={this.props.notificationProps}
                 qrCodeRef={this.props.qrCodeRef}

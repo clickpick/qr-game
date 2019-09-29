@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, func, shape, number, array } from 'prop-types';
+import { string, func, shape, number, array, object } from 'prop-types';
 
 import connect from '@vkontakte/vk-connect';
 import { Panel } from '@vkontakte/vkui';
@@ -90,7 +90,10 @@ Home.propTypes = {
 	}),
 	userProjectKey: string.isRequired,
 	activatedProjectKeys: array.isRequired,
-	openFinansingModal: func
+	openFinansingModal: func,
+	notificationProps: object,
+	qrCodeRef: object,
+	shareStory: func,
 };
 
 export default Home;
