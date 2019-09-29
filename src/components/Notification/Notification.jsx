@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import success from 'images/success.png';
+import info from 'images/info.png';
 import error from 'images/error.png';
 
 import Loader from 'components/Loader';
@@ -57,8 +58,10 @@ export default class Notification extends React.Component {
                 return <Loader className="Notification__loader" />;
             case 'success':
                 return <img className="Notification__image" src={success} alt={this.props.status} />;
-            case 'error': case 'info':
+            case 'error':
                 return <img className="Notification__image" src={error} alt={this.props.status} />;
+            case 'info':
+                return <img className="Notification__image" src={info} alt={this.props.status} />;
         }
     }
 }

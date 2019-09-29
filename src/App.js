@@ -129,8 +129,6 @@ export default class App extends React.Component {
 					if (resultes[i].status !== 200) throw new Error('error load');
 				}
 
-				console.log(resultes[2].data);
-
 				this.setState({
 					userProjectKey: resultes[0].data.token,
 					activatedProjectKeys: resultes[1].data,
@@ -151,8 +149,16 @@ export default class App extends React.Component {
 			})
 			.catch((e) => {
 				if (e.response.status === 422) {
-					setTimeout(() => this.errorScan(e.response.data.data), 7000);
+					setTimeout(() => this.repeatedScan(e.response.data.data), 7000);
+					return;
 				}
+
+				if (e.response.status === 403) {
+					setTimeout(this.errorScan, 7000);
+					return;
+				}
+
+				this.hideNotification();
 			});
 	}
 
@@ -180,13 +186,25 @@ export default class App extends React.Component {
 		}));
 	}
 
-	errorScan = (data) => {
+	repeatedScan = (data) => {
+		this.setState(({
+			notification: {
+				show: true,
+				status: 'info',
+				title: 'Sorry',
+				info: `Символ “${data.value.toUpperCase()}” у тебя уже есть.`,
+				timeout: 5000
+			}
+		}));
+	}
+
+	errorScan = () => {
 		this.setState(({
 			notification: {
 				show: true,
 				status: 'error',
-				title: 'Неудачно',
-				info: `Символ “${data.value.toUpperCase()}” у тебя уже есть!`,
+				title: 'Хм...',
+				info: 'Зачем ты сканируешт свой QR?',
 				timeout: 5000
 			}
 		}));
