@@ -153,6 +153,10 @@ export default class App extends React.Component {
 		activeProjectKey(this.getActiveProject().id, { token })
 			.then(({ status, data }) => {
 				if (status === 200) {
+					if (data.is_last) {
+						setTimeout(() => this.finishGame(data), 7000);
+						return;
+					}
 					setTimeout(() => this.successScan(data), 7000);
 				};
 			})
@@ -217,6 +221,23 @@ export default class App extends React.Component {
 				timeout: 5000
 			}
 		}));
+	}
+
+	finishGame = (data) => {
+		this.setState((prevState) => ({
+			activatedProjectKeys: prevState.activatedProjectKeys.concat([data]),
+			notification: {
+				show: true,
+				status: 'success',
+				title: 'Congratulations!',
+				message: 'Ты собрал все символы и выиграл игру!',
+				timeout: 3000
+			}
+		}), () => {
+			setTimeout(() => {
+				this.setState({ activeView: 'finish' });
+			}, 3300);
+		});
 	}
 
 	thankYou = () => {
