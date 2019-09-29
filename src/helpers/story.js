@@ -25,8 +25,6 @@ const draw = (template, img) => new Promise((resolve, reject) => {
     ]).then(([background, foreground]) => {
         ctx.drawImage(background, constants.SIZES.background.x, constants.SIZES.background.y);
         ctx.drawImage(foreground,
-            constants.SIZES.background.x, constants.SIZES.background.y,
-            constants.SIZES.background.width, constants.SIZES.background.width,
             constants.SIZES.foreground.x, constants.SIZES.foreground.y,
             constants.SIZES.foreground.width, constants.SIZES.foreground.height);
         resolve(canvas.toDataURL());
