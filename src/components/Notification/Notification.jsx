@@ -37,7 +37,8 @@ export default class Notification extends React.Component {
     init = (props) => {
         this.setState({ show: props.show });
 
-        if (props.hasOwnProperty('timeout') && !isNaN(props.timeout)) {
+        if (props.show && props.hasOwnProperty('timeout') && !isNaN(props.timeout)) {
+            this.clearTimer();
             this.timerId = setTimeout(() => {
                 this.setState({ show: false });
                 this.hide();
@@ -63,11 +64,15 @@ export default class Notification extends React.Component {
     }
 
     onClick = () => {
-        if (this.state.status !== 'loading') {
-            if (this.timerId) {
-                clearTimeout(this.timerId);
-                this.hide();
-            }
+        if (this.props.status !== 'loading') {
+            this.clearTimer();
+            this.hide();
+        }
+    }
+
+    clearTimer = () => {
+        if (this.timerId) {
+            clearTimeout(this.timerId);
         }
     }
 

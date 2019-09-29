@@ -158,7 +158,7 @@ export default class App extends React.Component {
 						return;
 					}
 					setTimeout(() => this.successScan(data), 7000);
-				};
+				}
 			})
 			.catch((e) => {
 				if (e.response.status === 422) {
@@ -170,8 +170,6 @@ export default class App extends React.Component {
 					setTimeout(this.errorScan, 7000);
 					return;
 				}
-
-				// 403
 
 				this.hideNotification();
 			});
@@ -196,7 +194,7 @@ export default class App extends React.Component {
 				status: 'success',
 				title: 'Удачно',
 				message: `Ты открыл новый символ “${data.value.toUpperCase()}”!`,
-				timeout: 5000
+				timeout: 4000
 			}
 		}));
 	}
@@ -208,7 +206,7 @@ export default class App extends React.Component {
 				status: 'info',
 				title: 'Sorry',
 				message: `Символ “${data.value.toUpperCase()}” у тебя уже есть.`,
-				timeout: 5000
+				timeout: 4000
 			}
 		}));
 	}
@@ -220,7 +218,7 @@ export default class App extends React.Component {
 				status: 'error',
 				title: 'Хм...',
 				message: 'Зачем ты сканируешт свой QR?',
-				timeout: 5000
+				timeout: 4000
 			}
 		}));
 	}
