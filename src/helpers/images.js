@@ -19,8 +19,8 @@ export function svgToBase64(svg) {
 export function svgPrepare(svg) {
     const clone = svg.cloneNode(true);
 
-    clone.width = '100%';
-    clone.height = '100%';
+    clone.width.baseVal = '100%';
+    clone.height.baseVal = '100%';
 
     clone.removeAttribute('width');
     clone.removeAttribute('height');
