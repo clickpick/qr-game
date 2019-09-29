@@ -5,6 +5,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 
 import Spinner from 'views/Spinner';
 import Main from 'views/Main';
+import ThankYou from 'views/ThankYou';
 
 import { parseQueryString, getUTCOffset, shareStory, svgToBase64 } from 'helpers';
 import { auth, activeProject, projectFacts, userProjectKey, activatedProjectKeys, activeProjectKey } from 'api';
@@ -59,19 +60,25 @@ export default class App extends React.Component {
 	}
 
 	render() {
+		const activeProject = this.getActiveProject();
+
 		return (
 			<Root activeView={this.state.activeView}>
 				<Main
 					id="main"
 					activePanel="home"
 					user={this.getUser()}
-					activeProject={this.getActiveProject()}
+					activeProject={activeProject}
 					userProjectKey={this.getUserProjectKey()}
 					activatedProjectKeys={this.getActivatedProjectKeys()}
 					header={false}
 					notificationProps={this.getNotificationProps()}
 					qrCodeRef={this.qrCode}
 					shareStory={this.shareStory} />
+				<ThankYou
+					id="finish"
+					activePanel="finish"
+					activeProject={activeProject} />
 				<Spinner id="spinner" />
 			</Root>
 		);
