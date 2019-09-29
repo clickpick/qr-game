@@ -64,6 +64,12 @@ export default class App extends React.Component {
 			if (type === 'VKWebAppAllowNotificationsResult' && data.result) {
 				this.allowNotification();
 			}
+
+			if (type === 'VKWebAppCallAPIMethodResult') {
+				if (data.response.upload_url) {
+					setTimeout(this.sharedStory, 500);
+				}
+			}
 		});
 	}
 
@@ -248,6 +254,18 @@ export default class App extends React.Component {
 				title: 'Thx',
 				message: this.getActiveProject().description,
 				timeout: 3000
+			}
+		}));
+	}
+
+	sharedStory = () => {
+		this.setState(({
+			notification: {
+				show: true,
+				status: 'info',
+				title: 'История опубликована',
+				// message: this.getActiveProject().description,
+				timeout: 2000
 			}
 		}));
 	}
