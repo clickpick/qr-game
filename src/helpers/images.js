@@ -13,5 +13,5 @@ export function toDataURL(url, callback) {
 }
 
 export function svgToBase64(svg) {
-    return `data:image/svg+xml;base64${new XMLSerializer().serializeToString(svg)}`
+    return `data:image/svg+xml;base64${btoa(new XMLSerializer().serializeToString(svg))}`
 }
