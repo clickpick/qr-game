@@ -1,17 +1,18 @@
 import * as constants from "constants/story";
 import { shareStory as upload } from "api";
 
-const load = (src) => new Promise((resolve) => {
+const load = (src) => new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
         resolve(img);
     };
+    img.onerror = (error) => {
+        reject(error);
+    };
     img.src = src;
-
-    console.log("image load by " + img.src);
 });
 
-const draw = (template, img, x, y) => new Promise((resolve) => {
+const draw = (template, img, x, y) => new Promise((resolve, reject) => {
     const canvas = document.createElement("canvas");
     canvas.width = 1080;
     canvas.height = 1920;
@@ -25,6 +26,8 @@ const draw = (template, img, x, y) => new Promise((resolve) => {
         ctx.drawImage(background, 0, 0);
         ctx.drawImage(foreground, x, y);
         resolve(canvas.toDataURL());
+    }).catch((error) => {
+        reject(error);
     });
 });
 
