@@ -31,7 +31,7 @@ const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => 
         .then((response) => {
             console.log("response", response);
 
-            const { access_token } = response.data;
+            const { access_token } = response;
 
             console.log("access_token", access_token);
 
