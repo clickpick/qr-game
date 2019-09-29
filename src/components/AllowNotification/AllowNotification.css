@@ -1,0 +1,9 @@
+.AllowNotification {
+    position: static;
+    width: 100%;
+    transform: unset;
+}
+
+.AllowNotification__Button {
+    margin-top: 10px;
+}
