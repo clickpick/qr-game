@@ -12,7 +12,7 @@ const load = (src) => new Promise((resolve, reject) => {
     img.src = src;
 });
 
-const draw = (template, img, x, y) => new Promise((resolve, reject) => {
+const draw = (template, img) => new Promise((resolve, reject) => {
     const canvas = document.createElement("canvas");
     canvas.width = 1080;
     canvas.height = 1920;
@@ -23,8 +23,12 @@ const draw = (template, img, x, y) => new Promise((resolve, reject) => {
         load(template),
         load(img)
     ]).then(([background, foreground]) => {
-        ctx.drawImage(background, 0, 0);
-        ctx.drawImage(foreground, x, y);
+        ctx.drawImage(background, constants.SIZES.background.x, constants.SIZES.background.y);
+        ctx.drawImage(foreground,
+            constants.SIZES.background.x, constants.SIZES.background.y,
+            constants.SIZES.foreground.width, constants.SIZES.foreground.height,
+            constants.SIZES.foreground.x, constants.SIZES.foreground.y,
+            constants.SIZES.foreground.width, constants.SIZES.foreground.height);
         resolve(canvas.toDataURL());
     }).catch((error) => {
         reject(error);
@@ -54,7 +58,7 @@ const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => 
             }).then((response) => {
                 const { upload_url } = response.response;
 
-                return draw(constants.TEMPLATE_URL, qrcode, constants.COORDINATES.x, constants.COORDINATES.y)
+                return draw(constants.TEMPLATE_URL, qrcode)
                     .then((story) => {
                         upload(upload_url, story)
                             .then(() => resolve(response.response.story))
