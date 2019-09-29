@@ -6,13 +6,8 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Spinner from 'views/Spinner';
 import Main from 'views/Main';
 
-import { parseQueryString, getUTCOffset } from 'helpers';
-import {
-	auth,
-	activeProject, projectFacts,
-	userProjectKey, activatedProjectKeys,
-	activeProjectKey 
-} from 'api';
+import { parseQueryString, getUTCOffset, shareStory, svgToBase64 } from 'helpers';
+import { auth, activeProject, projectFacts, userProjectKey, activatedProjectKeys, activeProjectKey } from 'api';
 
 import './App.css';
 
@@ -126,7 +121,7 @@ export default class App extends React.Component {
 	}
 
 	activateProjectKey = (token) => {
-		this.loadingScan();		
+		this.loadingScan();
 
 		activeProjectKey(this.state.activeProject.id, { token })
 			.then(({ status, data }) => {
@@ -207,8 +202,7 @@ export default class App extends React.Component {
 	}
 
 	shareStory = () => {
-		console.log('shared');
-		// this.qrCode.current -> node
+		shareStory(connect, svgToBase64(this.qrCode.current.firstElementChild), null /* reply-id @type string */);
 	}
 
 	getRandomFact = () => {
