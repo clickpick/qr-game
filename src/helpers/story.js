@@ -6,8 +6,8 @@ const load = (src) => new Promise((resolve, reject) => {
     img.onload = () => {
         resolve(img);
     };
-    img.onerror = (error) => {
-        reject(error.toString());
+    img.onerror = () => {
+        reject(`Can't load img: ${img.scr}`);
     };
     img.src = src;
 });
@@ -18,9 +18,6 @@ const draw = (template, img, x, y) => new Promise((resolve, reject) => {
     canvas.height = 1920;
 
     const ctx = canvas.getContext("2d");
-
-    console.log("template", template);
-    console.log("img", img);
 
     return Promise.all([
         load(template),
