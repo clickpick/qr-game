@@ -15,7 +15,7 @@ const load = (src, width, height) => new Promise((resolve, reject) => {
 const draw = (template, img) => new Promise((resolve, reject) => {
     const canvas = document.createElement("canvas");
     canvas.width = constants.SIZES.background.width;
-    canvas.height = constants.SIZES.foreground.height;
+    canvas.height = constants.SIZES.background.height;
 
     const ctx = canvas.getContext("2d");
 
