@@ -7,7 +7,12 @@ import Spinner from 'views/Spinner';
 import Main from 'views/Main';
 
 import { parseQueryString, getUTCOffset } from 'helpers';
-import { auth, activeProject, userProjectKey, activatedProjectKeys, activeProjectKey } from 'api';
+import {
+	auth,
+	activeProject, projectFacts,
+	userProjectKey, activatedProjectKeys,
+	activeProjectKey 
+} from 'api';
 
 import './App.css';
 
@@ -26,6 +31,7 @@ export default class App extends React.Component {
 		},
 		userProjectKey: null,
 		activatedProjectKeys: [],
+		facts: [],
 		notification: {
 			show: false,
 		},
@@ -48,7 +54,7 @@ export default class App extends React.Component {
 			headers: this.headers,
 		});
 
-		this.authorization(() => this.fetchActiveProject(this.fetchUserProjectKeyAndActivatedProjectKeys));
+		this.authorization(() => this.fetchActiveProject(this.fetchOther));
 
 		connect.subscribe(({ detail: { type, data } }) => {
 			if (type === 'VKWebAppOpenQRResult') {
@@ -111,10 +117,11 @@ export default class App extends React.Component {
 			.catch(e => console.log('active project', e));
 	}
 
-	fetchUserProjectKeyAndActivatedProjectKeys = () => {
+	fetchOther = () => {
 		Promise.all([
 			userProjectKey(this.state.activeProject.id),
-			activatedProjectKeys(this.state.activeProject.id)
+			activatedProjectKeys(this.state.activeProject.id),
+			projectFacts(this.state.activeProject.id)
 		])
 			.then(resultes => {
 				// проверяем статусы выполнения запросов
@@ -122,9 +129,12 @@ export default class App extends React.Component {
 					if (resultes[i].status !== 200) throw new Error('error load');
 				}
 
+				console.log(resultes[2].data);
+
 				this.setState({
 					userProjectKey: resultes[0].data.token,
 					activatedProjectKeys: resultes[1].data,
+					facts: resultes[2].data,
 					activeView: 'main',
 				})
 			});
@@ -136,12 +146,12 @@ export default class App extends React.Component {
 		activeProjectKey(this.state.activeProject.id, { token })
 			.then(({ status, data }) => {
 				if (status === 200) {
-					setTimeout(() => this.successScan(data), 2500);
+					setTimeout(() => this.successScan(data), 7000);
 				};
 			})
 			.catch((e) => {
 				if (e.response.status === 422) {
-					setTimeout(() => this.errorScan(e.response.data.data), 2500);
+					setTimeout(() => this.errorScan(e.response.data.data), 7000);
 				}
 			});
 	}
@@ -152,7 +162,7 @@ export default class App extends React.Component {
 				show: true,
 				status: 'loading',
 				title: 'Обработка QR',
-				info: 'А ты знал, что барсы предпочитают обитать по одиночке, а не в стае?'
+				info: this.getRandomFact()
 			}
 		});
 	}
@@ -165,7 +175,7 @@ export default class App extends React.Component {
 				status: 'success',
 				title: 'Удачно',
 				info: `Ты открыл новый символ “${data.value.toUpperCase()}”!`,
-				timeout: 3000
+				timeout: 5000
 			}
 		}));
 	}
@@ -177,7 +187,7 @@ export default class App extends React.Component {
 				status: 'error',
 				title: 'Неудачно',
 				info: `Символ “${data.value.toUpperCase()}” у тебя уже есть!`,
-				timeout: 3000
+				timeout: 5000
 			}
 		}));
 	}
@@ -194,5 +204,19 @@ export default class App extends React.Component {
 	shareStory = () => {
 		console.log('shared');
 		// this.qrCode.current -> node
+	}
+
+	getRandomFact = () => {
+		if (this.state.facts.length > 0) {
+			const index = this.getRandomIndexFact(this.state.facts.length - 1);
+
+			return this.state.facts[index].text;
+		}
+
+		return '';
+	}
+
+	getRandomIndexFact(max) {
+		return Math.floor(Math.random() * Math.floor(max));
 	}
 }

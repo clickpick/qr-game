@@ -18,3 +18,6 @@ export const activatedProjectKeys = (projectId) =>
 
 export const activeProjectKey = (projectId, data) =>
     requestPost(`/projects/${projectId}/activate-project-key`, data);
+
+export const projectFacts = (projectId) =>
+    requestGet(`/projects/${projectId}/project-facts`);
