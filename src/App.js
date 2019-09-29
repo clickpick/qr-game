@@ -27,11 +27,12 @@ export default class App extends React.Component {
 		userProjectKey: null,
 		activatedProjectKeys: [],
 		notification: {
-			show: true,
+			show: false,
 		},
 	};
 
 	header;
+	qrCode = React.createRef();
 
 	componentDidMount() {
 		this.headers = {
@@ -67,7 +68,9 @@ export default class App extends React.Component {
 					userProjectKey={this.getUserProjectKey()}
 					activatedProjectKeys={this.getActivatedProjectKeys()}
 					header={false}
-					notificationProps={this.state.notification} />
+					notificationProps={this.getNotificationProps()}
+					qrCodeRef={this.qrCode}
+					shareStory={this.shareStory} />
 				<Spinner id="spinner" />
 			</Root>
 		);
@@ -77,6 +80,11 @@ export default class App extends React.Component {
 	getActiveProject = () => this.state.activeProject;
 	getUserProjectKey = () => this.state.userProjectKey;
 	getActivatedProjectKeys = () => this.state.activatedProjectKeys;
+
+	getNotificationProps = () => ({
+		...this.state.notification,
+		hide: this.hideNotification,
+	})
 
 	authorization = (callback = f => f) => {
 		auth()
@@ -123,32 +131,68 @@ export default class App extends React.Component {
 	}
 
 	activateProjectKey = (token) => {
+		this.loadingScan();		
+
+		activeProjectKey(this.state.activeProject.id, { token })
+			.then(({ status, data }) => {
+				if (status === 200) {
+					setTimeout(() => this.successScan(data), 2500);
+				};
+			})
+			.catch((e) => {
+				if (e.response.status === 422) {
+					setTimeout(() => this.errorScan(e.response.data.data), 2500);
+				}
+			});
+	}
+
+	loadingScan = () => {
 		this.setState({
 			notification: {
 				show: true,
 				status: 'loading',
 				title: 'Обработка QR',
-				info: 'А ты знал, что барсы предпочитают обитать по одиночке, а не в стае?',
+				info: 'А ты знал, что барсы предпочитают обитать по одиночке, а не в стае?'
 			}
 		});
+	}
 
-		activeProjectKey(this.state.activeProject.id, { token })
-			.then(({ status, data }) => {
-				if (status === 200) {
-					setTimeout(() => {
-						this.setState((prevState) => ({
-							activatedProjectKeys: prevState.activatedProjectKeys.concat([data]),
-							notification: {
-								show: false,
-								status: 'success',
-								title: 'Удачно',
-								info: `Ты открыл новый символ “${data.value}”!`,
-							}
-						}));
-					});
-					return;
-				};
-			})
-			.catch((e) => console.log(JSON.stringify(e)));
+	successScan = (data) => {
+		this.setState((prevState) => ({
+			activatedProjectKeys: prevState.activatedProjectKeys.concat([data]),
+			notification: {
+				show: true,
+				status: 'success',
+				title: 'Удачно',
+				info: `Ты открыл новый символ “${data.value.toUpperCase()}”!`,
+				timeout: 3000
+			}
+		}));
+	}
+
+	errorScan = (data) => {
+		this.setState(({
+			notification: {
+				show: true,
+				status: 'error',
+				title: 'Неудачно',
+				info: `Символ “${data.value.toUpperCase()}” у тебя уже есть!`,
+				timeout: 3000
+			}
+		}));
+	}
+
+	hideNotification = () => {
+		this.setState((prevState) => ({
+			notification: {
+				...prevState.notification,
+				show: false
+			}
+		}));
+	}
+
+	shareStory = () => {
+		console.log('shared');
+		// this.qrCode.current -> node
 	}
 }

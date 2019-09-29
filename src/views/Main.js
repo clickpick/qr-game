@@ -27,7 +27,9 @@ export default class Main extends AbstractView {
                 activatedProjectKeys={this.props.activatedProjectKeys}
                 go={this.go}
                 openFinansingModal={this.openFinansingModal}
-                notificationProps={this.props.notificationProps} />,
+                notificationProps={this.props.notificationProps}
+                qrCodeRef={this.props.qrCodeRef}
+                shareStory={this.props.shareStory} />,
         ];
     }
 

@@ -19,6 +19,7 @@ const Home = ({
 	id,
 	user, activeProject, userProjectKey, activatedProjectKeys,
 	notificationProps,
+	qrCodeRef, shareStory,
 	openFinansingModal
 }) => {
 	const openQR = () => connect.send('VKWebAppOpenQR');
@@ -31,7 +32,8 @@ const Home = ({
 				className="Home__QRCode"
 				userPic={user.avatar_200}
 				token={userProjectKey}
-				loader={<Loader />} />
+				loader={<Loader />}
+				ref={qrCodeRef} />
 
 			<div className="Home__actions">
 				<Button
@@ -45,7 +47,8 @@ const Home = ({
 					className="Home__action  Home__action--share"
 					children={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
 					size="medium"
-					theme="info" />
+					theme="info"
+					onClick={shareStory} />
 			</div>
 
 			<div className="Home__blue-wrapper">
