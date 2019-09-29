@@ -20,15 +20,7 @@ export default class App extends React.Component {
 	state = {
 		activeView: 'spinner',
 		user: null,
-		activeProject: {
-			id: 1,
-			name: 'Хакатон',
-			description: 'Описание',
-			raised_funds: 2000,
-			goal_funds: 35000,
-			logo: 'https://conservationaction.co.za/wp-content/uploads/2013/08/WWF-logo.jpg',
-			background: 'https://cdnimg.rg.ru/i/gallery/c492fecf/1_62f6718f.jpg',
-		},
+		activeProject: null,
 		userProjectKey: null,
 		activatedProjectKeys: [],
 		facts: [],
@@ -106,12 +98,7 @@ export default class App extends React.Component {
 		activeProject()
 			.then(({ status, data: activeProject }) => {
 				if (status === 200) {
-					this.setState({
-						activeProject: {
-							...this.state.activeProject,
-							...activeProject
-						}
-					}, callback);
+					this.setState({ activeProject }, callback);
 				} 
 			})
 			.catch(e => console.log('active project', e));
