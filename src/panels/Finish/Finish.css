@@ -3,6 +3,8 @@
     padding-left: 20px;
 }
 
-.Finish__ThankYou {
+.Finish__ThankYou,
+.Finish__ProjectCard,
+.Finish__AllowNotification {
     margin-bottom: 20px;
 }

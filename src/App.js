@@ -8,7 +8,11 @@ import Main from 'views/Main';
 import ThankYou from 'views/ThankYou';
 
 import { parseQueryString, getUTCOffset, shareStory, svgPrepare, svgToBase64 } from 'helpers';
-import { auth, activeProject, projectFacts, userProjectKey, activatedProjectKeys, activeProjectKey } from 'api';
+import {
+	auth, toggleNotifications,
+	activeProject, projectFacts,
+	userProjectKey, activatedProjectKeys,
+	activeProjectKey } from 'api';
 
 import './App.css';
 
@@ -56,18 +60,23 @@ export default class App extends React.Component {
 					setTimeout(this.thankYou, 500);
 				}
 			}
+
+			if (type === 'VKWebAppAllowNotificationsResult' && data.result) {
+				this.allowNotification();
+			}
 		});
 	}
 
 	render() {
 		const activeProject = this.getActiveProject();
+		const user = this.getUser();
 
 		return (
 			<Root activeView={this.state.activeView}>
 				<Main
 					id="main"
 					activePanel="home"
-					user={this.getUser()}
+					user={user}
 					activeProject={activeProject}
 					userProjectKey={this.getUserProjectKey()}
 					activatedProjectKeys={this.getActivatedProjectKeys()}
@@ -78,6 +87,7 @@ export default class App extends React.Component {
 				<ThankYou
 					id="finish"
 					activePanel="finish"
+					user={user}
 					activeProject={activeProject} />
 				<Spinner id="spinner" />
 			</Root>
@@ -247,5 +257,16 @@ export default class App extends React.Component {
 
 	getRandomIndexFact(max) {
 		return Math.floor(Math.random() * Math.floor(max));
+	}
+
+	allowNotification = () => {
+		this.setState((prevState) => ({
+			user: {
+				...prevState.user,
+				notifications_are_enabled: true
+			}
+		}));
+
+		toggleNotifications(1);
 	}
 }
