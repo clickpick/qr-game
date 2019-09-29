@@ -10,7 +10,7 @@ const findSymbolCallback = function(symbol) {
     return symbol.order === this;
 };
 
-const Cipher = ({ className, activatedKeys }) => {
+const Cipher = ({ className, activatedKeys, ...restProps }) => {
     const encryptedSymbol = '*';
     const symbols = (new Array(CIPHER_LENGTH)).fill(1).map((_, order) => {
         const symbol = activatedKeys.find(findSymbolCallback, order);
@@ -29,7 +29,8 @@ const Cipher = ({ className, activatedKeys }) => {
 
     return <div
         className={classNames(className, 'Cipher')}
-        children={symbols.map(renderSymbol)} />;
+        children={symbols.map(renderSymbol)}
+        {...restProps} />;
 };
 
 Cipher.propTypes = {
