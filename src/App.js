@@ -142,7 +142,7 @@ export default class App extends React.Component {
 					userProjectKey: resultes[0].data.token,
 					activatedProjectKeys: resultes[1].data,
 					facts: resultes[2].data,
-					activeView: 'main',
+					activeView: (project.is_finished) ? 'finish' : 'main',
 				})
 			});
 	}
@@ -170,6 +170,8 @@ export default class App extends React.Component {
 					setTimeout(this.errorScan, 7000);
 					return;
 				}
+
+				// 403
 
 				this.hideNotification();
 			});

@@ -24,13 +24,15 @@ const Finish = ({ id, user, activeProject }) => {
 
     const allowNotifications = () => connect.send("VKWebAppAllowNotifications", {});
 
+    const isDeni = !Boolean(Number(user.notifications_are_enabled));
+
     return (
         <Panel id={id} className="Finish">
             <div className="Finish__wrapper">
                 <ThankYou className="Finish__ThankYou" project={activeProject} />
                 <ProjectCard className="Finish__ProjectCard" {...activeProject} onClick={showPayForm} />
 
-                {(!user.notifications_are_enabled) &&
+                {(isDeni) &&
                     <AllowNotification className="Finish__AllowNotification" allow={allowNotifications} />}
             </div>
         </Panel>
