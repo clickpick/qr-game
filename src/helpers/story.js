@@ -1,8 +1,8 @@
 import * as constants from "constants/story";
 import { shareStory as upload } from "api";
 
-const load = (src) => new Promise((resolve, reject) => {
-    const img = new Image();
+const load = (src, width, height) => new Promise((resolve, reject) => {
+    const img = new Image(width, height);
     img.onload = () => {
         resolve(img);
     };
@@ -14,21 +14,17 @@ const load = (src) => new Promise((resolve, reject) => {
 
 const draw = (template, img) => new Promise((resolve, reject) => {
     const canvas = document.createElement("canvas");
-    canvas.width = 1080;
-    canvas.height = 1920;
+    canvas.width = constants.SIZES.background.width;
+    canvas.height = constants.SIZES.foreground.height;
 
     const ctx = canvas.getContext("2d");
 
     return Promise.all([
-        load(template),
-        load(img)
+        load(template, constants.SIZES.background.width, constants.SIZES.background.height),
+        load(img, constants.SIZES.foreground.width, constants.SIZES.foreground.height)
     ]).then(([background, foreground]) => {
         ctx.drawImage(background, constants.SIZES.background.x, constants.SIZES.background.y);
-        ctx.drawImage(foreground,
-            constants.SIZES.background.x, constants.SIZES.background.y,
-            constants.SIZES.foreground.width, constants.SIZES.foreground.height,
-            constants.SIZES.foreground.x, constants.SIZES.foreground.y,
-            constants.SIZES.foreground.width, constants.SIZES.foreground.height);
+        ctx.drawImage(foreground, constants.SIZES.foreground.x, constants.SIZES.foreground.y);
         resolve(canvas.toDataURL());
     }).catch((error) => {
         reject(error);
