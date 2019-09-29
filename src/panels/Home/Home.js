@@ -10,6 +10,7 @@ import Button from 'components/Button';
 import Wave from 'components/Wave';
 import Cipher from 'components/Cipher';
 import ProjectCard from 'components/ProjectCard';
+import ThankYou from 'components/ThankYou';
 
 import Icon24ShareOutline from '@vkontakte/icons/dist/24/share_outline';
 
@@ -24,56 +25,67 @@ const Home = ({
 }) => {
 	const openQR = () => connect.send('VKWebAppOpenQR');
 
+	const renderActiveProject = () => <>
+		<QRCode
+			className="Home__QRCode"
+			userPic={user.avatar_200}
+			token={userProjectKey}
+			loader={<Loader />}
+			ref={qrCodeRef} />
+
+		<div className="Home__actions">
+			<Button
+				className="Home__action  Home__action--scan"
+				children="Сканировать QR код"
+				size="medium"
+				theme="info"
+				full
+				onClick={openQR} />
+			<Button
+				className="Home__action  Home__action--share"
+				children={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
+				size="medium"
+				theme="info"
+				onClick={shareStory} />
+		</div>
+
+		<div className="Home__blue-wrapper">
+			<Wave className="Home_Wave" />
+
+			<div className="Home__content">
+				<h2 className="Home__title">
+					Сканируй QR коды друзей<br />и получи приз за весь шифр
+					</h2>
+
+				<Cipher className="Home__Cipher" activatedKeys={activatedProjectKeys} />
+
+				<h2 className="Home__title">При поддержке</h2>
+
+				<ProjectCard className="Home__ProjectCard" {...activeProject} />
+
+				<Button
+					children="Вашему фонду нужно финансирование?"
+					size="medium"
+					theme="primary"
+					data-to="finansing"
+					full
+					onClick={openFinansingModal} />
+			</div>
+		</div>
+	</>;
+
+	const renderFinished = () => <div className="Home__finished">
+		<ThankYou className="Home__ThankYou" project={activeProject} />
+		<ProjectCard className="Home__ProjectCard" {...activeProject} />
+	</div>
+
 	return (
 		<Panel id={id} className="Home">
 			<Notification {...notificationProps} />
 
-			<QRCode
-				className="Home__QRCode"
-				userPic={user.avatar_200}
-				token={userProjectKey}
-				loader={<Loader />}
-				ref={qrCodeRef} />
-
-			<div className="Home__actions">
-				<Button
-					className="Home__action  Home__action--scan"
-					children="Сканировать QR код"
-					size="medium"
-					theme="info"
-					full
-					onClick={openQR} />
-				<Button
-					className="Home__action  Home__action--share"
-					children={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
-					size="medium"
-					theme="info"
-					onClick={shareStory} />
-			</div>
-
-			<div className="Home__blue-wrapper">
-				<Wave className="Home_Wave" />
-
-				<div className="Home__content">
-					<h2 className="Home__title">
-						Сканируй QR коды друзей<br />и получи приз за весь шифр
-					</h2>
-
-					<Cipher className="Home__Cipher" activatedKeys={activatedProjectKeys} />
-
-					<h2 className="Home__title">При поддержке</h2>
-
-					<ProjectCard className="Home__ProjectCard" {...activeProject} />
-
-					<Button
-						children="Вашему фонду нужно финансирование?"
-						size="medium"
-						theme="primary"
-						data-to="finansing"
-						full
-						onClick={openFinansingModal} />
-				</div>
-			</div>
+			{(activeProject.is_finished)
+				? renderFinished()
+				: renderActiveProject()}
 		</Panel>
 	);
 };

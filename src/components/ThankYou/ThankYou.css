@@ -1,0 +1,19 @@
+.ThankYou__title {
+    font-size: var(--font-size-24);
+    text-align: center;
+    color: var(--color-primary);
+}
+
+.ThankYou__image {
+    display: block;
+    max-width: 335px;
+    height: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-left: auto;
+}
+
+.ThankYou__message {
+    font-size: var(--font-size-14);
+    text-align: center;
+}
