@@ -10,7 +10,7 @@ export const SIZES = {
     },
     foreground: {
         x: 216,
-        y: 286,
+        y: 586,
         width: 650,
         height: 650
     }
