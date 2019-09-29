@@ -207,6 +207,8 @@ export default class App extends React.Component {
 				timeout: 4000
 			}
 		}));
+
+		this.tapticNotification('success');
 	}
 
 	repeatedScan = (data) => {
@@ -219,6 +221,8 @@ export default class App extends React.Component {
 				timeout: 4000
 			}
 		}));
+
+		this.tapticNotification('warning');
 	}
 
 	errorScan = () => {
@@ -231,6 +235,8 @@ export default class App extends React.Component {
 				timeout: 4000
 			}
 		}));
+
+		this.tapticNotification('error');
 	}
 
 	finishGame = (data) => {
@@ -248,6 +254,8 @@ export default class App extends React.Component {
 				this.setState({ activeView: 'finish' });
 			}, 3300);
 		});
+
+		this.tapticNotification('success');
 	}
 
 	thankYou = () => {
@@ -340,5 +348,11 @@ export default class App extends React.Component {
 				timeout: 3000
 			}
 		}));
+	}
+
+	tapticNotification = (type) => {
+		if (connect.supports('VKWebAppTapticNotificationOccurred')) {
+			connect.send("VKWebAppTapticNotificationOccurred", { type });
+		}
 	}
 }
