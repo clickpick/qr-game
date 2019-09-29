@@ -11,3 +11,7 @@ export function toDataURL(url, callback) {
     xhr.responseType = 'blob';
     xhr.send();
 }
+
+export function svgToBase64(svg) {
+    return `data:image/svg+xml;base64${new XMLSerializer().serializeToString(svg)}`
+}
