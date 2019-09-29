@@ -24,6 +24,14 @@ const Home = ({
 	openFinansingModal
 }) => {
 	const openQR = () => connect.send('VKWebAppOpenQR');
+	const showPayForm = () =>
+		connect.send('VKWebAppOpenPayForm', {
+			app_id: 7150862,
+			action: 'transfer-to-user',
+			params: {
+				user_id: 26816434
+			}
+		});
 
 	const renderActiveProject = () => <>
 		<QRCode
@@ -61,7 +69,7 @@ const Home = ({
 
 				<h2 className="Home__title">При поддержке</h2>
 
-				<ProjectCard className="Home__ProjectCard" {...activeProject} />
+				<ProjectCard className="Home__ProjectCard" {...activeProject} onClick={showPayForm} />
 
 				<Button
 					children="Вашему фонду нужно финансирование?"
@@ -76,7 +84,7 @@ const Home = ({
 
 	const renderFinished = () => <div className="Home__finished">
 		<ThankYou className="Home__ThankYou" project={activeProject} />
-		<ProjectCard className="Home__ProjectCard" {...activeProject} />
+		<ProjectCard className="Home__ProjectCard" {...activeProject} onClick={showPayForm} />
 	</div>
 
 	return (

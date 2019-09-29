@@ -47,6 +47,14 @@ export default class App extends React.Component {
 			if (type === 'VKWebAppOpenQRResult') {
 				this.activateProjectKey(data.qr_data);
 			}
+
+			if (type === 'VKWebAppOpenPayFormResult') {
+				// если платеж прошел успешно
+				if (data.status) {
+					// data.amount sum
+					setTimeout(this.thankYou, 500);
+				}
+			}
 		});
 	}
 
@@ -100,10 +108,12 @@ export default class App extends React.Component {
 	}
 
 	fetchOther = () => {
+		const project = this.getActiveProject();
+
 		Promise.all([
-			userProjectKey(this.state.activeProject.id),
-			activatedProjectKeys(this.state.activeProject.id),
-			projectFacts(this.state.activeProject.id)
+			userProjectKey(project.id),
+			activatedProjectKeys(project.id),
+			projectFacts(project.id)
 		])
 			.then(resultes => {
 				// проверяем статусы выполнения запросов
@@ -123,7 +133,7 @@ export default class App extends React.Component {
 	activateProjectKey = (token) => {
 		this.loadingScan();
 
-		activeProjectKey(this.state.activeProject.id, { token })
+		activeProjectKey(this.getActiveProject().id, { token })
 			.then(({ status, data }) => {
 				if (status === 200) {
 					setTimeout(() => this.successScan(data), 7000);
@@ -188,6 +198,18 @@ export default class App extends React.Component {
 				title: 'Хм...',
 				message: 'Зачем ты сканируешт свой QR?',
 				timeout: 5000
+			}
+		}));
+	}
+
+	thankYou = () => {
+		this.setState(({
+			notification: {
+				show: true,
+				status: 'info',
+				title: 'Thx',
+				message: this.getActiveProject().description,
+				timeout: 3000
 			}
 		}));
 	}
