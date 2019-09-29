@@ -42,7 +42,7 @@ const ProjectCard = ({ className, poster_url, banner_url, name, description, rai
 
                 <Button
                     className="ProjectCard__Button"
-                    children="Пожертвовать"
+                    children="Пожертвовать от 1₽"
                     onClick={onClick} />
             </div>
         </div>
