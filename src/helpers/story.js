@@ -43,7 +43,7 @@ const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => 
                 params.reply = reply;
             }
 
-            connect.send("VKWebAppCallAPIMethod", {
+            connect.sendPromise("VKWebAppCallAPIMethod", {
                 method: "stories.getPhotoUploadServer",
                 params
             }).then((response) => {
