@@ -7,7 +7,7 @@ import { toDataURL } from 'helpers';
 
 import './QRCode.css';
 
-const QRCode = ({ className, userPic, token, foregroundColor, loader }) => {
+const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, loader }, ref) => {
     const [qrSvg, setQrSvg] = React.useState('');
 
     toDataURL(userPic, (logoData) => setQrSvg(
@@ -22,9 +22,9 @@ const QRCode = ({ className, userPic, token, foregroundColor, loader }) => {
     className = classNames(className, 'QRCode');
 
     return (qrSvg)
-        ? <span className={className} dangerouslySetInnerHTML={{ __html: qrSvg }} />
+        ? <span className={className} ref={ref} dangerouslySetInnerHTML={{ __html: qrSvg }} />
         : <span className={className} children={loader} />
-};
+});
 
 QRCode.propTypes = {
     className: string,
