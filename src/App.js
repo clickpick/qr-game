@@ -7,7 +7,7 @@ import Spinner from 'views/Spinner';
 import Main from 'views/Main';
 import ThankYou from 'views/ThankYou';
 
-import { parseQueryString, getUTCOffset, shareStory, svgToBase64 } from 'helpers';
+import { parseQueryString, getUTCOffset, shareStory, svgPrepare, svgToBase64 } from 'helpers';
 import { auth, activeProject, projectFacts, userProjectKey, activatedProjectKeys, activeProjectKey } from 'api';
 
 import './App.css';
@@ -231,7 +231,8 @@ export default class App extends React.Component {
 	}
 
 	shareStory = () => {
-		shareStory(connect, svgToBase64(this.qrCode.current.firstElementChild), null /* reply-id @type string */);
+		const svg = this.qrCode.current.firstElementChild;
+		shareStory(connect, svgToBase64(svgPrepare(svg)), null /* reply-id @type string */);
 	}
 
 	getRandomFact = () => {
