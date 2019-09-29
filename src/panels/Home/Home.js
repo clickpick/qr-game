@@ -66,7 +66,7 @@ const Home = ({
 					<ProjectCard className="Home__ProjectCard" {...activeProject} />
 
 					<Button
-						children="Помощь в сборе средств для вашего фонда"
+						children="Вашему фонду нужно финансирование?"
 						size="medium"
 						theme="primary"
 						data-to="finansing"

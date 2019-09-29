@@ -1,5 +1,5 @@
-import * as constants from "../constants/story";
-import { shareStory as upload } from "../api/index";
+import * as constants from "constants/story";
+import { shareStory as upload } from "api";
 
 const load = (src) => new Promise((resolve) => {
     const img = new Image();
@@ -59,4 +59,4 @@ const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => 
         }).catch(() => reject({ error_code: 1, error_text: "Can't get access_token" }))
 });
 
-export default shareStory;
+export { shareStory };

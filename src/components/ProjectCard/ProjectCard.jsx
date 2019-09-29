@@ -8,7 +8,7 @@ import { gaps } from 'helpers';
 
 import './ProjectCard.css';
 
-const ProjectCard = ({ className, background, logo, name, description, raised_funds, goal_funds, onClick }) => {
+const ProjectCard = ({ className, poster_url, banner_url, name, description, raised_funds, goal_funds, onClick }) => {
     const showProgress = goal_funds !== null && goal_funds > 0;
     let progress;
     if (showProgress) {
@@ -17,7 +17,7 @@ const ProjectCard = ({ className, background, logo, name, description, raised_fu
 
     const projectCardStyle = {
         background: 'rgba(0, 0, 0, 0.5)',
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${background})`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner_url})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
     };
@@ -25,7 +25,7 @@ const ProjectCard = ({ className, background, logo, name, description, raised_fu
     return (
         <div className={classNames(className, 'ProjectCard')} style={projectCardStyle}>
             <div className="ProjectCard__l">
-                <Avatar className="ProjectCard__Avatar" src={logo} />
+                <Avatar className="ProjectCard__Avatar" src={poster_url} />
             </div>
             <div className="ProjectCard__r">
                 <h3 className="ProjectCard__name" children={name} />
@@ -51,9 +51,9 @@ const ProjectCard = ({ className, background, logo, name, description, raised_fu
 
 ProjectCard.propTypes = {
     className: string,
-    background: string.isRequired,
+    banner_url: string.isRequired,
     name: string.isRequired,
-    logo: string.isRequired,
+    poster_url: string.isRequired,
     description: string.isRequired,
     raised_funds: number.isRequired,
     goal_funds: number,
