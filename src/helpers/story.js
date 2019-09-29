@@ -27,7 +27,7 @@ const draw = (template, img, x, y) => new Promise((resolve) => {
 });
 
 const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => {
-    connect.sendPromise("VKWebAppGetAuthToken", { app_id: constants.APP_ID, scope: "stories" })
+    return connect.sendPromise("VKWebAppGetAuthToken", { app_id: constants.APP_ID, scope: "stories" })
         .then((response) => {
             const { access_token } = response;
 
@@ -43,14 +43,19 @@ const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => 
                 params.reply = reply;
             }
 
+            console.log("params", params);
+
             connect.sendPromise("VKWebAppCallAPIMethod", {
                 method: "stories.getPhotoUploadServer",
                 params
             }).then((response) => {
                 const { upload_url } = response.response;
 
+                console.log("upload_url", upload_url);
+
                 return draw(constants.TEMPLATE_URL, qrcode, constants.COORDINATES.x, constants.COORDINATES.y)
                     .then((story) => {
+                        console.log(story);
                         upload(upload_url, story)
                             .then(() => resolve(response.response.story))
                             .catch(() => reject({ error_code: 3, error_text: "Can't upload story" }))

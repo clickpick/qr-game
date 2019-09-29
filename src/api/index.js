@@ -1,3 +1,5 @@
+import { default as pureAxios } from 'axios';
+
 const requestPost = (urn, data) =>
     window.axios.post(urn, data)
         .then(({ data: { data }, status }) => ({ data, status }));
@@ -25,7 +27,7 @@ export const shareStory = (urn, base64image) => {
     while (n--) u8arr[n] = bstr.charCodeAt(n);
     const body = new FormData();
     body.append("file", new File([u8arr], "story.png", { type: mime }));
-    return requestPost(`https://cors-anywhere.herokuapp.com/${urn}`, body);
+    return pureAxios.post(`https://cors-anywhere.herokuapp.com/${urn}`, body);
 };
 
 export const projectFacts = (projectId) =>

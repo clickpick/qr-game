@@ -94,7 +94,7 @@ export default class App extends React.Component {
 			.then(({ status, data: activeProject }) => {
 				if (status === 200) {
 					this.setState({ activeProject }, callback);
-				} 
+				}
 			})
 			.catch(e => console.log('active project', e));
 	}
