@@ -76,6 +76,8 @@ export default class App extends React.Component {
 				}
 			}
 		});
+
+		connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark' });
 	}
 
 	render() {
@@ -106,6 +108,8 @@ export default class App extends React.Component {
 			</Root>
 		);
 	}
+
+	getLocationHash = (link = window.location.hash) => link.replace('#', '');
 
 	getUser = () => this.state.user;
 	getActiveProject = () => this.state.activeProject;
@@ -156,11 +160,31 @@ export default class App extends React.Component {
 					activatedProjectKeys: resultes[1].data,
 					facts: resultes[2].data,
 					activeView: (project.is_finished) ? 'finish' : 'main',
-				})
+				}, () => this.activateProjectKey(window.location.href));
 			});
 	}
 
-	activateProjectKey = (token) => {
+	activateProjectKey = (link) => {
+		const hash = this.getLocationHash(link.split('#')[1]);
+
+		let token = '';
+		if (hash) {
+			// ...то парсим его
+			const params = hash.split('&');
+
+			params.forEach((param) => {
+				const parse = param.split('=');
+				const key = parse[0];
+				const value = parse[1];
+
+				if (key === 'token') {
+					token = value;
+				}
+			});
+		} else {
+			return;
+		}
+		
 		this.loadingScan();
 
 		activeProjectKey(this.getActiveProject().id, { token })

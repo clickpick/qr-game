@@ -11,7 +11,7 @@ const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, l
     const [qrSvg, setQrSvg] = React.useState('');
 
     toDataURL(userPic, (logoData) => setQrSvg(
-        vkQr.createQR(token, {
+        vkQr.createQR(`https://vk.com/app7150862#token=${token}`, {
             qrSize: 262,
             isShowLogo: true,
             logoData,
