@@ -7,6 +7,8 @@ const load = (src) => new Promise((resolve) => {
         resolve(img);
     };
     img.src = src;
+
+    console.log("image load by " + img.src);
 });
 
 const draw = (template, img, x, y) => new Promise((resolve) => {
@@ -43,15 +45,11 @@ const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => 
                 params.reply = reply;
             }
 
-            console.log("params", params);
-
             connect.sendPromise("VKWebAppCallAPIMethod", {
                 method: "stories.getPhotoUploadServer",
                 params
             }).then((response) => {
                 const { upload_url } = response.response;
-
-                console.log("upload_url", upload_url);
 
                 return draw(constants.TEMPLATE_URL, qrcode, constants.COORDINATES.x, constants.COORDINATES.y)
                     .then((story) => {
