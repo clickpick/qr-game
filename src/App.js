@@ -12,6 +12,7 @@ import {
 	auth, toggleNotifications,
 	activeProject, projectFacts,
 	userProjectKey, activatedProjectKeys,
+	addFunds,
 	activeProjectKey } from 'api';
 
 import './App.css';
@@ -56,7 +57,7 @@ export default class App extends React.Component {
 			if (type === 'VKWebAppOpenPayFormResult') {
 				// если платеж прошел успешно
 				if (data.status) {
-					// data.amount sum
+					this.saveFunds(data.amount);
 					setTimeout(this.thankYou, 500);
 				}
 			}
@@ -307,5 +308,17 @@ export default class App extends React.Component {
 		}));
 
 		toggleNotifications(1);
+	}
+
+	saveFunds = (amount) => {
+		const activeProject = this.getActiveProject();
+
+		addFunds(activeProject.id, amount);
+		this.setState({
+			activeProject: {
+				...activeProject,
+				raised_funds: activeProject.raised_funds + amount
+			}
+		});
 	}
 }
