@@ -5,9 +5,14 @@ import '@vkontakte/vkui/dist/vkui.css';
 
 import Spinner from 'views/Spinner';
 import Main from 'views/Main';
+import ThankYou from 'views/ThankYou';
 
 import { parseQueryString, getUTCOffset, shareStory, svgPrepare, svgToBase64 } from 'helpers';
-import { auth, activeProject, projectFacts, userProjectKey, activatedProjectKeys, activeProjectKey } from 'api';
+import {
+	auth, toggleNotifications,
+	activeProject, projectFacts,
+	userProjectKey, activatedProjectKeys,
+	activeProjectKey } from 'api';
 
 import './App.css';
 
@@ -55,23 +60,35 @@ export default class App extends React.Component {
 					setTimeout(this.thankYou, 500);
 				}
 			}
+
+			if (type === 'VKWebAppAllowNotificationsResult' && data.result) {
+				this.allowNotification();
+			}
 		});
 	}
 
 	render() {
+		const activeProject = this.getActiveProject();
+		const user = this.getUser();
+
 		return (
 			<Root activeView={this.state.activeView}>
 				<Main
 					id="main"
 					activePanel="home"
-					user={this.getUser()}
-					activeProject={this.getActiveProject()}
+					user={user}
+					activeProject={activeProject}
 					userProjectKey={this.getUserProjectKey()}
 					activatedProjectKeys={this.getActivatedProjectKeys()}
 					header={false}
 					notificationProps={this.getNotificationProps()}
 					qrCodeRef={this.qrCode}
 					shareStory={this.shareStory} />
+				<ThankYou
+					id="finish"
+					activePanel="finish"
+					user={user}
+					activeProject={activeProject} />
 				<Spinner id="spinner" />
 			</Root>
 		);
@@ -136,6 +153,10 @@ export default class App extends React.Component {
 		activeProjectKey(this.getActiveProject().id, { token })
 			.then(({ status, data }) => {
 				if (status === 200) {
+					if (data.is_last) {
+						setTimeout(() => this.finishGame(data), 7000);
+						return;
+					}
 					setTimeout(() => this.successScan(data), 7000);
 				};
 			})
@@ -202,6 +223,23 @@ export default class App extends React.Component {
 		}));
 	}
 
+	finishGame = (data) => {
+		this.setState((prevState) => ({
+			activatedProjectKeys: prevState.activatedProjectKeys.concat([data]),
+			notification: {
+				show: true,
+				status: 'success',
+				title: 'Congratulations!',
+				message: 'Ты собрал все символы и выиграл игру!',
+				timeout: 3000
+			}
+		}), () => {
+			setTimeout(() => {
+				this.setState({ activeView: 'finish' });
+			}, 3300);
+		});
+	}
+
 	thankYou = () => {
 		this.setState(({
 			notification: {
@@ -240,5 +278,16 @@ export default class App extends React.Component {
 
 	getRandomIndexFact(max) {
 		return Math.floor(Math.random() * Math.floor(max));
+	}
+
+	allowNotification = () => {
+		this.setState((prevState) => ({
+			user: {
+				...prevState.user,
+				notifications_are_enabled: true
+			}
+		}));
+
+		toggleNotifications(1);
 	}
 }

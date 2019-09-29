@@ -32,3 +32,6 @@ export const shareStory = (urn, base64image) => {
 
 export const projectFacts = (projectId) =>
     requestGet(`/projects/${projectId}/project-facts`);
+
+export const toggleNotifications = (enabled) =>
+    requestPost('/notifications', { enabled });

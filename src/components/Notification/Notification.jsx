@@ -47,7 +47,7 @@ export default class Notification extends React.Component {
 
     render() {
         return (
-            <div className={classNames('Notification', { [`Notificatio--show`]: this.state.show })} onClick={this.onClick}>
+            <div className={classNames(this.props.className, 'Notification', { [`Notificatio--show`]: this.state.show })} onClick={this.onClick}>
                 <div className="Notification__l">
                     {this.getImage()}
                 </div>
@@ -56,6 +56,7 @@ export default class Notification extends React.Component {
                         className={classNames('Notification__title', `Notification__title--${this.props.status}`)}
                         children={this.props.title} />
                     <p className="Notification__message" children={this.props.message} />
+                    {this.props.children}
                 </div>
             </div>
         );

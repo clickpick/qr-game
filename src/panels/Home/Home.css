@@ -7,15 +7,6 @@
     flex-direction: column;
 }
 
-.Home__finished {
-    padding-right: 20px;
-    padding-left: 20px;
-}
-
-.Home__ThankYou {
-    margin-bottom: 20px;
-}
-
 .Home__QRCode {
     display: block;
     margin-bottom: 20px;
