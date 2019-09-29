@@ -56,13 +56,12 @@ const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => 
 
                 return draw(constants.TEMPLATE_URL, qrcode, constants.COORDINATES.x, constants.COORDINATES.y)
                     .then((story) => {
-                        console.log(story);
                         upload(upload_url, story)
                             .then(() => resolve(response.response.story))
-                            .catch(() => reject({ error_code: 3, error_text: "Can't upload story" }))
+                            .catch((chain) => reject({ error_code: 3, error_text: "Can't upload story", error_chain: chain }));
                     });
-            }).catch(() => reject({ error_code: 2, error_text: "Can't get upload url" }))
-        }).catch(() => reject({ error_code: 1, error_text: "Can't get access_token" }))
+            }).catch((chain) => reject({ error_code: 2, error_text: "Can't get upload url", error_chain: chain }));
+        }).catch((chain) => reject({ error_code: 1, error_text: "Can't get access_token", error_chain: chain }));
 });
 
 export { shareStory };
