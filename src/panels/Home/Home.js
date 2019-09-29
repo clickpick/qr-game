@@ -22,7 +22,8 @@ const Home = ({
 	user, activeProject, userProjectKey, activatedProjectKeys,
 	notificationProps,
 	qrCodeRef, shareStory,
-	openAddProjectModal
+	openAddProjectModal,
+	showRules
 }) => {
 	const openQR = () => connect.send('VKWebAppOpenQR');
 	const showPayForm = () =>
@@ -69,7 +70,10 @@ const Home = ({
 						Сканируй QR коды друзей<br />и получи приз за весь шифр
 					</h2>
 
-					<Cipher className="Home__Cipher" activatedKeys={activatedProjectKeys} />
+					<Cipher
+						className="Home__Cipher"
+						activatedKeys={activatedProjectKeys}
+						onClick={showRules} />
 
 					<h2 className="Home__title">При поддержке</h2>
 

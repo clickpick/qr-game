@@ -7,6 +7,8 @@ import Spinner from 'views/Spinner';
 import Main from 'views/Main';
 import ThankYou from 'views/ThankYou';
 
+import Button from 'components/Button';
+
 import { parseQueryString, getUTCOffset, shareStory, svgPrepare, svgToBase64 } from 'helpers';
 import {
 	auth, toggleNotifications,
@@ -93,7 +95,8 @@ export default class App extends React.Component {
 					notificationProps={this.getNotificationProps()}
 					qrCodeRef={this.qrCode}
 					shareStory={this.shareStory}
-					sendRequestFunding={this.sendRequestFunding} />
+					sendRequestFunding={this.sendRequestFunding}
+					showRules={this.showRules} />
 				<ThankYou
 					id="finish"
 					activePanel="finish"
@@ -354,5 +357,22 @@ export default class App extends React.Component {
 		if (connect.supports('VKWebAppTapticNotificationOccurred')) {
 			connect.send("VKWebAppTapticNotificationOccurred", { type });
 		}
+	}
+
+	showRules = () => {
+		this.setState(({
+			notification: {
+				show: true,
+				status: 'rules',
+				title: 'Правила',
+				message: <span>
+					- У тебя есть QR код с зашифрованным символом, у других людей тоже.<br />
+					- У каждого разные QR коды, но есть повторяющиеся.<br />
+					- Основная цель, найти и сканировать 5 разных QR кодов у 5-ти людей.<br />
+					- Первый (или несколько первых), кто соберет все QR коды, забирает приз, который выставит фонд-партнёр
+				</span>,
+				children: <Button style={{ marginTop: 10 }} children="Ок, понятно" theme="info" />
+			}
+		}));
 	}
 }

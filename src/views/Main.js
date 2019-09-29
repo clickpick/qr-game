@@ -18,6 +18,7 @@ export default class Main extends AbstractView {
         qrCodeRef: object,
         shareStory: func,
         sendRequestFunding: func,
+        showRules: func,
     };
 
     renderPanels = () => {
@@ -32,7 +33,8 @@ export default class Main extends AbstractView {
                 openAddProjectModal={this.openAddProjectModal}
                 notificationProps={this.props.notificationProps}
                 qrCodeRef={this.props.qrCodeRef}
-                shareStory={this.props.shareStory} />,
+                shareStory={this.props.shareStory}
+                showRules={this.props.showRules} />,
         ];
     }
 
