@@ -14,6 +14,8 @@ import ThankYou from 'components/ThankYou';
 
 import Icon24ShareOutline from '@vkontakte/icons/dist/24/share_outline';
 
+import * as VK from 'constants/vk';
+
 import './Home.css';
 
 const Home = ({
@@ -26,10 +28,10 @@ const Home = ({
 	const openQR = () => connect.send('VKWebAppOpenQR');
 	const showPayForm = () =>
 		connect.send('VKWebAppOpenPayForm', {
-			app_id: 7150862,
+			app_id: VK.APP_ID,
 			action: 'transfer-to-user',
 			params: {
-				user_id: 26816434
+				user_id: VK.USER_ID
 			}
 		});
 
