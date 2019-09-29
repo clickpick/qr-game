@@ -7,9 +7,9 @@ import Notification from 'components/Notification';
 import Loader from 'components/Loader';
 import QRCode from 'components/QRCode';
 import Button from 'components/Button';
+import Wave from 'components/Wave';
 import Cipher from 'components/Cipher';
 import ProjectCard from 'components/ProjectCard';
-import { ReactComponent as Wave } from 'svg/wave.svg';
 
 import Icon24ShareOutline from '@vkontakte/icons/dist/24/share_outline';
 
@@ -52,11 +52,7 @@ const Home = ({
 			</div>
 
 			<div className="Home__blue-wrapper">
-				<div className="Home__wave">
-					<Wave className="Wave Wave--1" />
-					<Wave className="Wave Wave--2" />
-					<Wave className="Wave Wave--3" />
-				</div>
+				<Wave className="Home_Wave" />
 
 				<div className="Home__content">
 					<h2 className="Home__title">

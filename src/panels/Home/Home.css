@@ -46,6 +46,7 @@
     flex: 1;
     padding-top: 50px;
     background-color: var(--color-primary);
+    overflow: hidden;
 }
 
 .Home__content {
@@ -67,51 +68,4 @@
 
 .Home__ProjectCard {
     margin-bottom: 15px;
-}
-
-.Home__wave {
-    position: relative;
-    width: 100%;
-    overflow: visible;
-    
-    padding-bottom: calc(800% / 75);
-    margin-top: -50px;
-}
-
-.Wave {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 100%;
-    transform: translateX(0);
-    backface-visibility: hidden;
-    animation: wave linear infinite;
-}
-
-.Wave--1 {
-    opacity: 1;
-    animation-duration: 20s;
-    animation-delay: -4s;
-}
-
-.Wave--2 {
-    opacity: 0.4;
-    animation-duration: 12s;
-    animation-delay: -2s;
-}
-
-.Wave--3 {
-    opacity: 0.2;
-    animation-duration: 8s;
-    animation-delay: 0s;
-}
-
-@keyframes wave {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
 }
