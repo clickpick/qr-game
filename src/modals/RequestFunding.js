@@ -10,18 +10,16 @@ import RequestFundingForm from 'components/RequestFundingForm';
 
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
+const platform = usePlatform();
+
 const RequestFunding = ({ id, onClose, onSubmit }) => {
-    const platform = usePlatform();
     const renderModalHeader = () => {
         return (
             <ModalPageHeader
                 left={(platform === ANDROID) &&
                     <HeaderButton children={<Icon24Cancel />} onClick={onClose} />}
-                right={
-                    <HeaderButton
-                        children={(platform === IOS) ? 'Отмена' : <Icon24Cancel />}
-                        onClick={onClose} />
-                }
+                right={(platform === IOS) &&
+                    <HeaderButton children="Отмена" onClick={onClose} />}
                 children="Подключение проекта" />
         );
     }
