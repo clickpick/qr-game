@@ -4,21 +4,21 @@ import { string, func } from 'prop-types';
 import {
     ModalPage, ModalPageHeader,
     HeaderButton,
-    usePlatform, ANDROID, IOS
+    platform, ANDROID, IOS
 } from '@vkontakte/vkui';
 import RequestFundingForm from 'components/RequestFundingForm';
 
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
-const platform = usePlatform();
+const osname = platform();
 
 const RequestFunding = ({ id, onClose, onSubmit }) => {
     const renderModalHeader = () => {
         return (
             <ModalPageHeader
-                left={(platform === ANDROID) &&
+                left={(osname === ANDROID) &&
                     <HeaderButton children={<Icon24Cancel />} onClick={onClose} />}
-                right={(platform === IOS) &&
+                right={(osname === IOS) &&
                     <HeaderButton children="Отмена" onClick={onClose} />}
                 children="Подключение проекта" />
         );
