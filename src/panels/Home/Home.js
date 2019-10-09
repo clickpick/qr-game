@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, func, shape, number, array, object } from 'prop-types';
+import { string, func, shape, number, array, object, bool } from 'prop-types';
 
 import connect from '@vkontakte/vk-connect';
 import { Panel } from '@vkontakte/vkui';
@@ -21,7 +21,7 @@ const Home = ({
 	id,
 	user, activeProject, userProjectKey, activatedProjectKeys,
 	notificationProps,
-	qrCodeRef, shareStory,
+	scanning, qrCodeRef, shareStory,
 	openAddProjectModal,
 	showRules
 }) => {
@@ -53,7 +53,8 @@ const Home = ({
 						size="medium"
 						theme="info"
 						full
-						onClick={openQR} />
+						onClick={openQR}
+						disabled={scanning} />
 					<Button
 						className="Home__action  Home__action--share"
 						children={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
@@ -107,6 +108,7 @@ Home.propTypes = {
 	activatedProjectKeys: array.isRequired,
 	openAddProjectModal: func,
 	notificationProps: object,
+	scanning: bool,
 	qrCodeRef: object,
 	shareStory: func,
 };

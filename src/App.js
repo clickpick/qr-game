@@ -32,6 +32,8 @@ export default class App extends React.Component {
 		notification: {
 			show: false,
 		},
+
+		scanning: false,
 	};
 
 	header;
@@ -95,6 +97,7 @@ export default class App extends React.Component {
 					activatedProjectKeys={this.getActivatedProjectKeys()}
 					header={false}
 					notificationProps={this.getNotificationProps()}
+					scanning={this.state.scanning}
 					qrCodeRef={this.qrCode}
 					shareStory={this.shareStory}
 					sendRequestFunding={this.sendRequestFunding}
@@ -216,7 +219,8 @@ export default class App extends React.Component {
 				status: 'loading',
 				title: 'Обработка QR',
 				message: this.getRandomFact()
-			}
+			},
+			scanning: true
 		});
 	}
 
@@ -243,7 +247,8 @@ export default class App extends React.Component {
 				title: 'Sorry',
 				message: `Символ “${data.value.toUpperCase()}” у тебя уже есть.`,
 				timeout: 4000
-			}
+			},
+			scanning: false
 		}));
 
 		this.tapticNotification('warning');
@@ -257,7 +262,8 @@ export default class App extends React.Component {
 				title: 'Хм...',
 				message: 'Зачем ты сканируешт свой QR?',
 				timeout: 4000
-			}
+			},
+			scanning: false
 		}));
 
 		this.tapticNotification('error');
@@ -311,7 +317,8 @@ export default class App extends React.Component {
 			notification: {
 				...prevState.notification,
 				show: false
-			}
+			},
+			scanning: false
 		}));
 	}
 
