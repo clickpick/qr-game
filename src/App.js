@@ -168,23 +168,20 @@ export default class App extends React.Component {
 		const hash = this.getLocationHash(link.split('#')[1]);
 
 		let token = '';
-		if (hash) {
-			// ...то парсим его
-			const params = hash.split('&');
-
-			params.forEach((param) => {
-				const parse = param.split('=');
-				const key = parse[0];
-				const value = parse[1];
-
-				if (key === 'token') {
-					token = value;
-				}
-			});
-		} else {
+		if (!hash) {
 			return;
 		}
-		
+
+		hash.split('&').forEach((param) => {
+			const parse = param.split('=');
+			const key = parse[0];
+			const value = parse[1];
+
+			if (key === 'token') {
+				token = value;
+			}
+		});
+
 		this.loadingScan();
 
 		activeProjectKey(this.getActiveProject().id, { token })
