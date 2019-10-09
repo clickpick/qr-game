@@ -1,10 +1,15 @@
 .Home {
-    padding-top: calc(85px + var(--safe-area-inset-top));
+    --background_page: var(--color-primary);
 }
 
 .Home .Panel__in {
     display: flex;
     flex-direction: column;
+}
+
+.Home__white-wrapper {
+    padding-top: calc(85px + var(--safe-area-inset-top));
+    background-color: var(--color-white);
 }
 
 .Home__QRCode {

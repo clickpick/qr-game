@@ -39,27 +39,28 @@ const Home = ({
 		<Panel id={id} className="Home">
 			<Notification {...notificationProps} />
 
-			<QRCode
-				className="Home__QRCode"
-				userPic={user.avatar_200}
-				token={userProjectKey}
-				loader={<Loader />}
-				ref={qrCodeRef} />
-
-			<div className="Home__actions">
-				<Button
-					className="Home__action  Home__action--scan"
-					children="Сканировать QR код"
-					size="medium"
-					theme="info"
-					full
-					onClick={openQR} />
-				<Button
-					className="Home__action  Home__action--share"
-					children={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
-					size="medium"
-					theme="info"
-					onClick={shareStory} />
+			<div className="Home__white-wrapper">
+				<QRCode
+					className="Home__QRCode"
+					userPic={user.avatar_200}
+					token={userProjectKey}
+					loader={<Loader />}
+					ref={qrCodeRef} />
+				<div className="Home__actions">
+					<Button
+						className="Home__action  Home__action--scan"
+						children="Сканировать QR код"
+						size="medium"
+						theme="info"
+						full
+						onClick={openQR} />
+					<Button
+						className="Home__action  Home__action--share"
+						children={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
+						size="medium"
+						theme="info"
+						onClick={shareStory} />
+				</div>
 			</div>
 
 			<div className="Home__blue-wrapper">
