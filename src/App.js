@@ -195,7 +195,7 @@ export default class App extends React.Component {
 				}
 			})
 			.catch((e) => {
-				if (e.response.status === 422) {
+				if (e.response.status === 422 || e.response.status === 500) {
 					setTimeout(() => this.repeatedScan(e.response.data.data), 7000);
 					return;
 				}
