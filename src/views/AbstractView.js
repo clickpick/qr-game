@@ -67,7 +67,7 @@ export default class AbstractView extends React.Component {
 
     render() {
         return (
-            <ConfigProvider isWebView={true}>
+            <ConfigProvider isWebView={true} webviewType="vkapps">
                 <View
                     id={this.props.id}
                     activePanel={this.state.activePanel}
