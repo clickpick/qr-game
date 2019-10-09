@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, bool, number, oneOf, func } from 'prop-types';
+import { string, bool, number, oneOf, func, oneOfType, node } from 'prop-types';
 import classNames from 'classnames';
 
 import success from 'images/success.png';
@@ -14,9 +14,9 @@ import './Notification.css';
 export default class Notification extends React.Component {
     static propTypes = {
         show: bool,
-        status: oneOf(['loading', 'success', 'error', 'info']),
+        status: oneOf(['loading', 'success', 'error', 'info', 'rules']),
         title: string,
-        message: string,
+        message: oneOfType([node, string]),
         timeout: number,
         hide: func,
     };
