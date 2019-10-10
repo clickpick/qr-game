@@ -222,6 +222,8 @@ export default class App extends React.Component {
 			},
 			scanning: true
 		});
+
+		this.tapticNotification('success');
 	}
 
 	successScan = (data) => {
