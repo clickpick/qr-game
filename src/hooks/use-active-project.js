@@ -1,21 +1,8 @@
-import { useState, useEffect } from 'react';
+import useRequest from 'hooks/use-request';
 import { activeProject } from 'api';
 
 export default function useActiveProject() {
-    const [project, setProject] = useState(null);
+    const [{ data }, fetchProject] = useRequest(activeProject);
 
-    function fetchProject() {
-        activeProject()
-            .then(({ data }) => {
-                setProject(data);
-            })
-            .catch((e) => {
-                setProject(false);
-                console.log('active project', e);
-            });
-    }
-
-    useEffect(fetchProject, []);
-
-    return [project, fetchProject, setProject];
+    return [data, fetchProject];
 }
