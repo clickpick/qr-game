@@ -20,5 +20,5 @@ export default function useAuth() {
 
     useEffect(signIn, []);
 
-    return { user, signIn };
+    return [user, signIn];
 }
