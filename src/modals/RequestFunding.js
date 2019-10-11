@@ -12,20 +12,20 @@ import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
 const osname = platform();
 
-const RequestFunding = ({ id, onClose, onSubmit }) => {
+const RequestFunding = ({ id, close, onSubmit }) => {
     const renderModalHeader = () => {
         return (
             <ModalPageHeader
                 left={(osname === ANDROID) &&
-                    <HeaderButton children={<Icon24Cancel />} onClick={onClose} />}
+                    <HeaderButton children={<Icon24Cancel />} onClick={close} />}
                 right={(osname === IOS) &&
-                    <HeaderButton children="Отмена" onClick={onClose} />}
+                    <HeaderButton children="Отмена" onClick={close} />}
                 children="Подключение проекта" />
         );
     }
 
     return (
-        <ModalPage id={id} header={renderModalHeader()} onClose={onClose}>
+        <ModalPage id={id} header={renderModalHeader()} onClose={close}>
             <RequestFundingForm onSubmit={onSubmit} />
         </ModalPage>
     );
@@ -33,7 +33,7 @@ const RequestFunding = ({ id, onClose, onSubmit }) => {
 
 RequestFunding.propTypes = {
     id: string.isRequired,
-    onClose: func.isRequired
+    close: func.isRequired
 };
 
 export default RequestFunding;
