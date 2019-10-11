@@ -12,8 +12,6 @@ export default function useAuth() {
             .catch(e => {
                 setUser(false);
                 console.log('auth', e);
-
-                return;
             });
     }
 
