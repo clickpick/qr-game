@@ -4,9 +4,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import connect from '@vkontakte/vk-connect';
 import App from './App';
-import axios from 'axios';
 
-window.axios = axios;
+import axios from 'axios';
+import { parseQueryString, getTimezoneOffset } from 'helpers';
+
+window.axios = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+        'Vk-Params': window.btoa(JSON.stringify({
+            ...parseQueryString(window.location.search),
+            'utc_offset': getTimezoneOffset(),
+        })),
+        'Accept': 'application/json'
+    },
+});
 // import registerServiceWorker from './sw';
 
 // Init VK  Mini App
