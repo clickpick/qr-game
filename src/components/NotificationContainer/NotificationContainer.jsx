@@ -11,12 +11,14 @@ export default function NotificationContainer({ children }) {
     const [content, setContent] = useState(undefined);
 
     useEffect(() => {
-        if (children) {
+        if (children && !show) {
             setContent(children);
             setShow(true);
-        } else if (show) {
+        }
+
+        if (show && !children) {
             setShow(false);
-            setTimeout(() => setContent(undefined), 2500);
+            setTimeout(() => setContent(undefined), 300);
         }
     }, [children, show]);
 
