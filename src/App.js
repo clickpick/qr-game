@@ -1,59 +1,49 @@
 import React from 'react';
 import connect from '@vkontakte/vk-connect';
-import { Root } from '@vkontakte/vkui';
+import { Root, View, ModalRoot } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Spinner from 'views/Spinner';
-import Main from 'views/Main';
 import ThankYou from 'views/ThankYou';
 
-import Button from 'components/Button';
+import Home from 'panels/Home';
 
-import { parseQueryString, getUTCOffset, shareStory, svgPrepare, svgToBase64 } from 'helpers';
+import RequestFunding from 'modals/RequestFunding';
+
+import NotificationContainer from 'components/NotificationContainer';
+import Notification from 'components/Notification';
+
+import { shareStory, svgPrepare, svgToBase64 } from 'helpers';
 import {
 	auth, toggleNotifications,
-	activeProject, projectFacts,
-	userProjectKey, activatedProjectKeys,
+	activeProject,
 	addFunds,
 	activeProjectKey,
 	requestFunding
 } from 'api';
+
+import * as QR from 'constants/qr';
+import * as MODALS from 'constants/modals';
 
 import './App.css';
 
 export default class App extends React.Component {
 	state = {
 		activeView: 'spinner',
+		activeModal: null,
+
 		user: null,
 		activeProject: null,
-		userProjectKey: null,
-		activatedProjectKeys: [],
-		facts: [],
-		notification: {
-			show: false,
-		},
 
 		scanning: false,
+
+		notification: null,
 	};
 
-	header;
 	qrCode = React.createRef();
 
 	componentDidMount() {
-		this.headers = {
-			'Vk-Params': window.btoa(JSON.stringify({
-				...parseQueryString(window.location.search),
-				'utc_offset': getUTCOffset(),
-			})),
-			'Accept': 'application/json'
-		};
-
-		window.axios = window.axios.create({
-			baseURL: process.env.REACT_APP_API_URL,
-			headers: this.headers,
-		});
-
-		this.authorization(() => this.fetchActiveProject(this.fetchOther));
+		this.authorization(this.fetchActiveProject);
 
 		connect.subscribe(({ detail: { type, data } }) => {
 			if (type === 'VKWebAppOpenQRResult') {
@@ -85,23 +75,22 @@ export default class App extends React.Component {
 	render() {
 		const activeProject = this.getActiveProject();
 		const user = this.getUser();
+		const notification = this.getNotification();
 
-		return (
+		return <>
+			<NotificationContainer>
+				{notification && <Notification {...notification} close={this.hideNotification} />}
+			</NotificationContainer>
 			<Root activeView={this.state.activeView}>
-				<Main
-					id="main"
-					activePanel="home"
-					user={user}
-					activeProject={activeProject}
-					userProjectKey={this.getUserProjectKey()}
-					activatedProjectKeys={this.getActivatedProjectKeys()}
-					header={false}
-					notificationProps={this.getNotificationProps()}
-					scanning={this.state.scanning}
-					qrCodeRef={this.qrCode}
-					shareStory={this.shareStory}
-					sendRequestFunding={this.sendRequestFunding}
-					showRules={this.showRules} />
+				<View id="main" activePanel="home" header={false} modal={this.renderModals()}>
+					<Home
+						id="home"
+						user={user}
+						project={activeProject}
+						disabledOpenScan={this.state.scanning}
+						showRules={this.showRules}
+						openRequestFundingModal={this.openRequestFundingModal} />
+				</View>
 				<ThankYou
 					id="finish"
 					activePanel="finish"
@@ -109,20 +98,25 @@ export default class App extends React.Component {
 					activeProject={activeProject} />
 				<Spinner id="spinner" />
 			</Root>
-		);
+		</>;
 	}
+
+	renderModals = () => {
+		return (
+			<ModalRoot activeModal={this.state.activeModal}>
+				<RequestFunding
+					id={MODALS.REQUEST_FUNDING}
+					close={this.modalBack}
+					onSubmit={this.sendRequestFunding} />
+			</ModalRoot>
+		);
+	};
 
 	getLocationHash = (link = window.location.hash) => link.replace('#', '');
 
 	getUser = () => this.state.user;
 	getActiveProject = () => this.state.activeProject;
-	getUserProjectKey = () => this.state.userProjectKey;
-	getActivatedProjectKeys = () => this.state.activatedProjectKeys;
-
-	getNotificationProps = () => ({
-		...this.state.notification,
-		hide: this.hideNotification,
-	})
+	getNotification = () => this.state.notification;
 
 	authorization = (callback = f => f) => {
 		auth()
@@ -134,37 +128,19 @@ export default class App extends React.Component {
 			.catch(e => console.log('auth', e));
 	}
 
-	fetchActiveProject = (callback = f => f) => {
+	fetchActiveProject = () => {
 		activeProject()
-			.then(({ status, data: activeProject }) => {
-				if (status === 200) {
-					this.setState({ activeProject }, callback);
-				}
+			.then(({ data }) => {
+				this.setState({ activeProject: data }, () => {
+					if (data.is_finished) {
+						this.setState({ activeView: 'finish' });
+						return;
+					}
+
+					this.setState({ activeView: 'main' });
+				});
 			})
 			.catch(e => console.log('active project', e));
-	}
-
-	fetchOther = () => {
-		const project = this.getActiveProject();
-
-		Promise.all([
-			userProjectKey(project.id),
-			activatedProjectKeys(project.id),
-			projectFacts(project.id)
-		])
-			.then(resultes => {
-				// проверяем статусы выполнения запросов
-				for (let i = 0; i < resultes.length; i++) {
-					if (resultes[i].status !== 200) throw new Error('error load');
-				}
-
-				this.setState({
-					userProjectKey: resultes[0].data.token,
-					activatedProjectKeys: resultes[1].data,
-					facts: resultes[2].data,
-					activeView: (project.is_finished) ? 'finish' : 'main',
-				}, () => this.activateProjectKey(window.location.href));
-			});
 	}
 
 	activateProjectKey = (link) => {
@@ -188,23 +164,36 @@ export default class App extends React.Component {
 		this.loadingScan();
 
 		activeProjectKey(this.getActiveProject().id, { token })
-			.then(({ status, data }) => {
-				if (status === 200) {
-					if (data.is_last) {
-						setTimeout(() => this.finishGame(data), 7000);
-						return;
-					}
-					setTimeout(() => this.successScan(data), 7000);
-				}
+			.then(({ data }) => {
+				setTimeout(() => {
+					this.hideNotification();
+					setTimeout(() => {
+						if (data.is_last) {
+							this.finishGame(data);
+							return;
+						}
+
+						this.successScan(data);
+					}, 500);
+				}, QR.SCANNING_DELAY);
 			})
 			.catch((e) => {
 				if (e.response.status === 422 || e.response.status === 500) {
-					setTimeout(() => this.repeatedScan(e.response.data.data), 7000);
+					setTimeout(() => {
+						this.hideNotification();
+						setTimeout(() => { this.repeatedScan(e.response.data.data) }, 500);
+					}, QR.SCANNING_DELAY);
+
 					return;
 				}
 
 				if (e.response.status === 403) {
-					setTimeout(this.errorScan, 7000);
+					setTimeout(() => {
+						this.hideNotification();
+
+						setTimeout(this.errorScan, 500);
+					}, QR.SCANNING_DELAY);
+
 					return;
 				}
 
@@ -215,9 +204,8 @@ export default class App extends React.Component {
 	loadingScan = () => {
 		this.setState({
 			notification: {
-				show: true,
 				status: 'loading',
-				title: 'Обработка QR',
+				title: 'Обработка QR кода',
 				message: this.getRandomFact()
 			},
 			scanning: true
@@ -228,15 +216,18 @@ export default class App extends React.Component {
 
 	successScan = (data) => {
 		this.setState((prevState) => ({
-			activatedProjectKeys: prevState.activatedProjectKeys.concat([data]),
+			user: {
+				...prevState.user,
+				activated_project_keys: prevState.user.activated_project_keys.concat([data]),
+			},
 			notification: {
-				show: true,
 				status: 'success',
 				title: 'Удачно',
-				message: `Ты открыл новый символ “${data.value.toUpperCase()}”!`,
-				timeout: 4000
+				message: `Ты открыл новый символ “${data.value.toUpperCase()}”!`
 			}
-		}));
+		}), () => {
+			setTimeout(this.hideNotification, 3000);
+		});
 
 		this.tapticNotification('success');
 	}
@@ -244,14 +235,14 @@ export default class App extends React.Component {
 	repeatedScan = (data) => {
 		this.setState(({
 			notification: {
-				show: true,
 				status: 'info',
 				title: 'Sorry',
-				message: `Символ “${data.value.toUpperCase()}” у тебя уже есть.`,
-				timeout: 4000
+				message: `Символ “${data.value.toUpperCase()}” у тебя уже есть.`
 			},
 			scanning: false
-		}));
+		}), () => {
+			setTimeout(this.hideNotification, 3000);
+		});
 
 		this.tapticNotification('warning');
 	}
@@ -259,30 +250,35 @@ export default class App extends React.Component {
 	errorScan = () => {
 		this.setState(({
 			notification: {
-				show: true,
 				status: 'error',
 				title: 'Хм...',
-				message: 'Зачем ты сканируешт свой QR?',
-				timeout: 4000
+				message: 'Зачем ты сканируешт свой QR?'
 			},
 			scanning: false
-		}));
+		}), () => {
+			setTimeout(this.hideNotification, 3000);
+		});
 
 		this.tapticNotification('error');
 	}
 
 	finishGame = (data) => {
 		this.setState((prevState) => ({
-			activatedProjectKeys: prevState.activatedProjectKeys.concat([data]),
+			user: {
+				...prevState.user,
+				activated_project_keys: prevState.user.activated_project_keys.concat([data]),
+			},
+
 			notification: {
-				show: true,
 				status: 'success',
 				title: 'Congratulations!',
-				message: 'Ты собрал все символы и выиграл игру!',
-				timeout: 3000
-			}
+				message: 'Ты собрал все символы и выиграл игру!'
+			},
+
+			scanning: true
 		}), () => {
 			setTimeout(() => {
+				this.hideNotification();
 				this.setState({ activeView: 'finish' });
 			}, 3300);
 		});
@@ -293,35 +289,24 @@ export default class App extends React.Component {
 	thankYou = () => {
 		this.setState(({
 			notification: {
-				show: true,
 				status: 'info',
 				title: 'Thx',
-				message: this.getActiveProject().description,
-				timeout: 3000
+				message: this.getActiveProject().description
 			}
-		}));
+		}), () => {
+			setTimeout(this.hideNotification, 3000);
+		});
 	}
 
 	sharedStory = () => {
 		this.setState(({
 			notification: {
-				show: true,
 				status: 'info',
 				title: 'История опубликована',
-				// message: this.getActiveProject().description,
-				timeout: 2000
 			}
-		}));
-	}
-
-	hideNotification = () => {
-		this.setState((prevState) => ({
-			notification: {
-				...prevState.notification,
-				show: false
-			},
-			scanning: false
-		}));
+		}), () => {
+			setTimeout(this.hideNotification, 3000);
+		});
 	}
 
 	shareStory = () => {
@@ -330,10 +315,12 @@ export default class App extends React.Component {
 	}
 
 	getRandomFact = () => {
-		if (this.state.facts.length > 0) {
-			const index = this.getRandomIndexFact(this.state.facts.length - 1);
+		const project = this.getActiveProject();
 
-			return this.state.facts[index].text;
+		if (project && Array.isArray(project.project_facts) && project.project_facts.length > 0) {
+			const index = this.getRandomIndexFact(project.project_facts.length - 1);
+
+			return project.project_facts[index].text;
 		}
 
 		return '';
@@ -367,20 +354,21 @@ export default class App extends React.Component {
 	}
 
 	sendRequestFunding = (data) => {
-		requestFunding(data)
-			.then(this.requestFundingSended)
+		requestFunding(data).then(this.requestFundingSended);
 	}
 
 	requestFundingSended = () => {
 		this.setState(({
+			activeModal: null,
+
 			notification: {
-				show: true,
 				status: 'success',
 				title: 'Твоя заявка отправлена',
-				message: 'В скором времени с тобой свяжутся',
-				timeout: 3000
+				message: 'В скором времени с тобой свяжутся'
 			}
-		}));
+		}), () => {
+			setTimeout(this.hideNotification, 5000);
+		});
 	}
 
 	tapticNotification = (type) => {
@@ -392,7 +380,6 @@ export default class App extends React.Component {
 	showRules = () => {
 		this.setState(({
 			notification: {
-				show: true,
 				status: 'rules',
 				title: 'Правила',
 				message: <span>
@@ -401,8 +388,35 @@ export default class App extends React.Component {
 					- Основная цель, найти и сканировать 5 разных QR кодов у 5-ти людей.<br />
 					- Первый (или несколько первых), кто соберет все QR коды, забирает приз, который выставит фонд-партнёр
 				</span>,
-				children: <Button style={{ marginTop: 10 }} children="Ок, понятно" theme="info" />
+				actions: [
+					{
+						title: 'Ок, понял',
+						type: 'primary',
+						action: this.hideNotification
+					}
+				]
 			}
 		}));
+	}
+
+	hideNotification = () => {
+		this.setState({ notification: null });
+	}
+
+	openRequestFundingModal = () => {
+		this.setActiveModal(MODALS.REQUEST_FUNDING);
+	}
+
+	onRequestFundingSubmit = (data) => {
+		this.sendRequestFunding(data);
+		this.modalBack();
+	}
+
+	setActiveModal = (activeModal) => {
+		this.setState({ activeModal });
+	}
+
+	modalBack = () => {
+		this.setActiveModal(null);
 	}
 }
