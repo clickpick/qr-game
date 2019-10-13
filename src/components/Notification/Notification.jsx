@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, bool, number, oneOf, func, oneOfType, node } from 'prop-types';
+import { string, oneOf, oneOfType, node, arrayOf, object } from 'prop-types';
 import classNames from 'classnames';
 
 import success from 'images/success.png';
@@ -8,94 +8,68 @@ import error from 'images/error.png';
 import rules from 'images/rules.png';
 
 import Loader from 'components/Loader';
+import Button from 'components/Button';
 
 import './Notification.css';
 
-export default class Notification extends React.Component {
-    static propTypes = {
-        show: bool,
-        status: oneOf(['loading', 'success', 'error', 'info', 'rules']),
-        title: string,
-        message: oneOfType([node, string]),
-        timeout: number,
-        hide: func,
-    };
-
-    state = {
-        show: false,
-    };
-
-    timerId = null;
-
-    componentDidMount() {
-        this.init(this.props);
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        this.init(nextProps);   
-    }
-
-    init = (props) => {
-        this.setState({ show: props.show });
-
-        if (props.show && props.hasOwnProperty('timeout') && !isNaN(props.timeout)) {
-            this.clearTimer();
-            this.timerId = setTimeout(() => {
-                this.setState({ show: false });
-                this.hide();
-            }, props.timeout);
-        }
-    }
-
-    render() {
-        return (
-            <div className={classNames(this.props.className, 'Notification', { [`Notificatio--show`]: this.state.show })} onClick={this.onClick}>
-                <div className="Notification__l">
-                    {this.getImage()}
-                </div>
-                <div className="Notification__r">
-                    <h4
-                        className={classNames('Notification__title', `Notification__title--${this.props.status}`)}
-                        children={this.props.title} />
-                    <p className="Notification__message" children={this.props.message} />
-                    {this.props.children}
-                </div>
-            </div>
-        );
-    }
-
-    onClick = () => {
-        if (this.props.status !== 'loading') {
-            this.clearTimer();
-            this.hide();
-        }
-    }
-
-    clearTimer = () => {
-        if (this.timerId) {
-            clearTimeout(this.timerId);
-        }
-    }
-
-    hide = () => {
-        if (this.props.hide) {
-            this.props.hide();
-        }
-    }
-
-    getImage = () => {
+const Notification = ({ className, status, title, message, close, actions }) => {
+    function getImage() {
         // eslint-disable-next-line default-case
-        switch (this.props.status) {
+        switch (status) {
             case 'loading':
                 return <Loader className="Notification__loader" />;
             case 'success':
-                return <img className="Notification__image" src={success} alt={this.props.status} />;
+                return <img className="Notification__image" src={success} alt={status} />;
             case 'error':
-                return <img className="Notification__image" src={error} alt={this.props.status} />;
+                return <img className="Notification__image" src={error} alt={status} />;
             case 'info':
-                return <img className="Notification__image" src={info} alt={this.props.status} />;
+                return <img className="Notification__image" src={info} alt={status} />;
             case 'rules':
-                return <img className="Notification__image" src={rules} alt={this.props.status} />;
+                return <img className="Notification__image" src={rules} alt={status} />;
+        }
+    };
+
+    function onClose() {
+        if (status !== 'loading' && close) {
+            close();
         }
     }
-}
+
+    function buttons() {
+        if (actions && actions.length > 0) {
+            return <div className="Notification_actions" children={actions.map(renderButton)} />;
+        }
+    }
+
+    function renderButton({ title, type, action}, index) {
+        return <Button
+            key={index}
+            size="medium"
+            children={title}
+            theme={type}
+            onClick={action} />
+    }
+
+    return (
+        <div className={classNames(className, ' Notification')} onClick={onClose}>
+            <div className="Notification__status" children={getImage()} />
+            
+            <h4
+                className={classNames('Notification__title', `Notification__title--${status}`)}
+                children={title} />
+
+            <p className="Notification__message" children={message} />
+
+            {buttons()}
+        </div>
+    );
+};
+
+Notification.propTypes = {
+    status: oneOf(['loading', 'success', 'error', 'info', 'rules']),
+    title: string,
+    message: oneOfType([node, string]),
+    actions: arrayOf(object)
+};
+
+export default Notification;

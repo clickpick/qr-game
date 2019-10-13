@@ -1,36 +1,26 @@
 .Notification {
-    position: fixed;
-    top: calc(50px + var(--safe-area-inset-top));
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-
     display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    width: calc(100% - 40px);
-    padding: 12px;
+    width: 100%;
+    min-height: 400px;
+    padding-top: 140px;
 
-    border-radius: 8px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
 
-    background-color: var(--color-gray);
+    background-color: var(--color-white);
 
-    opacity: 0;
-    transition: opacity 150ms ease-in;
-
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transition: all 150ms ease-in;
 }
 
-.Notificatio--show {
-    opacity: 1;
-}
-
-.Notification__l {
+.Notification__status {
     position: relative;
 
-    flex-shrink: 0;
-
     width: 50px;
-    margin-right: 12px;
+    height: 50px;
+    margin-bottom: 20px;
 }
 
 .Notification__loader {
@@ -46,7 +36,7 @@
 }
 
 .Notification__title {
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     font-size: var(--font-size-16);
     color: var(--color-primary);
 }
@@ -60,6 +50,14 @@
 }
 
 .Notification__message {
+    padding-right: 25px;
+    padding-left: 25px;
+
     font-size: var(--font-size-14);
     color: rgba(var(--color-light-black-rgb), 0.6);
+}
+
+.Notification_actions {
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
