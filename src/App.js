@@ -3,10 +3,9 @@ import connect from '@vkontakte/vk-connect';
 import { Root, View, ModalRoot } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
-import Spinner from 'views/Spinner';
-import ThankYou from 'views/ThankYou';
-
 import Home from 'panels/Home';
+import Finish from 'panels/Finish';
+import Spinner from 'panels/Spinner';
 
 import RequestFunding from 'modals/RequestFunding';
 
@@ -81,6 +80,7 @@ export default class App extends React.Component {
 			<NotificationContainer>
 				{notification && <Notification {...notification} close={this.hideNotification} />}
 			</NotificationContainer>
+
 			<Root activeView={this.state.activeView}>
 				<View id="main" activePanel="home" header={false} modal={this.renderModals()}>
 					<Home
@@ -91,12 +91,15 @@ export default class App extends React.Component {
 						showRules={this.showRules}
 						openRequestFundingModal={this.openRequestFundingModal} />
 				</View>
-				<ThankYou
-					id="finish"
-					activePanel="finish"
-					user={user}
-					activeProject={activeProject} />
-				<Spinner id="spinner" />
+				<View id="finish" activePanel="finish">
+					<Finish
+						id="finish"
+						user={user}
+						project={activeProject} />
+				</View>
+				<View id="spinner" activePanel="spinner">
+					<Spinner id="spinner" />
+				</View>
 			</Root>
 		</>;
 	}

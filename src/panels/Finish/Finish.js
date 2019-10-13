@@ -12,7 +12,7 @@ import * as VK from 'constants/vk';
 
 import './Finish.css';
 
-const Finish = ({ id, user, activeProject }) => {
+const Finish = ({ id, user, project }) => {
     const showPayForm = () =>
         connect.send('VKWebAppOpenPayForm', {
             app_id: VK.APP_ID,
@@ -29,8 +29,8 @@ const Finish = ({ id, user, activeProject }) => {
     return (
         <Panel id={id} className="Finish">
             <div className="Finish__wrapper">
-                <ThankYou className="Finish__ThankYou" project={activeProject} />
-                <ProjectCard className="Finish__ProjectCard" {...activeProject} onClick={showPayForm} />
+                <ThankYou className="Finish__ThankYou" project={project} />
+                <ProjectCard className="Finish__ProjectCard" {...project} onClick={showPayForm} />
 
                 {(isDeni) &&
                     <AllowNotification className="Finish__AllowNotification" allow={allowNotifications} />}
@@ -42,7 +42,7 @@ const Finish = ({ id, user, activeProject }) => {
 Finish.propTypes = {
     id: string.isRequired,
     user: object,
-    activeProject: object,
+    project: object,
 };
 
 export default Finish;
