@@ -233,16 +233,18 @@ export default class App extends React.Component {
 	}
 
 	repeatedScan = (data) => {
-		this.setState(({
-			notification: {
-				status: 'info',
-				title: 'Sorry',
-				message: `Символ “${data.value.toUpperCase()}” у тебя уже есть.`
-			},
-			scanning: false
-		}), () => {
-			setTimeout(this.hideNotification, 3000);
-		});
+		if (data && data.hasOwnProperty('value')) {
+			this.setState(({
+				notification: {
+					status: 'info',
+					title: 'Sorry',
+					message: `Символ “${data.value.toUpperCase()}” у тебя уже есть.`
+				},
+				scanning: false
+			}), () => {
+				setTimeout(this.hideNotification, 3000);
+			});
+		}
 
 		this.tapticNotification('warning');
 	}
