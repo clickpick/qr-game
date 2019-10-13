@@ -1,24 +1,28 @@
 import { useState, useEffect } from 'react';
 
-export default function useRequest(request) {
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [data, setData] = useState(null);
+export default function useRequest(instance) {
+    const [state, setState] = useState({ loading: true, data: null, error: null });
 
-    function fetch() {
-        request()
-            .then((response) => {
-                setData(response.data);
-                setLoading(false);
-            })
-            .catch((e) => {
-                setData(false);
-                setError(e);
-                setLoading(false);
-            });
-    }
+    useEffect(() => {
+        let ignore = false;
 
-    useEffect(fetch, []);
+        async function fetch() {
+            const res = await instance();
+            if (!ignore) {
+                setState((s) => ({
+                    ...s,
+                    loading: false,
+                    data: res.data
+                }));
+            }
+        }
 
-    return [{ loading, error, data }, fetch];
+        fetch();
+
+        return () => {
+            ignore = true;
+        }
+    }, [instance]);
+
+    return [state, fetch];
 }
