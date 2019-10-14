@@ -227,7 +227,9 @@ export default class App extends React.Component {
 				status: 'success',
 				title: 'Удачно',
 				message: `Ты открыл новый символ “${data.value.toUpperCase()}”!`
-			}
+			},
+
+			scanning: false
 		}), () => {
 			setTimeout(this.hideNotification, 3000);
 		});
@@ -243,6 +245,7 @@ export default class App extends React.Component {
 					title: 'Sorry',
 					message: `Символ “${data.value.toUpperCase()}” у тебя уже есть.`
 				},
+
 				scanning: false
 			}), () => {
 				setTimeout(this.hideNotification, 3000);
@@ -259,6 +262,7 @@ export default class App extends React.Component {
 				title: 'Хм...',
 				message: 'Зачем ты сканируешт свой QR?'
 			},
+
 			scanning: false
 		}), () => {
 			setTimeout(this.hideNotification, 3000);
@@ -273,7 +277,6 @@ export default class App extends React.Component {
 				...prevState.user,
 				activated_project_keys: prevState.user.activated_project_keys.concat([data]),
 			},
-
 			notification: {
 				status: 'success',
 				title: 'Congratulations!',
