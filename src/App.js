@@ -120,7 +120,7 @@ export default class App extends React.Component {
 					id={MODALS.REQUEST_FUNDING}
 					header={<ModalPageHeader
 						left={(osname === ANDROID) &&
-							<HeaderButton children={<Icon24Cancel style={{ padding: 0 }} />} onClick={this.modalBack} />}
+							<HeaderButton children={<Icon24Cancel className="App__Cancel" />} onClick={this.modalBack} />}
 						right={(osname === IOS) &&
 							<HeaderButton children="Отмена" onClick={this.modalBack} />}
 						children="Подключение проекта" />}
