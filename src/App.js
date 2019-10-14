@@ -1,16 +1,23 @@
 import React from 'react';
 import connect from '@vkontakte/vk-connect';
-import { Root, View, ModalRoot } from '@vkontakte/vkui';
+import {
+	Root, View,
+	ModalRoot, ModalPage, ModalPageHeader,
+	HeaderButton,
+	platform, ANDROID, IOS,
+} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Home from 'panels/Home';
 import Finish from 'panels/Finish';
 import Spinner from 'panels/Spinner';
 
-import RequestFunding from 'modals/RequestFunding';
+import RequestFundingForm from 'components/RequestFundingForm';
 
 import NotificationContainer from 'components/NotificationContainer';
 import Notification from 'components/Notification';
+
+import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
 import { shareStory, svgPrepare, svgToBase64 } from 'helpers';
 import {
@@ -25,6 +32,8 @@ import * as QR from 'constants/qr';
 import * as MODALS from 'constants/modals';
 
 import './App.css';
+
+const osname = platform();
 
 export default class App extends React.Component {
 	state = {
@@ -107,13 +116,20 @@ export default class App extends React.Component {
 	renderModals = () => {
 		return (
 			<ModalRoot activeModal={this.state.activeModal}>
-				<RequestFunding
+				<ModalPage
 					id={MODALS.REQUEST_FUNDING}
-					close={this.modalBack}
-					onSubmit={this.sendRequestFunding} />
+					header={<ModalPageHeader
+						left={(osname === ANDROID) &&
+							<HeaderButton children={<Icon24Cancel style={{ padding: 0 }} />} onClick={this.modalBack} />}
+						right={(osname === IOS) &&
+							<HeaderButton children="Отмена" onClick={this.modalBack} />}
+						children="Подключение проекта" />}
+					onClose={this.modalBack}>
+					<RequestFundingForm onSubmit={this.sendRequestFunding} />
+				</ModalPage>
 			</ModalRoot>
 		);
-	};
+	}
 
 	getLocationHash = (link = window.location.hash) => link.replace('#', '');
 

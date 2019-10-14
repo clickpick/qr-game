@@ -32,3 +32,7 @@
 .PanelHeader * {
     box-sizing: unset;
 }
+
+.App__Cancel {
+    padding: 0;
+}
