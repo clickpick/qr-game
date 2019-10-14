@@ -22,8 +22,8 @@ const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, l
     className = classNames(className, 'QRCode');
 
     return (qrSvg)
-        ? <span className={className} ref={ref} dangerouslySetInnerHTML={{ __html: qrSvg }} />
-        : <span className={className} children={loader} />
+        ? <div className={className} ref={ref} dangerouslySetInnerHTML={{ __html: qrSvg }} />
+        : <div className={className} children={loader} />;
 });
 
 QRCode.propTypes = {

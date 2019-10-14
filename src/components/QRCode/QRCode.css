@@ -1,3 +1,13 @@
 .QRCode {
-    display: inline-block;
+    position: relative;
+
+    width: 262px;
+    height: 262px;
+}
+
+.QRCode .Loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%, -50%);
 }

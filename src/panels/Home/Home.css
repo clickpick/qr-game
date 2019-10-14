@@ -13,9 +13,9 @@
 }
 
 .Home__QRCode {
-    display: block;
+    margin-right: auto;
     margin-bottom: 20px;
-    text-align: center;
+    margin-left: auto;
 }
 
 .Home__actions {
