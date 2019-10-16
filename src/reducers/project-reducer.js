@@ -22,7 +22,7 @@ export default function projectReducer(state = PROJECT_INITIAL_STATE, action) {
             return {
                 ...state,
                 loading: false,
-                error: true
+                error: action.error
             };
 
         default:

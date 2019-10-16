@@ -10,8 +10,9 @@ const fetchProjectSuccess = (entities) => ({
     entities
 });
 
-const fetchProjectError = () => ({
-    type: types.FETCH_PROJECT_ERROR
+const fetchProjectError = (error) => ({
+    type: types.FETCH_PROJECT_ERROR,
+    error
 });
 
 async function fetchProject(dispatch) {
@@ -21,7 +22,7 @@ async function fetchProject(dispatch) {
         const response = await activeProject();
         dispatch(fetchProjectSuccess(response.data));
     } catch (e) {
-        dispatch(fetchProjectError());
+        dispatch(fetchProjectError('Мы не смогли загрузить проект'));
     }
 }
 
