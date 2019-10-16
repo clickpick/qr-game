@@ -342,7 +342,6 @@ export default class App extends React.Component {
 	}
 
 	share = () => {
-		console.log(this.qrCode);
 		const svg = this.qrCode.current.firstElementChild;
 		shareStory(connect, svgToBase64(svgPrepare(svg)), null /* reply-id @type string */);
 	}
