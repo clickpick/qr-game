@@ -19,7 +19,7 @@ import './Home.css';
 const Home = ({
 	id,
 	user, project,
-	disabledOpenScan, qrCodeRef, shareStory,
+	disabledOpenScan, qrCodeRef, share,
 	openRequestFundingModal,
 	showRules
 }) => {
@@ -61,7 +61,7 @@ const Home = ({
 							children={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
 							size="medium"
 							theme="info"
-							onClick={shareStory} />
+							onClick={share} />
 					</div>
 				</div>
 
@@ -116,7 +116,7 @@ Home.propTypes = {
 	notificationProps: object,
 	scanning: bool,
 	qrCodeRef: object,
-	shareStory: func,
+	share: func,
 };
 
 export default Home;

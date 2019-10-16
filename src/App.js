@@ -97,6 +97,8 @@ export default class App extends React.Component {
 						user={user}
 						project={activeProject}
 						disabledOpenScan={this.state.scanning}
+						qrCodeRef={this.qrCode}
+						share={this.share}
 						showRules={this.showRules}
 						openRequestFundingModal={this.openRequestFundingModal} />
 				</View>
@@ -339,7 +341,8 @@ export default class App extends React.Component {
 		});
 	}
 
-	shareStory = () => {
+	share = () => {
+		console.log(this.qrCode);
 		const svg = this.qrCode.current.firstElementChild;
 		shareStory(connect, svgToBase64(svgPrepare(svg)), null /* reply-id @type string */);
 	}
