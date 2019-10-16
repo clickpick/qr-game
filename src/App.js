@@ -19,7 +19,7 @@ import Notification from 'components/Notification';
 
 import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 
-import { shareStory, svgPrepare, svgToBase64 } from 'helpers';
+import { debounce, shareStory, svgPrepare, svgToBase64 } from 'helpers';
 import {
 	auth, toggleNotifications,
 	activeProject,
@@ -162,23 +162,29 @@ export default class App extends React.Component {
 			.catch(e => console.log('active project', e));
 	}
 
-	activateProjectKey = (link) => {
+	activateProjectKey = debounce((link) => {
 		const hash = this.getLocationHash(link.split('#')[1]);
 
-		let token = '';
 		if (!hash) {
 			return;
 		}
 
-		hash.split('&').forEach((param) => {
-			const parse = param.split('=');
-			const key = parse[0];
-			const value = parse[1];
+		let token = '';
+		const params = hash.split('&');		
+
+		for (let i = 0; i < params.length; i++) {
+			const [key, value] = params[i].split('=');
 
 			if (key === 'token') {
 				token = value;
+				break;
 			}
-		});
+		}
+		
+
+		if (!token) {
+			return;
+		}
 
 		this.loadingScan();
 
@@ -218,7 +224,7 @@ export default class App extends React.Component {
 
 				this.hideNotification();
 			});
-	}
+	}, 200);
 
 	loadingScan = () => {
 		this.setState({
