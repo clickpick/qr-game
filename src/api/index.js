@@ -18,8 +18,8 @@ export const userProjectKey = (projectId) =>
 export const activatedProjectKeys = (projectId) =>
     requestGet(`/projects/${projectId}/activated-project-keys`);
 
-export const activeProjectKey = (projectId, data) =>
-    requestPost(`/projects/${projectId}/activate-project-key`, data);
+export const activeProjectKey = (projectId, token) =>
+    requestPost(`/projects/${projectId}/activate-project-key`, { token });
 
 export const shareStory = (urn, base64image) => {
     let arr = base64image.split(','), mime = arr[0].match(/:(.*?);/)[1],
