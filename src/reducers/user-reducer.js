@@ -22,8 +22,24 @@ export default function userReducer(state = USER_INITIAL_STATE, action) {
             return {
                 ...state,
                 loading: false,
-                error: true
+                error: action.error
             };
+
+        case types.ADD_NEW_KEY:
+            let keys = [action.key];
+            if (state.data.hasOwnProperty('activated_project_keys')) {
+                keys = state.data.activated_project_keys.concat(keys);
+            }
+            
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                data: {
+                    ...state.data,
+                    activated_project_keys: keys
+                }
+            }
 
         default:
             return state;
