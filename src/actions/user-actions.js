@@ -31,7 +31,7 @@ async function fetchUser(dispatch) {
     }
 }
 
-const fetchActivateKey = token => async (dispatch, getState) => {
+const fetchActivateKey = (token, callbackAction) => async (dispatch, getState) => {
     const { project } = getState();
 
     if (!project.data) {
@@ -44,6 +44,10 @@ const fetchActivateKey = token => async (dispatch, getState) => {
     try {
         const response = await activeProjectKey(project.data.id, token);
         dispatch(addNewKey(response.data));
+
+        if (response.data.is_last) {
+            dispatch(callbackAction());
+        }
     } catch (e) {
         if (e.response.status === 422 || e.response.status === 500) {
             let symbol = '';
