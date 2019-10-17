@@ -26,7 +26,7 @@ async function fetchProject(dispatch) {
         const response = await activeProject();
         dispatch(fetchProjectSuccess(response.data));
     } catch (e) {
-        dispatch(fetchProjectError('Мы не смогли загрузить проект'));
+        dispatch(fetchProjectError('Мы не смогли загрузить проект :('));
     }
 }
 

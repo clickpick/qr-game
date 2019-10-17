@@ -27,7 +27,7 @@ async function fetchUser(dispatch) {
         const response = await auth();
         dispatch(fetchUserSuccess(response.data));
     } catch (e) {
-        dispatch(fetchUserError());
+        dispatch(fetchUserError('Мы не смогли тебя авторизовать :('));
     }
 }
 
