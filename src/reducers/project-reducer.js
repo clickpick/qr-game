@@ -25,6 +25,17 @@ export default function projectReducer(state = PROJECT_INITIAL_STATE, action) {
                 error: action.error
             };
 
+        case types.FINISH_PORJECT:
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                data: {
+                    ...state.data,
+                    is_finished: true
+                }
+            };
+
         default:
             return state;
     }

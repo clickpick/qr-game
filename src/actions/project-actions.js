@@ -15,6 +15,10 @@ const fetchProjectError = (error) => ({
     error
 });
 
+const finishProject = () => ({
+    type: types.FINISH_PORJECT
+});
+
 async function fetchProject(dispatch) {
     dispatch(fetchProjectLoad());
 
@@ -26,4 +30,4 @@ async function fetchProject(dispatch) {
     }
 }
 
-export { fetchProject };
+export { fetchProject, finishProject };
