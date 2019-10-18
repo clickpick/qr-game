@@ -147,6 +147,10 @@ export default function App() {
 
     const qrCodeRef = createRef();
 
+    function openQR() {
+        connect.send('VKWebAppOpenQR');
+    }
+
     function share() {
         const svg = qrCodeRef.current.firstElementChild;
         dispatch(fetchShareStory(connect, svg));
@@ -169,8 +173,9 @@ export default function App() {
                     id="home"
                     user={user.data}
                     project={project.data}
-                    disabledOpenScan={user.loading}
                     qrCodeRef={qrCodeRef}
+                    openQR={openQR}
+                    disabledOpenQR={user.loading}
                     share={share}
                     disabledShare={shareStory.sharing}
                     openDonateForm={() => dispatch(showDonateForm())}
