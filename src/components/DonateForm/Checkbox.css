@@ -1,0 +1,36 @@
+.DonateFormCheckbox {
+    width: 100%;
+}
+
+.DonateFormCheckbox__self {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    opacity: 0;
+}
+
+.DonateFormCheckbox__mark {
+    width: 100%;
+    height: 44px;
+    padding: 0 16px;
+
+    border-radius: 6px;
+
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+
+    font-size: var(--font-size-16);
+    font-weight: var(--font-weight-semibold);
+    line-height: 44px;
+    text-align: center;
+    color: var(--color-primary);
+
+    transition-property: background-color, color;
+    transition: 150ms ease-in;
+
+    user-select: none;
+}
+
+.DonateFormCheckbox__self:checked + .DonateFormCheckbox__mark {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}

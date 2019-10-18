@@ -1,0 +1,39 @@
+.DonateForm .FormLayout__row:last-child {
+    padding-bottom: 0;
+}
+
+.DonateForm__amounts {
+    display: flex;
+}
+
+.DonateForm__FormLayoutGroup > * ~ * {
+    margin-top: 0;
+}
+
+.DonateForm .FormField,
+.DonateForm .FormStatus {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+.DonateForm__Checkbox {
+    margin-right: 10px;
+}
+
+.DonateForm__Checkbox:last-child {
+    margin-right: 0;
+}
+
+.DonateForm__actions {
+    display: flex;
+    margin-top: 20px;
+}
+
+.DonateForm__action {
+    margin-right: 20px !important;
+    margin-left: 0 !important;
+}
+
+.DonateForm__action:last-child {
+    margin-right: 0 !important;
+}
