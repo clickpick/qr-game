@@ -87,7 +87,7 @@ const Home = ({
 						<Button
 							children="Вашему фонду нужно финансирование?"
 							size="medium"
-							theme="primary"
+							theme="secondary"
 							data-to="finansing"
 							full
 							onClick={openRequestFundingModal} />
