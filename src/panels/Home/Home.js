@@ -12,8 +12,6 @@ import ProjectCard from 'components/ProjectCard';
 
 import Icon24ShareOutline from '@vkontakte/icons/dist/24/share_outline';
 
-import * as VK from 'constants/vk';
-
 import './Home.css';
 
 const Home = ({
