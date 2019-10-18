@@ -6,7 +6,6 @@ import { Panel } from '@vkontakte/vkui';
 
 import ThankYou from 'components/ThankYou';
 import ProjectCard from 'components/ProjectCard';
-import AllowNotification from 'components/AllowNotification';
 
 import * as VK from 'constants/vk';
 
@@ -22,18 +21,15 @@ const Finish = ({ id, user, project }) => {
             }
         });
 
-    const allowNotifications = () => connect.send("VKWebAppAllowNotifications", {});
+    // const allowNotifications = () => connect.send("VKWebAppAllowNotifications", {});
 
-    const isDeni = !Boolean(Number(user.notifications_are_enabled));
+    // const isDeni = !Boolean(Number(user.notifications_are_enabled));
 
     return (
         <Panel id={id} className="Finish">
             <div className="Finish__wrapper">
                 <ThankYou className="Finish__ThankYou" project={project} />
                 <ProjectCard className="Finish__ProjectCard" {...project} onClick={showPayForm} />
-
-                {(isDeni) &&
-                    <AllowNotification className="Finish__AllowNotification" allow={allowNotifications} />}
             </div>
         </Panel>
     );
