@@ -22,20 +22,11 @@ const Home = ({
 	disabledOpenScan,
 	qrCodeRef, share, disabledShare,
 	openRequestFundingModal,
-	showRules
+	showRules,
+	openDonateForm, disabledOpenDonateForm
 }) => {
 	function openQR() {
 		connect.send('VKWebAppOpenQR');
-	}
-
-	function showPayForm() {
-		connect.send('VKWebAppOpenPayForm', {
-			app_id: VK.APP_ID,
-			action: 'transfer-to-user',
-			params: {
-				user_id: VK.USER_ID
-			}
-		});
 	}
 
 	return (
@@ -82,7 +73,11 @@ const Home = ({
 
 						<h2 className="Home__title">При поддержке</h2>
 
-						<ProjectCard className="Home__ProjectCard" {...project} onClick={showPayForm} />
+						<ProjectCard
+							className="Home__ProjectCard"
+							{...project}
+							onDonate={openDonateForm}
+							disabledDonate={disabledOpenDonateForm} />
 
 						<Button
 							children="Вашему фонду нужно финансирование?"
