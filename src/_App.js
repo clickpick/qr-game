@@ -8,22 +8,27 @@ import '@vkontakte/vkui/dist/vkui.css';
 import * as VIEW from 'constants/views';
 import * as MODAL from 'constants/modals';
 
+import './App.css';
+
 import Home from 'panels/Home';
 import Finish from 'panels/Finish';
 import Spinner from 'panels/Spinner';
 
 import ErrorCard from 'modals/ErrorCard';
 
-import './App.css';
+import PopupContainer from 'components/PopupContainer';
+import Popup from 'components/Popup';
+import DonateForm from 'components/DonateForm';
 
 import { fetchUser, fetchActivateKey } from 'actions/user-actions';
 import { fetchProject, finishProject } from 'actions/project-actions';
 import { fetchShareStory } from 'actions/share-story-actions';
+import { showDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
 
 import { debounce, getHash } from 'helpers';
 
 export default function App() {
-    const { user, project, shareStory } = useSelector(state => state);
+    const { user, project, shareStory, donateForm } = useSelector(state => state);
     const dispatch = useDispatch();
 
     const [activeView, setActiveView] = useState(VIEW.SPINNER);
@@ -129,6 +134,10 @@ export default function App() {
             if (type === 'VKWebAppOpenQRResult') {
                 activateProjectKey(data.qr_data);
             }
+
+            if (type === 'VKWebAppOpenPayFormResult' || type === 'VKWebAppOpenPayFormFailed') {
+                console.log(type, data);
+            }
         });
     }, [activateProjectKey]);
 
@@ -153,7 +162,7 @@ export default function App() {
         </ModalRoot>
     );
     
-    return (
+    return <>
         <Root activeView={activeView}>
             <View id={VIEW.MAIN} activePanel="home" header={false}>
                 <Home
@@ -163,7 +172,9 @@ export default function App() {
                     disabledOpenScan={user.loading}
                     qrCodeRef={qrCodeRef}
                     share={share}
-                    disabledShare={shareStory.sharing} />
+                    disabledShare={shareStory.sharing}
+                    openDonateForm={() => dispatch(showDonateForm())}
+                    disabledOpenDonateForm={donateForm.loading} />
             </View>
             <View id={VIEW.FINISH} activePanel="finish">
                 <Finish id="finish" user={user.data} project={project.data} />
@@ -172,5 +183,21 @@ export default function App() {
                 <Spinner id="spinner" />
             </View>
         </Root>
-    );
+
+        <PopupContainer>
+            <Popup
+                visible={donateForm.visible}
+                dialogProps={{
+                    title: 'Пожертвование',
+                    message: 'Все деньги идут напрямую фонду через систему VK Pay'
+                }}
+                onClose={() => dispatch(hideDonateForm())}>
+                <DonateForm
+                    className="Popup__DonateForm"
+                    onSubmit={(amount) => dispatch(donate(connect, amount))}
+                    onCancel={() => dispatch(hideDonateForm())}
+                    disabledSubmit={donateForm.loading} />
+            </Popup>
+        </PopupContainer>
+    </>;
 }
