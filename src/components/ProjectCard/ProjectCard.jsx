@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, number, func } from 'prop-types';
+import { string, number, func, bool } from 'prop-types';
 import classNames from 'classnames';
 
 import { Avatar, Progress, Button } from '@vkontakte/vkui';
@@ -8,7 +8,11 @@ import { gaps } from 'helpers';
 
 import './ProjectCard.css';
 
-const ProjectCard = ({ className, poster_url, banner_url, name, description, raised_funds, goal_funds, onClick }) => {
+const ProjectCard = ({
+    className,
+    poster_url, banner_url, name, description, raised_funds, goal_funds,
+    onDonate, disabledDonate
+}) => {
     const showProgress = goal_funds !== null && goal_funds > 0;
     let progress;
     if (showProgress) {
@@ -42,8 +46,9 @@ const ProjectCard = ({ className, poster_url, banner_url, name, description, rai
 
                 <Button
                     className="ProjectCard__Button"
-                    children="Пожертвовать от 1₽"
-                    onClick={onClick} />
+                    children="Пожертвовать от 1 ₽"
+                    onClick={onDonate}
+                    disabled={disabledDonate} />
             </div>
         </div>
     );
@@ -57,7 +62,8 @@ ProjectCard.propTypes = {
     description: string.isRequired,
     raised_funds: number.isRequired,
     goal_funds: number,
-    onClick: func,
+    onDonate: func,
+    disabledDonate: bool,
 };
 
 export default ProjectCard;
