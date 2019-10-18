@@ -11,3 +11,7 @@ export const FINISH_PORJECT = 'finish-project';
 export const SHARE_STORY_LOAD = 'share-story-loading';
 export const SHARE_STORY_SUCCESS = 'share-story-success';
 export const SHARE_STORY_ERROR = 'share-story-error';
+
+export const SHOW_DONATE_FORM = 'show-donate-form';
+export const HIDE_DONATE_FORM = 'hide-donate-form';
+export const FETCH_DONATE_FORM = 'fetch-donate-form';
