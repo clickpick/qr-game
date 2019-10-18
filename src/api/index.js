@@ -41,3 +41,5 @@ export const addFunds = (projectId, value) =>
 
 export const requestFunding = (data) =>
     requestPost('/request-funding', data);
+
+export const getVKPayParams = (amount) => requestPost('/vk-pay-order', { amount });
