@@ -35,4 +35,14 @@ export const stringToNumber = (str) => {
     return str ? parseFloat(str.replace(/(\s)|(₽)|(,)/g, '')) || 0 : 0;
 };
 
+export const getCutNumber = (a, b, postfix = '') => {
+    const value = (a / b).toFixed(1);
+
+    if (value.substr(value.length - 1, 1) === '0') {
+        return `${Number(value).toFixed(0)}${postfix}`;
+    }
+
+    return `${value}${postfix}`;
+};
+
 export { format as numberToString, format as gaps };
