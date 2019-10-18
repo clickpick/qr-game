@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { string, func } from 'prop-types';
+import { string, func, bool } from 'prop-types';
 import classNames from 'classnames';
 
 import './DonateForm.css';
@@ -12,7 +12,7 @@ import { getCutNumber } from 'helpers';
 
 const amounts = [50, 100, 200, 500];
 
-const DonateForm = ({ className, onSubmit, onCancel }) => {
+const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
     const [checkedValue, setCheckedValue] = useState('');
     const [amount, setAmount] = useState('');
     const [error, setError] = useState(null);
@@ -119,7 +119,8 @@ const DonateForm = ({ className, onSubmit, onCancel }) => {
                     size="medium"
                     theme="primary"
                     full
-                    children={`Пожертвовать${getCurrentAmount()}`} />
+                    children={`Пожертвовать${getCurrentAmount()}`}
+                    disabled={disabledSubmit} />
             </div>
         </FormLayout>
     );
@@ -128,7 +129,8 @@ const DonateForm = ({ className, onSubmit, onCancel }) => {
 DonateForm.propTypes = {
     className: string,
     onSubmit: func.isRequired,
-    onCancel: func.isRequired
+    onCancel: func.isRequired,
+    disabledSubmit: bool
 };
 
 export default DonateForm;
