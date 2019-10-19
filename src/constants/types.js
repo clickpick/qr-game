@@ -1,4 +1,5 @@
 export const FETCH_USER_LOAD = 'fetch-user-loading';
+export const FETCH_USER_LOAD_END = 'fetch-user-loading-end';
 export const FETCH_USER_SUCCESS = 'fetch-user-success';
 export const FETCH_USER_ERROR = 'fetch-user-error';
 export const ADD_NEW_KEY = 'add-new-key';
@@ -15,3 +16,6 @@ export const SHARE_STORY_ERROR = 'share-story-error';
 export const SHOW_DONATE_FORM = 'show-donate-form';
 export const HIDE_DONATE_FORM = 'hide-donate-form';
 export const FETCH_DONATE_FORM = 'fetch-donate-form';
+
+export const NOTIFICATION_ADD = 'notification-add';
+export const NOTIFICATION_CLOSE = 'notification-close';

@@ -20,9 +20,12 @@ export const DONATE_FORM_INITIAL_STATE = {
     visible: false
 };
 
+export const NOTIFICATION_INITIAL_STATE = null;
+
 export const INITIAL_STATE = {
     user: USER_INITIAL_STATE,
     project: PROJECT_INITIAL_STATE,
     shareStory: SHARE_STORY_INITIAL_STATE,
-    donateForm: DONATE_FORM_INITIAL_STATE
+    donateForm: DONATE_FORM_INITIAL_STATE,
+    notification: NOTIFICATION_INITIAL_STATE
 };
