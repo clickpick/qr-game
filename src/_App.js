@@ -46,6 +46,17 @@ export default function App() {
         dispatch(fetchProject);
     }, [dispatch]);
 
+    const showRules = useCallback(() => {
+        dispatch(showNotification(NOTIFICATION.RULES, {
+            actions: [{
+                theme: 'info',
+                title: 'Понятно',
+                full: true,
+                action: () => dispatch(closeNotification())
+            }]
+        }, 0));
+    }, [dispatch]);
+
     useEffect(() => {
         function checkFetchSuccess(entities) {
             return Boolean(!entities.loading && entities.error === false && entities.data);
@@ -95,7 +106,7 @@ export default function App() {
             });
             setActiveModal(MODAL.ERROR_LOAD);
         }
-
+        
         /**
          * Если всё получино, то устанавливаем нужную view
          */
@@ -103,10 +114,25 @@ export default function App() {
             if (project.data.is_finished) {
                 setTimeout(() => setActiveView(VIEW.FINISH), 200);   
             } else if (activeView === VIEW.SPINNER) {
-                setTimeout(() => setActiveView(VIEW.MAIN), 200);
+                setTimeout(() => {
+                    setActiveView(VIEW.MAIN);
+
+                    if (user.data.status === 200) {
+                        setTimeout(() => {
+                            dispatch(showNotification(NOTIFICATION.GAME_INFO, {
+                                actions: [{
+                                    theme: 'info',
+                                    title: 'Начать игру',
+                                    full: true,
+                                    action: showRules
+                                }]
+                            }, 0));
+                        }, 600);
+                    }
+                }, 200);
             }
         }
-    }, [user, project, activeView, activeModal, dispatch]);
+    }, [user, project, activeView, activeModal, showRules, dispatch]);
 
     /**
      * Пробрасываем в debounce,
@@ -174,18 +200,7 @@ export default function App() {
             <ErrorCard id={MODAL.ERROR_LOAD} {...errorLoad} close={closeModal} />
         </ModalRoot>
     );
-
-    function showRules() {
-        dispatch(showNotification(NOTIFICATION.RULES, {
-            actions: [{
-                theme: 'info',
-                title: 'Понятно',
-                full: true,
-                action: () => { dispatch(closeNotification()); }
-            }]
-        }, 0));
-    }
-    
+  
     return <>
         <Root activeView={activeView}>
             <View id={VIEW.MAIN} activePanel="home" header={false}>
@@ -223,7 +238,7 @@ export default function App() {
             </Popup>
 
             {(notification) &&
-                <Popup {...notification} onClose={() => { dispatch(closeNotification()) }} />}
+                <Popup {...notification} onClose={() => dispatch(closeNotification())} />}
         </PopupContainer>
     </>;
 }

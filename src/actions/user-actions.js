@@ -30,7 +30,10 @@ async function fetchUser(dispatch) {
 
     try {
         const response = await auth();
-        dispatch(fetchUserSuccess(response.data));
+        dispatch(fetchUserSuccess({
+            ...response.data,
+            status: response.status
+        }));
     } catch (e) {
         dispatch(fetchUserError('Мы не смогли тебя авторизовать :('));
     }
