@@ -26,6 +26,7 @@ export const DONATE_FORM_ERROR = 'donate-form-error';
 export const FETCH_REQUEST_FUNDING_LOAD = 'fetch-request-funding-load';
 export const FETCH_REQUEST_FUNDING_SUCCESS = 'fetch-request-funding-success';
 export const FETCH_REQUEST_FUNDING_ERROR = 'fetch-request-funding-error';
+export const FETCH_REQUEST_FUNDING_DELAY = 2000;
 
 export const OFFLINE = 'offline';
 

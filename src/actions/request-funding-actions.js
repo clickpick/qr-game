@@ -1,6 +1,9 @@
 import { requestFunding } from 'api';
 import * as types from 'constants/types';
-import { FETCH_REQUEST_FUNDING_LOAD, FETCH_REQUEST_FUNDING_SUCCESS, FETCH_REQUEST_FUNDING_ERROR } from 'constants/notifications';
+import {
+    FETCH_REQUEST_FUNDING_LOAD, FETCH_REQUEST_FUNDING_SUCCESS,
+    FETCH_REQUEST_FUNDING_ERROR, FETCH_REQUEST_FUNDING_DELAY
+} from 'constants/notifications';
 
 const fetchRequestFundingLoad = () => ({
     type: types.FETCH_REQUEST_FUNING_LOAD,
@@ -23,12 +26,12 @@ const fetchRequestFunding = (data, notification) => async (dispatch) => {
         setTimeout(() => {
             dispatch(fetchRequestFundingSuccess());
             dispatch(notification(FETCH_REQUEST_FUNDING_SUCCESS));
-        }, 2000);
+        }, FETCH_REQUEST_FUNDING_DELAY);
     } catch (e) {
         setTimeout(() => {
             dispatch(fetchRequestFundingError());
             dispatch(notification(FETCH_REQUEST_FUNDING_ERROR));
-        }, 2000);
+        }, FETCH_REQUEST_FUNDING_DELAY);
     }
 };
 
