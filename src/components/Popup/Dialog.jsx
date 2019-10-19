@@ -11,6 +11,15 @@ import success from 'images/success.png';
 import info from 'images/info.png';
 import error from 'images/error.png';
 import rules from 'images/rules.png';
+import leopard from 'images/leopard.png';
+
+const images = {
+    success,
+    info,
+    error,
+    rules,
+    leopard
+};
 
 const Dialog = ({ className, animationType, type, imageType, title, message, children, actions }) => {
     function handleClick(e) {
@@ -21,14 +30,8 @@ const Dialog = ({ className, animationType, type, imageType, title, message, chi
         switch (imageType) {
             case 'loading':
                 return <div className="Dialog__status"><Loader className="Dialog__loader" /></div>
-            case 'success':
-                return <div className="Dialog__status"><img className="Dialog__image" src={success} alt="" /></div>;
-            case 'info':
-                return <div className="Dialog__status"><img className="Dialog__image" src={info} alt="" /></div>;
-            case 'error':
-                return <div className="Dialog__status"><img className="Dialog__image" src={error} alt="" /></div>;
-            case 'rules':
-                return <div className="Dialog__status"><img className="Dialog__image" src={rules} alt="" /></div>;
+            case 'success': case 'info': case 'error': case 'rules': case 'leopard':
+                return <div className="Dialog__status"><img className="Dialog__image" src={images[imageType]} alt="" /></div>;
             default:
                 return null;
         }
@@ -69,7 +72,7 @@ Dialog.propTypes = {
     className: string,
     animationType: oneOf(['enter', 'leave']).isRequired,
     type: oneOf(['info', 'success', 'danger']),
-    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info']),
+    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard']),
     title: string.isRequired,
     message: string,
     actions: arrayOf(shape({
