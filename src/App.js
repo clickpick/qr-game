@@ -60,6 +60,32 @@ export default function App() {
         }, 0));
     }, [dispatch]);
 
+    /**
+     * Пробрасываем в debounce,
+     * потому что бывают моменты,
+     * когда connect срабатывает дважды
+     */
+    const activateProjectKey = useCallback(debounce((link) => {
+        let token = '';
+        const params = getHash(link).split('&');
+
+        for (let i = 0; i < params.length; i++) {
+            const [key, value] = params[i].split('=');
+
+            if (key === 'token') {
+                token = value;
+                break;
+            }
+        }
+
+        if (!token) {
+            dispatch(showNotification(NOTIFICATION.TOKEN_NOT_FOUND));
+            return;
+        }
+
+        dispatch(fetchActivateKey(token, showNotification, finishProject));
+    }, 200), [dispatch]);
+
     useEffect(() => {
         function checkFetchSuccess(entities) {
             return Boolean(!entities.loading && entities.error === false && entities.data);
@@ -122,36 +148,14 @@ export default function App() {
                             }, 0));
                         }, 600);
                     }
+
+                    if (window.location.href.indexOf('token=') !== -1) {
+                        activateProjectKey(window.location.href);
+                    }
                 }, 200);
             }
         }
-    }, [user, project, activeView, showRules, dispatch]);
-
-    /**
-     * Пробрасываем в debounce,
-     * потому что бывают моменты,
-     * когда connect срабатывает дважды
-     */
-    const activateProjectKey = useCallback(debounce((link) => {
-        let token = '';
-        const params = getHash(link).split('&');
-
-        for (let i = 0; i < params.length; i++) {
-            const [key, value] = params[i].split('=');
-
-            if (key === 'token') {
-                token = value;
-                break;
-            }
-        }
-
-        if (!token) {
-            dispatch(showNotification(NOTIFICATION.TOKEN_NOT_FOUND));
-            return;
-        }
-        
-        dispatch(fetchActivateKey(token, showNotification, finishProject));
-    }, 200), [dispatch]);
+    }, [user, project, activeView, showRules, dispatch, activateProjectKey]);
 
     useEffect(() => {
         window.addEventListener('online', () => {
