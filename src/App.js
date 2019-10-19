@@ -45,9 +45,14 @@ export default function App() {
     const [activeModal, setActiveModal] = useState(null);
 
     useEffect(() => {
-        dispatch(fetchUser);
-        dispatch(fetchProject);
-    }, [dispatch]);
+        if (!user.loading && !user.data) {
+            dispatch(fetchUser);            
+        }
+
+        if (!user.loading && user.data && !project.data && !project.loading) {
+            dispatch(fetchProject);
+        }
+    }, [user, project, dispatch]);
 
     const showRules = useCallback(() => {
         dispatch(showNotification(NOTIFICATION.RULES, {
