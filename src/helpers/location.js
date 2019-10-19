@@ -12,6 +12,7 @@ export const parseQueryString = (string) =>
         }, {});
 
 export const getHash = (link) => {
+    // eslint-disable-next-line no-unused-vars
     const [_, hash] = link.split('#');    
 
     if (hash) {
