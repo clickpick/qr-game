@@ -162,7 +162,7 @@ export default function App() {
 
     function share() {
         const svg = qrCodeRef.current.firstElementChild;
-        dispatch(fetchShareStory(connect, svg));
+        dispatch(fetchShareStory(connect, svg, showNotification));
     }
 
     function closeModal() {
