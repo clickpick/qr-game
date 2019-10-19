@@ -148,16 +148,16 @@ export default function App() {
                 activateProjectKey(data.qr_data);
             }
 
+            if (type === 'VKWebAppOpenPayFormFailed') {
+                dispatch(hideDonateForm());
+            }
+
             if (type === 'VKWebAppOpenPayFormResult') {
                 if (data.status) {
                     dispatch(showNotification(NOTIFICATION.DONATE_FORM_SUCCESS));
                 } else {
                     dispatch(showNotification(NOTIFICATION.DONATE_FORM_ERROR));
                 }
-            }
-
-            if (type === 'VKWebAppOpenPayFormFailed') {
-                dispatch(hideDonateForm());
             }
         });
     }, [activateProjectKey, dispatch]);
