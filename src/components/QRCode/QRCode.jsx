@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { string, oneOfType, node } from 'prop-types';
 import classNames from 'classnames';
 
@@ -8,16 +8,28 @@ import { toDataURL } from 'helpers';
 import './QRCode.css';
 
 const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, loader }, ref) => {
-    const [qrSvg, setQrSvg] = React.useState('');
+    const [qrSvg, setQrSvg] = useState('');
 
-    toDataURL(userPic, (logoData) => setQrSvg(
-        vkQr.createQR(`https://vk.com/app7150862#token=${token}`, {
-            qrSize: 262,
-            isShowLogo: true,
-            logoData,
-            foregroundColor,
-        })
-    ));
+    useEffect(() => {        
+        if (userPic) {
+            toDataURL(userPic, (logoData) => setQrSvg(
+                vkQr.createQR(`https://vk.com/app7150862#token=${token}`, {
+                    qrSize: 262,
+                    isShowLogo: true,
+                    logoData,
+                    foregroundColor,
+                })
+            ));
+        } else {
+            setQrSvg(
+                vkQr.createQR(`https://vk.com/app7150862#token=${token}`, {
+                    qrSize: 262,
+                    isShowLogo: false,
+                    foregroundColor,
+                })
+            );
+        }
+    }, [userPic, token, foregroundColor]);
 
     className = classNames(className, 'QRCode');
 
