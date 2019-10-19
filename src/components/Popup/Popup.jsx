@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { string, bool, func, oneOf } from 'prop-types';
+import { string, bool, func, oneOf, arrayOf, shape } from 'prop-types';
 import classNames from 'classnames';
 
 import './Popup.css';
 
 import Dialog from './Dialog';
 
-const Popup = ({ className, visible, onClose, type, imageType, title, message, children }) => {
+const Popup = ({ className, visible, onClose, type, imageType, title, message, children, actions }) => {
     const [show, setShow] = useState(false);
     const [animationType, setAnimationType] = useState('leave');
 
@@ -44,7 +44,8 @@ const Popup = ({ className, visible, onClose, type, imageType, title, message, c
                 imageType={imageType}
                 title={title}
                 message={message}
-                children={children} />
+                children={children}
+                actions={actions} />
         </div>
     );
 };
@@ -56,7 +57,13 @@ Popup.propTypes = {
     imageType: oneOf(['loading', 'success', 'error', 'rules', 'info']),
     title: string.isRequired,
     message: string,
-    onClose: func
+    onClose: func,
+    actions: arrayOf(shape({
+        theme: oneOf(['primary', 'secondary', 'info']),
+        title: string,
+        action: func,
+        full: bool
+    }))
 };
 
 export default Popup;

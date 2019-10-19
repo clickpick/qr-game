@@ -84,3 +84,17 @@
     color: var(--color-dark-gray);
     text-align: center;
 }
+
+.Dialog__actions {
+    display: flex;
+    margin-top: 20px;
+}
+
+.Dialog__action {
+    margin-right: 20px !important;
+    margin-left: 0 !important;
+}
+
+.Dialog__action:last-child {
+    margin-right: 0 !important;
+}

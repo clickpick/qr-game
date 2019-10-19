@@ -1,16 +1,18 @@
 import React from 'react';
-import { string, oneOf } from 'prop-types';
+import { string, oneOf, arrayOf, shape, bool, func  } from 'prop-types';
 import classNames from 'classnames';
 
 import './Dialog.css';
 
 import Loader from 'components/Loader';
+import Button from 'components/Button';
+
 import success from 'images/success.png';
 import info from 'images/info.png';
 import error from 'images/error.png';
 import rules from 'images/rules.png';
 
-const Dialog = ({ className, animationType, type, imageType, title, message, children }) => {
+const Dialog = ({ className, animationType, type, imageType, title, message, children, actions }) => {
     function handleClick(e) {
         e.stopPropagation();
     }
@@ -32,6 +34,17 @@ const Dialog = ({ className, animationType, type, imageType, title, message, chi
         }
     }
 
+    function renderAction(action, index) {
+        return <Button
+            key={index}
+            className="Dialog__action"
+            theme={action.theme}
+            size="medium"
+            children={action.title}
+            full={action.full}
+            onClick={action.action} />;
+    }
+
     return (
         <div
             className={classNames(
@@ -45,6 +58,9 @@ const Dialog = ({ className, animationType, type, imageType, title, message, chi
             <h3 className="Dialog__title" children={title} />
             {message && <p className="Dialog__message" children={message} />}
             {children}
+
+            {(Array.isArray(actions) && actions.length > 0) &&
+                <div className="Dialog__actions" children={actions.map(renderAction)} />}
         </div>
     );
 };
@@ -55,7 +71,13 @@ Dialog.propTypes = {
     type: oneOf(['info', 'success', 'danger']),
     imageType: oneOf(['loading', 'success', 'error', 'rules', 'info']),
     title: string.isRequired,
-    message: string
+    message: string,
+    actions: arrayOf(shape({
+        theme: oneOf(['primary', 'secondary', 'info']),
+        title: string,
+        action: func,
+        full: bool
+    }))
 };
 
 Dialog.defaultProps = {
