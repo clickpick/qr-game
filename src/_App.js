@@ -2,11 +2,11 @@ import React, { useState, useEffect, useCallback, createRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import connect from '@vkontakte/vk-connect';
-import { Root, View, ModalRoot } from '@vkontakte/vkui';
+import { Root, View } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import * as VIEW from 'constants/views';
-import * as MODAL from 'constants/modals';
+// import * as MODAL from 'constants/modals';
 import * as NOTIFICATION from 'constants/notifications';
 
 import './App.css';
@@ -14,8 +14,6 @@ import './App.css';
 import Home from 'panels/Home';
 import Finish from 'panels/Finish';
 import Spinner from 'panels/Spinner';
-
-import ErrorCard from 'modals/ErrorCard';
 
 import PopupContainer from 'components/PopupContainer';
 import Popup from 'components/Popup';
@@ -37,9 +35,6 @@ export default function App() {
     const dispatch = useDispatch();
 
     const [activeView, setActiveView] = useState(VIEW.SPINNER);
-    const [activeModal, setActiveModal] = useState(null);
-
-    const [errorLoad, setErrorLoad] = useState({});
 
     useEffect(() => {
         dispatch(fetchUser);
@@ -69,42 +64,32 @@ export default function App() {
         /**
          * Проверяем результаты запросов на ошибки
          */
-        let currentModal = activeModal;
+        let errorSet = false;
         const fetchUserError = getFetchError(user);
         const fetchProjectError = getFetchError(project);
 
-        if (fetchUserError && currentModal === null) {
-            setErrorLoad({
-                title: 'Ой...',
-                caption: fetchUserError,
-                action: {
+        if (fetchUserError && !errorSet) {
+            dispatch(showNotification(NOTIFICATION.FETCH_USER_ERROR, {
+                actions: [{
+                    theme: 'primary',
                     title: 'Попробовать ещё раз',
-                    action: () => {
-                        setErrorLoad({});
-                        setActiveModal(null);
-                        dispatch(fetchUser);
-                    }
-                }
-            });
-            setActiveModal(MODAL.ERROR_LOAD);
+                    full: true,
+                    action: () => dispatch(fetchUser)
+                }]
+            }, 0));
 
-            currentModal = MODAL.ERROR_LOAD;
+            errorSet = true;
         }
 
-        if (fetchProjectError && currentModal === null) {
-            setErrorLoad({
-                title: 'Ой...',
-                caption: fetchProjectError,
-                action: {
+        if (fetchProjectError && !errorSet) {            
+            dispatch(showNotification(NOTIFICATION.FETCH_USER_ERROR, {
+                actions: [{
+                    theme: 'primary',
                     title: 'Попробовать ещё раз',
-                    action: () => {
-                        setErrorLoad({});
-                        setActiveModal(null);
-                        dispatch(fetchProject);
-                    }
-                }
-            });
-            setActiveModal(MODAL.ERROR_LOAD);
+                    full: true,
+                    action: () => dispatch(fetchProject)
+                }]
+            }, 0));
         }
         
         /**
@@ -132,7 +117,7 @@ export default function App() {
                 }, 200);
             }
         }
-    }, [user, project, activeView, activeModal, showRules, dispatch]);
+    }, [user, project, activeView, showRules, dispatch]);
 
     /**
      * Пробрасываем в debounce,
@@ -190,16 +175,6 @@ export default function App() {
         const svg = qrCodeRef.current.firstElementChild;
         dispatch(fetchShareStory(connect, svg, showNotification));
     }
-
-    function closeModal() {
-        setActiveModal(null);
-    }
-
-    const spinnerModal = (
-        <ModalRoot activeModal={activeModal}>
-            <ErrorCard id={MODAL.ERROR_LOAD} {...errorLoad} close={closeModal} />
-        </ModalRoot>
-    );
   
     return <>
         <Root activeView={activeView}>
@@ -220,7 +195,7 @@ export default function App() {
             <View id={VIEW.FINISH} activePanel="finish">
                 <Finish id="finish" user={user.data} project={project.data} />
             </View>
-            <View id={VIEW.SPINNER} activePanel="spinner" modal={spinnerModal}>
+            <View id={VIEW.SPINNER} activePanel="spinner">
                 <Spinner id="spinner" />
             </View>
         </Root>

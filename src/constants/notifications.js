@@ -13,6 +13,9 @@ export const RULES = 'rules';
 
 export const GAME_INFO = 'game-info';
 
+export const FETCH_USER_ERROR = 'fetch-user-error';
+export const FETCH_PROJECT_ERROR = 'fetch-project-error';
+
 export const DONATE_FORM = {
     title: 'Пожертвование',
     message: 'Все деньги идут напрямую фонду через систему VK Pay'
@@ -73,5 +76,18 @@ export default {
         imageType: 'leopard',
         title: 'Защитим снежного барса',
         message: `Снежный барс – один из самых скрытных крупных хищников. В России их осталось всего 90. Ты можешь помочь сохранить редких кошек, сыграв в “QR Game”. Также ты можешь поддержать пожертвованием Всемирный фонд дикой природы.`,
+    },
+
+    [FETCH_USER_ERROR]: {
+        type: 'info',
+        imageType: 'info',
+        title: 'Ой...',
+        message: 'Мы не смогли тебя авторизовать :(',
+    },
+    [FETCH_PROJECT_ERROR]: {
+        type: 'info',
+        imageType: 'info',
+        title: 'Ой...',
+        message: 'Мы не смогли загрузить проект :(',
     }
 };
