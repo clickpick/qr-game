@@ -143,6 +143,18 @@ export default function App() {
     }, 200), [dispatch]);
 
     useEffect(() => {
+        window.addEventListener('online', () => {
+            if (navigator.onLine) {
+                dispatch(closeNotification());
+            }
+        });
+
+        window.addEventListener('offline', () => {
+            if (!navigator.onLine) {
+                dispatch(showNotification(NOTIFICATION.OFFLINE, {}, 0));
+            }
+        });
+
         connect.subscribe(({ detail: { type, data } }) => {
             if (type === 'VKWebAppOpenQRResult') {
                 activateProjectKey(data.qr_data);
