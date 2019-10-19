@@ -7,6 +7,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 
 import * as VIEW from 'constants/views';
 import * as MODAL from 'constants/modals';
+import * as NOTIFICATION from 'constants/notifications';
 
 import './App.css';
 
@@ -23,12 +24,16 @@ import DonateForm from 'components/DonateForm';
 import { fetchUser, fetchActivateKey } from 'actions/user-actions';
 import { fetchProject, finishProject } from 'actions/project-actions';
 import { fetchShareStory } from 'actions/share-story-actions';
-import { showDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
+import {
+    showDonateForm, hideDonateForm,
+    donate
+} from 'actions/donate-form-actions';
+import { showNotification, closeNotification } from 'actions/notification-actions';
 
 import { debounce, getHash } from 'helpers';
 
 export default function App() {
-    const { user, project, shareStory, donateForm } = useSelector(state => state);
+    const { user, project, shareStory, donateForm, notification } = useSelector(state => state);
     const dispatch = useDispatch();
 
     const [activeView, setActiveView] = useState(VIEW.SPINNER);
@@ -41,7 +46,7 @@ export default function App() {
         dispatch(fetchProject);
     }, [dispatch]);
 
-    useEffect(() => {        
+    useEffect(() => {
         function checkFetchSuccess(entities) {
             return Boolean(!entities.loading && entities.error === false && entities.data);
         }
@@ -122,11 +127,11 @@ export default function App() {
         }
 
         if (!token) {
-            // todo noty
+            dispatch(showNotification(NOTIFICATION.TOKEN_NOT_FOUND));
             return;
         }
-
-        dispatch(fetchActivateKey(token, finishProject));
+        
+        dispatch(fetchActivateKey(token, showNotification, finishProject));
     }, 200), [dispatch]);
 
     useEffect(() => {
@@ -135,11 +140,15 @@ export default function App() {
                 activateProjectKey(data.qr_data);
             }
 
-            if (type === 'VKWebAppOpenPayFormResult' || type === 'VKWebAppOpenPayFormFailed') {
-                console.log(type, data);
+            if (type === 'VKWebAppOpenPayFormResult') {
+                if (data.status) {
+                    // todo
+                } else {
+                    // todo
+                }
             }
         });
-    }, [activateProjectKey]);
+    }, [activateProjectKey, dispatch]);
 
     useEffect(() => {
         connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark' });
@@ -192,10 +201,7 @@ export default function App() {
         <PopupContainer>
             <Popup
                 visible={donateForm.visible}
-                dialogProps={{
-                    title: 'Пожертвование',
-                    message: 'Все деньги идут напрямую фонду через систему VK Pay'
-                }}
+                {...NOTIFICATION.DONATE_FORM}
                 onClose={() => dispatch(hideDonateForm())}>
                 <DonateForm
                     className="Popup__DonateForm"
@@ -203,6 +209,9 @@ export default function App() {
                     onCancel={() => dispatch(hideDonateForm())}
                     disabledSubmit={donateForm.loading} />
             </Popup>
+
+            {(notification) &&
+                <Popup {...notification} onClose={() => { dispatch(closeNotification()) }} />}
         </PopupContainer>
     </>;
 }

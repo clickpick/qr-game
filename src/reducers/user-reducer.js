@@ -9,6 +9,11 @@ export default function userReducer(state = USER_INITIAL_STATE, action) {
                 loading: true,
                 error: false
             };
+        case types.FETCH_USER_LOAD_END:
+            return {
+                ...state,
+                loading: false
+            };
 
         case types.FETCH_USER_SUCCESS:
             return {
