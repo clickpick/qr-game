@@ -23,6 +23,8 @@ export const DONATE_FORM = {
 export const DONATE_FORM_SUCCESS = 'donate-form-success';
 export const DONATE_FORM_ERROR = 'donate-form-error';
 
+export const OFFLINE = 'offline';
+
 export default {
     [QR_LOAD]: {
         type: 'info',
@@ -105,4 +107,11 @@ export default {
         title: 'Ничего страшного',
         message: 'Ты сможешь сделать пожертвование в другой раз'
     },
+
+    [OFFLINE]: {
+        type: 'info',
+        imageType: 'connect',
+        title: 'Погоги-погоди',
+        message: 'А где доступ в Интернет?'
+    }
 };
