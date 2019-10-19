@@ -12,7 +12,8 @@ export default function donateFormReducer(state = DONATE_FORM_INITIAL_STATE, act
         case types.HIDE_DONATE_FORM:
             return {
                 ...state,
-                visible: false
+                visible: false,
+                loading: false
             };
 
         case types.FETCH_DONATE_FORM:

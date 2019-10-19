@@ -20,6 +20,8 @@ export const DONATE_FORM = {
     title: 'Пожертвование',
     message: 'Все деньги идут напрямую фонду через систему VK Pay'
 };
+export const DONATE_FORM_SUCCESS = 'donate-form-success';
+export const DONATE_FORM_ERROR = 'donate-form-error';
 
 export default {
     [QR_LOAD]: {
@@ -89,5 +91,18 @@ export default {
         imageType: 'info',
         title: 'Ой...',
         message: 'Мы не смогли загрузить проект :(',
-    }
+    },
+
+    [DONATE_FORM_SUCCESS]: {
+        type: 'success',
+        imageType: 'info',
+        title: 'Спасибо!',
+        message: 'Твои средства были направлены во Всемирный фонд дикой природы. Продолжай играть!'
+    },
+    [DONATE_FORM_ERROR]: {
+        type: 'info',
+        imageType: 'info',
+        title: 'Ничего страшного',
+        message: 'Ты сможешь сделать пожертвование в другой раз'
+    },
 };

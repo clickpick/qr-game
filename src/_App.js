@@ -22,10 +22,7 @@ import DonateForm from 'components/DonateForm';
 import { fetchUser, fetchActivateKey } from 'actions/user-actions';
 import { fetchProject, finishProject } from 'actions/project-actions';
 import { fetchShareStory } from 'actions/share-story-actions';
-import {
-    showDonateForm, hideDonateForm,
-    donate
-} from 'actions/donate-form-actions';
+import { showDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
 import { showNotification, closeNotification } from 'actions/notification-actions';
 
 import { debounce, getHash } from 'helpers';
@@ -102,7 +99,7 @@ export default function App() {
                 setTimeout(() => {
                     setActiveView(VIEW.MAIN);
 
-                    if (user.data.status === 200) {
+                    if (user.data.status === 201) {
                         setTimeout(() => {
                             dispatch(showNotification(NOTIFICATION.GAME_INFO, {
                                 actions: [{
@@ -153,10 +150,14 @@ export default function App() {
 
             if (type === 'VKWebAppOpenPayFormResult') {
                 if (data.status) {
-                    // todo
+                    dispatch(showNotification(NOTIFICATION.DONATE_FORM_SUCCESS));
                 } else {
-                    // todo
+                    dispatch(showNotification(NOTIFICATION.DONATE_FORM_ERROR));
                 }
+            }
+
+            if (type === 'VKWebAppOpenPayFormFailed') {
+                dispatch(hideDonateForm());
             }
         });
     }, [activateProjectKey, dispatch]);
