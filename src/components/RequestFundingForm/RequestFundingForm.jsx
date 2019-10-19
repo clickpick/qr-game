@@ -1,4 +1,5 @@
 import React from 'react';
+import { bool, func } from 'prop-types';
 
 import { FormLayout, Input, Textarea } from '@vkontakte/vkui';
 import Button from 'components/Button';
@@ -6,6 +7,11 @@ import Button from 'components/Button';
 import './RequestFundingForm.css';
 
 export default class RequestFundingForm extends React.Component {
+    static propTypes = {
+        onSubmit: func,
+        disabledSubmit: bool
+    };
+
     state = {
         name: '',
         description: '',
@@ -66,7 +72,8 @@ export default class RequestFundingForm extends React.Component {
                     theme="primary"
                     full
                     children="Подать заявку"
-                    onClick={this.onSubmit} />
+                    onClick={this.onSubmit}
+                    disabled={this.props.disabledSubmit} />
             </FormLayout>
         );
     }
