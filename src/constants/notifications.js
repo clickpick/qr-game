@@ -1,3 +1,5 @@
+export const NOTIFICATION_DELAY = 5000;
+
 export const QR_LOAD = 'qr-load';
 export const QR_SUCCESS = 'qr-success';
 export const QR_ERROR = 'qr-error';

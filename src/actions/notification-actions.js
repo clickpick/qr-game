@@ -1,5 +1,5 @@
 import * as types from 'constants/types';
-import NOTIFICATIONS from 'constants/notifications';
+import NOTIFICATIONS, { NOTIFICATION_DELAY } from 'constants/notifications';
 
 const addNotification = (entities) => ({
     type: types.NOTIFICATION_ADD,
@@ -10,7 +10,7 @@ const closeNotification = () => ({
     type: types.NOTIFICATION_CLOSE
 });
 
-const showNotification = (notificationId, props = {}, timeout = 5000) => (dispatch, getState) => {
+const showNotification = (notificationId, props = {}, timeout = NOTIFICATION_DELAY) => (dispatch, getState) => {
     const { notification } = getState();
     const hasActiveNotifications = notification && notification.visible;
     let delay = 0;

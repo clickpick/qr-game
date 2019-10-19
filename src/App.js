@@ -177,7 +177,7 @@ export default function App() {
 
             if (type === 'VKWebAppOpenPayFormResult') {
                 if (data.status) {
-                    dispatch(showNotification(NOTIFICATION.DONATE_FORM_SUCCESS));
+                    dispatch(showNotification(NOTIFICATION.DONATE_FORM_SUCCESS, {}, 8000));
                 } else {
                     dispatch(showNotification(NOTIFICATION.DONATE_FORM_ERROR));
                 }
