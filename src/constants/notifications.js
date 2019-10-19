@@ -23,6 +23,10 @@ export const DONATE_FORM = {
 export const DONATE_FORM_SUCCESS = 'donate-form-success';
 export const DONATE_FORM_ERROR = 'donate-form-error';
 
+export const FETCH_REQUEST_FUNDING_LOAD = 'fetch-request-funding-load';
+export const FETCH_REQUEST_FUNDING_SUCCESS = 'fetch-request-funding-success';
+export const FETCH_REQUEST_FUNDING_ERROR = 'fetch-request-funding-error';
+
 export const OFFLINE = 'offline';
 
 export default {
@@ -113,5 +117,23 @@ export default {
         imageType: 'connect',
         title: 'Погоги-погоди',
         message: 'А где доступ в Интернет?'
+    },
+
+    [FETCH_REQUEST_FUNDING_LOAD]: {
+        type: 'info',
+        imageType: 'loading',
+        title: 'Отправляем твою заявку'
+    },
+    [FETCH_REQUEST_FUNDING_SUCCESS]: {
+        type: 'success',
+        imageType: 'success',
+        title: 'Твоя завяка отправлена!',
+        message: 'Скоро мы свяжемся с тобой'
+    },
+    [FETCH_REQUEST_FUNDING_ERROR]: {
+        type: 'danger',
+        imageType: 'error',
+        title: 'Что-то пошло не так...',
+        message: 'Твоя заявка, к сожалению, не отправлена. Мы уже работаем над этой проблемой'
     }
 };

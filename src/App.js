@@ -2,11 +2,17 @@ import React, { useState, useEffect, useCallback, createRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import connect from '@vkontakte/vk-connect';
-import { Root, View } from '@vkontakte/vkui';
+import {
+    Root, View,
+    ModalRoot, ModalPage, ModalPageHeader, HeaderButton,
+    platform, ANDROID, IOS
+} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
+import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
+
 import * as VIEW from 'constants/views';
-// import * as MODAL from 'constants/modals';
+import * as MODAL from 'constants/modals';
 import * as NOTIFICATION from 'constants/notifications';
 
 import './App.css';
@@ -18,20 +24,25 @@ import Spinner from 'panels/Spinner';
 import PopupContainer from 'components/PopupContainer';
 import Popup from 'components/Popup';
 import DonateForm from 'components/DonateForm';
+import RequestFundingForm from 'components/RequestFundingForm';
 
 import { fetchUser, fetchActivateKey } from 'actions/user-actions';
 import { fetchProject, finishProject } from 'actions/project-actions';
 import { fetchShareStory } from 'actions/share-story-actions';
 import { showDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
 import { showNotification, closeNotification } from 'actions/notification-actions';
+import { fetchRequestFunding } from 'actions/request-funding-actions';
 
 import { debounce, getHash } from 'helpers';
 
+const osname = platform();
+
 export default function App() {
-    const { user, project, shareStory, donateForm, notification } = useSelector(state => state);
+    const { user, project, shareStory, donateForm, notification, requestFunding } = useSelector(state => state);
     const dispatch = useDispatch();
 
     const [activeView, setActiveView] = useState(VIEW.SPINNER);
+    const [activeModal, setActiveModal] = useState(null);
 
     useEffect(() => {
         dispatch(fetchUser);
@@ -188,10 +199,35 @@ export default function App() {
         const svg = qrCodeRef.current.firstElementChild;
         dispatch(fetchShareStory(connect, svg, showNotification));
     }
+
+    function modalBack() {
+        setActiveModal(null)
+    }
+
+    function handleRequestFundingSubmit(data) {
+        modalBack();
+        dispatch(fetchRequestFunding(data, showNotification));
+    }
+
+    const mainModal = (
+        <ModalRoot activeModal={activeModal}>
+            <ModalPage
+                id={MODAL.REQUEST_FUNDING}
+                header={<ModalPageHeader
+                    left={(osname === ANDROID) &&
+                        <HeaderButton children={<Icon24Cancel className="App__Cancel" />} onClick={modalBack} />}
+                    right={(osname === IOS) &&
+                        <HeaderButton children="Отмена" onClick={modalBack} />}
+                    children="Подключение проекта" />}
+                onClose={modalBack}>
+                <RequestFundingForm onSubmit={handleRequestFundingSubmit} disabledSubmit={requestFunding.loading} />
+            </ModalPage>
+        </ModalRoot>
+    );
   
     return <>
         <Root activeView={activeView}>
-            <View id={VIEW.MAIN} activePanel="home" header={false}>
+            <View id={VIEW.MAIN} activePanel="home" header={false} modal={mainModal}>
                 <Home
                     id="home"
                     user={user.data}
@@ -203,7 +239,8 @@ export default function App() {
                     disabledShare={shareStory.sharing}
                     openDonateForm={() => dispatch(showDonateForm())}
                     disabledOpenDonateForm={donateForm.loading}
-                    showRules={showRules} />
+                    showRules={showRules}
+                    openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)} />
             </View>
             <View id={VIEW.FINISH} activePanel="finish">
                 <Finish id="finish" user={user.data} project={project.data} />
