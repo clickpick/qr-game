@@ -11,7 +11,7 @@ import connect from '@vkontakte/vk-connect';
 import axios from 'axios';
 import { parseQueryString, getTimezoneOffset } from 'helpers';
 
-import App from './_App';
+import App from './App';
 
 window.axios = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
