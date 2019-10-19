@@ -1,3 +1,4 @@
+import { APP_ID, USE_API_VERSION } from 'constants/vk';
 import * as constants from "constants/story";
 import { shareStory as upload } from "api";
 
@@ -34,7 +35,7 @@ const draw = (template, img) => new Promise((resolve, reject) => {
 });
 
 const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => {
-    return connect.sendPromise("VKWebAppGetAuthToken", { app_id: constants.APP_ID, scope: "stories" })
+    return connect.sendPromise("VKWebAppGetAuthToken", { app_id: APP_ID, scope: "stories" })
         .then((response) => {
             const { access_token } = response;
 
@@ -42,8 +43,8 @@ const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => 
                 access_token,
                 add_to_news: "1",
                 link_text: "open",
-                link_url: `https://vk.com/app${constants.APP_ID}`,
-                v: constants.USE_API_VERSION
+                link_url: `https://vk.com/app${APP_ID}`,
+                v: USE_API_VERSION
             };
 
             if (reply) {
