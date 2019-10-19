@@ -174,6 +174,17 @@ export default function App() {
             <ErrorCard id={MODAL.ERROR_LOAD} {...errorLoad} close={closeModal} />
         </ModalRoot>
     );
+
+    function showRules() {
+        dispatch(showNotification(NOTIFICATION.RULES, {
+            actions: [{
+                theme: 'info',
+                title: 'Понятно',
+                full: true,
+                action: () => { dispatch(closeNotification()); }
+            }]
+        }, 0));
+    }
     
     return <>
         <Root activeView={activeView}>
@@ -188,7 +199,8 @@ export default function App() {
                     share={share}
                     disabledShare={shareStory.sharing}
                     openDonateForm={() => dispatch(showDonateForm())}
-                    disabledOpenDonateForm={donateForm.loading} />
+                    disabledOpenDonateForm={donateForm.loading}
+                    showRules={showRules} />
             </View>
             <View id={VIEW.FINISH} activePanel="finish">
                 <Finish id="finish" user={user.data} project={project.data} />
