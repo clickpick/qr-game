@@ -11,4 +11,12 @@ export const parseQueryString = (string) =>
             return query;
         }, {});
 
-export const getHash = (link) => link.split('#')[1].replace('#', '');
+export const getHash = (link) => {
+    const [_, hash] = link.split('#');    
+
+    if (hash) {
+        return hash.replace('#', '');
+    }
+
+    return ''
+};
