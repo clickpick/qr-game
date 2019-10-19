@@ -16,6 +16,10 @@
     background-color: var(--white);
 }
 
+.Dialog > * {
+    user-select: none
+}
+
 @keyframes dialog-slide-down-enter {
     from {
         transform: translate3d(0, -100%, 0);
