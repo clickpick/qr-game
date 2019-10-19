@@ -5,9 +5,11 @@ export const QR_LOAD_DELAY = 7000;
 
 export const TOKEN_NOT_FOUND = 'token-not-found';
 
-export const NOTIFICATION_SHARE_STORY_LOAD = 'notification-share-story-load';
-export const NOTIFICATION_SHARE_STORY_SUCCESS = 'notification-share-story-success';
-export const NOTIFICATION_SHARE_STORY_ERROR = 'notification-share-story-error';
+export const SHARE_STORY_LOAD = 'share-story-load';
+export const SHARE_STORY_SUCCESS = 'share-story-success';
+export const SHARE_STORY_ERROR = 'share-story-error';
+
+export const RULES = 'rules';
 
 export const DONATE_FORM = {
     title: 'Пожертвование',
@@ -39,21 +41,28 @@ export default {
         message: 'В этом QR коде нет никакого символа'
     },
 
-    [NOTIFICATION_SHARE_STORY_LOAD]: {
+    [SHARE_STORY_LOAD]: {
         type: 'info',
         imageType: 'loading',
         title: 'Публикуем твою историю'
     },
-    [NOTIFICATION_SHARE_STORY_SUCCESS]: {
+    [SHARE_STORY_SUCCESS]: {
         type: 'success',
         imageType: 'success',
         title: 'Круто!',
         message: 'История опубликована'
     },
-    [NOTIFICATION_SHARE_STORY_ERROR]: {
+    [SHARE_STORY_ERROR]: {
         type: 'danger',
         imageType: 'error',
         title: 'Что-то пошло не так...',
         message: 'История не опубликована'
     },
+
+    [RULES]: {
+        type: 'info',
+        imageType: 'rules',
+        title: 'Правила',
+        message: 'У тебя и твоих друзей есть QR коды с зашифрованными символами. Твоя задача отыскать 5 уникальных символов для выигрышной комбинации!',
+    }
 };
