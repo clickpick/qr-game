@@ -1,108 +1,123 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { bool, func } from 'prop-types';
 
-import { FormLayout, Input, Textarea } from '@vkontakte/vkui';
+import { FormLayout, FormStatus, Input, Textarea } from '@vkontakte/vkui';
 import Button from 'components/Button';
 
 import './RequestFundingForm.css';
 
-export default class RequestFundingForm extends React.Component {
-    static propTypes = {
-        onSubmit: func,
-        disabledSubmit: bool
-    };
+import useForm from 'hooks/use-form';
 
-    state = {
-        name: '',
-        description: '',
-        goal_funds: '',
-        prize: '',
-        link: '',
-        contact: '',
+const INITIAL_STATE = {
+    name: '',
+    description: '',
+    goal_funds: '',
+    prize: '',
+    link: '',
+    contact: ''
+};
 
-        showError: false,
-    };
+const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [errors, setErrors] = useState(INITIAL_STATE);
+    const [handleSubmit, handleChange, isValid, values] = useForm(submitCallback, changeCallback, INITIAL_STATE);
 
-    render() {
-        const { name, description, goal_funds, prize, link, contact, showError } = this.state;
-
-        return (
-            <FormLayout>
-                <Input
-                    name="name"
-                    top="Название проекта"
-                    placeholder="Борьба за тигра"
-                    status={(showError && !name) ? 'error' : undefined}
-                    onChange={this.onChange} />
-                <Textarea
-                    name="description"
-                    top="Описание проекта"
-                    placeholder="Кому вы хотите помочь и каким образом, на что пойдут собранные средства?"
-                    status={(showError && !description) ? 'error' : undefined}
-                    onChange={this.onChange} />
-                <Input
-                    name="goal_funds"
-                    top="Сколько нужно собрать (в ₽)"
-                    placeholder="Например, 200000"
-                    status={(showError && !goal_funds) ? 'error' : undefined}
-                    onChange={this.onChange} />
-                <Input
-                    name="prize"
-                    top="Приз за победу в проекте"
-                    placeholder="Сумма, предмет или событие"
-                    status={(showError && !prize) ? 'error' : undefined}
-                    onChange={this.onChange} />
-                <Textarea
-                    name="link"
-                    top="Подробнее о фонде"
-                    placeholder="Опишите фонд или укажите ссылку на сайт"
-                    status={(showError && !link) ? 'error' : undefined}
-                    onChange={this.onChange} />
-                <Input
-                    name="contact"
-                    top="Контакты для связи"
-                    placeholder="Эл. почта, мессенджеры или соцсети"
-                    status={(showError && !contact) ? 'error' : undefined}
-                    onChange={this.onChange} />
-
-                <Button
-                    className="RequestFundingForm__Button"
-                    type="submit"
-                    size="medium"
-                    theme="primary"
-                    full
-                    children="Подать заявку"
-                    onClick={this.onSubmit}
-                    disabled={this.props.disabledSubmit} />
-            </FormLayout>
-        );
+    function changeCallback(e) {
+        setErrorMessage(null);
+        setErrors(errors => ({ ...errors, [e.target.name]: false }));
     }
 
-    onSubmit = (e) => {
-        e.preventDefault();
+    function submitCallback(values) {
+        if (!isValid()) {
+            setErrorMessage('Заполните все поля');
+            setErrors(errors => Object.keys(errors).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
+            return;
+        }
 
-        const valid = this.validateForm();
-        this.setState({ showError: !valid });
+        if (isNaN(values.goal_funds)) {
+            setErrorMessage('Значение должно быть числом');
+            setErrors(errors => ({ ...errors, goal_funds: true }));
+            return;
+        }
 
-        if (valid) {
-            const { name, description, goal_funds, prize, link, contact } = this.state;
-            
-            if (this.props.onSubmit) {
-                this.props.onSubmit({
-                    name, description, goal_funds, prize, link, contact
-                });
-            }
+        if (Number(values.goal_funds) < 1) {
+            setErrorMessage('Значение должно быть больше нуля');
+            setErrors(errors => ({ ...errors, goal_funds: true }));
+            return;
+        }
+
+        if (onSubmit) {
+            onSubmit({
+                ...values,
+                goal_funds: Number(values.goal_funds)
+            });
         }
     }
 
-    onChange = (e) => {
-        const { name, value } = e.currentTarget;
-        this.setState({ [name]: value });
-    }
+    return (
+        <FormLayout>
+            {(errorMessage) && <FormStatus title={errorMessage} state="error" />}
 
-    validateForm = () => {
-        const { name, description, goal_funds, prize, link, contact } = this.state;
+            <Input
+                type="text"
+                name="name"
+                top="Название проекта"
+                placeholder="Борьба за тигра"
+                value={values.name || ''}
+                status={(errors.name) ? 'error' : undefined}
+                onChange={handleChange} />
+            <Textarea
+                name="description"
+                top="Описание проекта"
+                value={values.description || ''}
+                placeholder="Кому вы хотите помочь и каким образом, на что пойдут собранные средства?"
+                status={(errors.description) ? 'error' : undefined}
+                onChange={handleChange} />
+            <Input
+                name="goal_funds"
+                top="Сколько нужно собрать (в ₽)"
+                placeholder="Например, 200000"
+                value={values.goal_funds || ''}
+                status={(errors.goal_funds) ? 'error' : undefined}
+                onChange={handleChange} />
+            <Input
+                name="prize"
+                top="Приз за победу в проекте"
+                placeholder="Сумма, предмет или событие"
+                value={values.prize || ''}
+                status={(errors.prize) ? 'error' : undefined}
+                onChange={handleChange} />
+            <Textarea
+                name="link"
+                top="Подробнее о фонде"
+                placeholder="Опишите фонд или укажите ссылку на сайт"
+                value={values.link || ''}
+                status={(errors.link) ? 'error' : undefined}
+                onChange={handleChange} />
+            <Input
+                name="contact"
+                top="Контакты для связи"
+                placeholder="Эл. почта, мессенджеры или соцсети"
+                value={values.contact || ''}
+                status={(errors.contact) ? 'error' : undefined}
+                onChange={handleChange} />
 
-        return Boolean(name && description && goal_funds && prize && link && contact);
-    }
-}
+            <Button
+                className="RequestFundingForm__Button"
+                type="submit"
+                size="medium"
+                theme="primary"
+                full
+                children="Подать заявку"
+                onClick={handleSubmit}
+                disabled={disabledSubmit} />
+        </FormLayout>
+    );
+};
+
+RequestFundingForm.propTypes = {
+    onSubmit: func,
+    disabledSubmit: bool
+};
+
+export default RequestFundingForm;
