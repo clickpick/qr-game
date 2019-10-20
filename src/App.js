@@ -45,8 +45,8 @@ export default function App() {
     const [activeModal, setActiveModal] = useState(null);
 
     useEffect(() => {
-        if (!user.loading && !user.data) {
-            dispatch(fetchUser);            
+        if (!user.loading && !user.data && !user.error) {
+            dispatch(fetchUser);
         }
 
         if (!user.loading && user.data && !project.data && !project.loading) {
