@@ -44,6 +44,7 @@ const fetchActivateKey = (token, notification, callbackAction) => async (dispatc
 
     if (!project.data) {
         // todo
+        console.log('no-project');
         return;
     }
 

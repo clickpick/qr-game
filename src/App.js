@@ -120,7 +120,7 @@ export default function App() {
             errorSet = true;
         }
 
-        if (fetchProjectError && !errorSet) {            
+        if (fetchProjectError && !errorSet) {
             dispatch(showNotification(NOTIFICATION.FETCH_USER_ERROR, {
                 actions: [{
                     theme: 'primary',

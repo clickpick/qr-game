@@ -34,7 +34,7 @@ const draw = (template, img) => new Promise((resolve, reject) => {
     });
 });
 
-const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => {
+const shareStory = (connect, qrcode, reply, link = APP_LINK) => new Promise((resolve, reject) => {
     return connect.sendPromise("VKWebAppGetAuthToken", { app_id: APP_ID, scope: "stories" })
         .then((response) => {
             const { access_token } = response;
@@ -43,7 +43,7 @@ const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => 
                 access_token,
                 add_to_news: "1",
                 link_text: "open",
-                link_url: APP_LINK,
+                link_url: link,
                 v: USE_API_VERSION
             };
 
