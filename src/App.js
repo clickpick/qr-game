@@ -195,7 +195,7 @@ export default function App() {
     }, [activateProjectKey, dispatch]);
 
     useEffect(() => {
-        connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark' });
+        connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark', action_bar_color: '#fff' });
     }, []);
 
     const qrCodeRef = createRef();
