@@ -40,7 +40,9 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
             return;
         }
 
-        if (Number(values.goal_funds) < 1) {
+        const goal = Number(values.goal_funds);
+
+        if (goal < 1) {
             setErrorMessage('Значение должно быть больше нуля');
             setErrors(errors => ({ ...errors, goal_funds: true }));
             return;
@@ -49,7 +51,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
         if (onSubmit) {
             onSubmit({
                 ...values,
-                goal_funds: Number(values.goal_funds)
+                goal_funds: Number(goal.toFixed(0))
             });
         }
     }
