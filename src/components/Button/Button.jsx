@@ -15,7 +15,6 @@ const Button = ({ className, theme, size, full, backlight, href, onClick, before
             'Button--full': full,
             'Button--backlight': (theme === 'primary') && backlight,
             'Button--flex': before,
-            'needsclick': true
         }),
         href,
         onClick: handleClick,

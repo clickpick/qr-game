@@ -17,7 +17,7 @@ import App from './App';
 
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function () {
-        fastclick.attach(document.body);
+        fastclick.attach(document.getElementById('popup'));
     }, false);
 }
 
