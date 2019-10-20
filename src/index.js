@@ -11,6 +11,7 @@ import connect from '@vkontakte/vk-connect';
 import fastclick from 'fastclick';
 import axios from 'axios';
 import { parseQueryString, getTimezoneOffset } from 'helpers';
+import * as Sentry from '@sentry/browser';
 
 import App from './App';
 
@@ -31,6 +32,10 @@ window.axios = axios.create({
     },
 });
 // import registerServiceWorker from './sw';
+
+if (process.env.NODE_ENV !== 'development') {
+    Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DNS });
+}
 
 // Init VK  Mini App
 connect.send('VKWebAppInit');
