@@ -33,8 +33,10 @@ const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
         setError(null);
 
         const value = e.target.value.trim();
+        const amount = Number(value);
+        const isNumber = !isNaN(value) && amount !== 0 && !(amount > 0 && amount < 1);
 
-        if (!isNaN(value)) {
+        if (isNumber || value === '') {
             setAmount(value);
         }
     }
