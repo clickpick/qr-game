@@ -8,10 +8,17 @@ import configureStore from 'store/configureStore';
 import { INITIAL_STATE } from 'constants/store';
 
 import connect from '@vkontakte/vk-connect';
+import fastclick from 'fastclick';
 import axios from 'axios';
 import { parseQueryString, getTimezoneOffset } from 'helpers';
 
 import App from './App';
+
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function () {
+        fastclick.attach(document.body);
+    }, false);
+}
 
 window.axios = axios.create({
     baseURL: process.env.REACT_APP_API_URL,

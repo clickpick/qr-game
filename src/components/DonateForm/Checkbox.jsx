@@ -5,14 +5,14 @@ import classNames from 'classnames';
 import './Checkbox.css';
 
 const Checkbox = ({ className, value, checked, onChange }) =>
-    <label className={classNames(className, 'DonateFormCheckbox')}>
+    <label className={classNames(className, 'DonateFormCheckbox', 'needsclick')}>
         <input
             className="DonateFormCheckbox__self"
             type="checkbox"
             value={value}
             checked={checked}
             onChange={onChange} />
-        <div className="DonateFormCheckbox__mark" children={`${value} ₽`} />
+        <div className="DonateFormCheckbox__mark needsclick" children={`${value} ₽`} />
     </label>;
 
 Checkbox.propTypes = {
