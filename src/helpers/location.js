@@ -1,9 +1,9 @@
 export const parseQueryString = (string) =>
     string.slice(1).split('&')
         .map((queryParam) => {
-            let kvp = queryParam.split('=');
+            const [key, value] = queryParam.split('=');
 
-            return { key: kvp[0], value: kvp[1] };
+            return { key, value };
         })
         .reduce((query, kvp) => {
             query[kvp.key] = kvp.value;
@@ -13,11 +13,11 @@ export const parseQueryString = (string) =>
 
 export const getHash = (link) => {
     // eslint-disable-next-line no-unused-vars
-    const [_, hash] = link.split('#');    
+    const [_, hash] = link.split('#');
 
     if (hash) {
         return hash.replace('#', '');
     }
 
-    return ''
+    return '';
 };
