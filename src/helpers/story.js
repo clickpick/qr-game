@@ -1,4 +1,4 @@
-import { APP_ID, USE_API_VERSION } from 'constants/vk';
+import { APP_ID, APP_LINK, USE_API_VERSION } from 'constants/vk';
 import * as constants from "constants/story";
 import { shareStory as upload } from "api";
 
@@ -43,7 +43,7 @@ const shareStory = (connect, qrcode, reply) => new Promise((resolve, reject) => 
                 access_token,
                 add_to_news: "1",
                 link_text: "open",
-                link_url: `https://vk.com/app${APP_ID}`,
+                link_url: APP_LINK,
                 v: USE_API_VERSION
             };
 

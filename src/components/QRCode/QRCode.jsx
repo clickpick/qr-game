@@ -3,6 +3,7 @@ import { string, oneOfType, node } from 'prop-types';
 import classNames from 'classnames';
 
 import vkQr from '@vkontakte/vk-qr';
+import { APP_LINK } from 'constants/vk';
 import { toDataURL } from 'helpers';
 
 import './QRCode.css';
@@ -13,7 +14,7 @@ const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, l
     useEffect(() => {        
         if (userPic) {
             toDataURL(userPic, (logoData) => setQrSvg(
-                vkQr.createQR(`https://vk.com/app7150862#token=${token}`, {
+                vkQr.createQR(`${APP_LINK}#token=${token}`, {
                     qrSize: 262,
                     isShowLogo: true,
                     logoData,
@@ -22,7 +23,7 @@ const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, l
             ));
         } else {
             setQrSvg(
-                vkQr.createQR(`https://vk.com/app7150862#token=${token}`, {
+                vkQr.createQR(`${APP_LINK}#token=${token}`, {
                     qrSize: 262,
                     isShowLogo: false,
                     foregroundColor,
