@@ -247,7 +247,6 @@ export default function App() {
                     share={share}
                     disabledShare={shareStory.sharing}
                     openDonateForm={() => dispatch(showDonateForm())}
-                    disabledOpenDonateForm={donateForm.loading}
                     showRules={showRules}
                     openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)} />
             </View>

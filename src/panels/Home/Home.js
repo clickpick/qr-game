@@ -18,9 +18,9 @@ const Home = ({
 	user, project,
 	qrCodeRef, openQR, disabledOpenQR,
 	share, disabledShare,
-	openRequestFundingModal,
 	showRules,
-	openDonateForm, disabledOpenDonateForm
+	openDonateForm,
+	openRequestFundingModal
 }) =>
 	<Panel id={id} className="Home">
 		{(user && project) && <>
@@ -68,8 +68,7 @@ const Home = ({
 					<ProjectCard
 						className="Home__ProjectCard"
 						{...project}
-						onDonate={openDonateForm}
-						disabledDonate={disabledOpenDonateForm} />
+						onDonate={openDonateForm} />
 
 					<Button
 						children="Вашему фонду нужно финансирование?"
@@ -104,6 +103,8 @@ Home.propTypes = {
 	disabledOpenQR: bool,
 	share: func,
 	disabledShare: bool,
+	showRule: func,
+	openDonateForm: func,
 	openRequestFundingModal: func
 };
 

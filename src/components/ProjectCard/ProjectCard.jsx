@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, number, func, bool } from 'prop-types';
+import { string, number, func } from 'prop-types';
 import classNames from 'classnames';
 
 import { Avatar, Progress, Button } from '@vkontakte/vkui';
@@ -11,7 +11,7 @@ import './ProjectCard.css';
 const ProjectCard = ({
     className,
     poster_url, banner_url, name, description, raised_funds, goal_funds,
-    onDonate, disabledDonate
+    onDonate
 }) => {
     const showProgress = goal_funds !== null && goal_funds > 0;
     let progress;
@@ -47,8 +47,7 @@ const ProjectCard = ({
                 <Button
                     className="ProjectCard__Button"
                     children="Пожертвовать от 1 ₽"
-                    onClick={onDonate}
-                    disabled={disabledDonate} />
+                    onClick={onDonate} />
             </div>
         </div>
     );
@@ -62,8 +61,7 @@ ProjectCard.propTypes = {
     description: string.isRequired,
     raised_funds: number.isRequired,
     goal_funds: number,
-    onDonate: func,
-    disabledDonate: bool,
+    onDonate: func
 };
 
 export default ProjectCard;
