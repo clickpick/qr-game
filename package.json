@@ -9,8 +9,12 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nikita Barinov",
   "homepage": ".",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clickpick/qr-game.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "cross-env": "^5.2.1",
