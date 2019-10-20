@@ -24,11 +24,11 @@ const fetchShareStory = (connect, svg, notification) => async (dispatch, getStat
     dispatch(shareStoryLoad());
     dispatch(notification(SHARE_STORY_LOAD, {}, 0));
 
-    let link = APP_LINK;
-    const { user } = getState();
-    if (user && user.data && user.data.active_project_token && user.data.active_project_token.token) {
-        link = link + `#token=${user.data.active_project_token.token}`;
-    }
+    let link = `${APP_LINK}#utm_medium=story`;
+    // const { user } = getState();
+    // if (user && user.data && user.data.active_project_token && user.data.active_project_token.token) {
+    //     link = link + `&token=${user.data.active_project_token.token}`;
+    // }
 
     try {
         await shareStory(connect, svgToBase64(svgPrepare(svg)), null, link);
