@@ -34,7 +34,7 @@ const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
 
         const value = e.target.value.trim();
         const amount = Number(value);
-        const isNumber = !isNaN(value) && amount !== 0 && !(amount > 0 && amount < 1);
+        const isNumber = !isNaN(value) && amount !== 0 && !(amount > 0 && amount < 1) && value !== 'Infinity';
 
         if (isNumber || value === '') {
             setAmount(value);
@@ -101,12 +101,13 @@ const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
             </div>
 
             <Input
+                className={classNames('DonateForm__Input', { 'DonateForm__Input--disabled': checkedValue !== '' })}
                 top="Или введите свою сумму (₽)"
                 placeholder="550"
                 value={amount}
                 status={(error) && 'error'}
-                onChange={handleAmountChange}
-                disabled={checkedValue !== ''} />
+                onClick={() => setCheckedValue('')}
+                onChange={handleAmountChange} />
 
             <div className="DonateForm__actions">
                 <Button
