@@ -54,7 +54,7 @@ Popup.propTypes = {
     className: string,
     visible: bool,
     type: oneOf(['info', 'success', 'danger']),
-    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect']),
+    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
     title: string.isRequired,
     message: string,
     onClose: func,

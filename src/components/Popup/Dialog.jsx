@@ -13,6 +13,7 @@ import error from 'images/error.png';
 import rules from 'images/rules.png';
 import leopard from 'images/leopard.png';
 import connect from 'images/connect.png';
+import cheat from 'images/cheat.png';
 
 const images = {
     success,
@@ -20,7 +21,8 @@ const images = {
     error,
     rules,
     leopard,
-    connect
+    connect,
+    cheat
 };
 
 const Dialog = ({ className, animationType, type, imageType, title, message, children, actions }) => {
@@ -32,7 +34,7 @@ const Dialog = ({ className, animationType, type, imageType, title, message, chi
         switch (imageType) {
             case 'loading':
                 return <div className="Dialog__status"><Loader className="Dialog__loader" /></div>
-            case 'success': case 'info': case 'error': case 'rules': case 'leopard': case 'connect':
+            case 'success': case 'info': case 'error': case 'rules': case 'leopard': case 'connect': case 'cheat':
                 return <div className="Dialog__status"><img className="Dialog__image" src={images[imageType]} alt="" /></div>;
             default:
                 return null;
@@ -74,7 +76,7 @@ Dialog.propTypes = {
     className: string,
     animationType: oneOf(['enter', 'leave']).isRequired,
     type: oneOf(['info', 'success', 'danger']),
-    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect']),
+    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
     title: string.isRequired,
     message: string,
     actions: arrayOf(shape({
