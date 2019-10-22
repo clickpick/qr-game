@@ -60,7 +60,7 @@ export default {
     },
     [QR_SERVER_ERROR]: {
         type: 'info',
-        imageType: 'danger',
+        imageType: 'error',
         title: 'Ой...',
         message: 'На нашей стороне какие-то неполадки. Мы их уже решаем'
     },
