@@ -257,7 +257,11 @@ export default function App() {
                     openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)} />
             </View>
             <View id={VIEW.FINISH} activePanel="finish">
-                <Finish id="finish" user={user.data} project={project.data} />
+                <Finish
+                    id="finish"
+                    user={user.data}
+                    project={project.data}
+                    openDonateForm={() => dispatch(showDonateForm())} />
             </View>
             <View id={VIEW.SPINNER} activePanel="spinner">
                 <Spinner id="spinner" />
