@@ -205,8 +205,10 @@ export default function App() {
     }
 
     function share() {
-        const svg = qrCodeRef.current.firstElementChild;
-        dispatch(fetchShareStory(connect, svg, showNotification));
+        if (qrCodeRef && qrCodeRef.current) {
+            const svg = qrCodeRef.current.firstElementChild;
+            dispatch(fetchShareStory(connect, svg, showNotification));
+        }
     }
 
     function modalBack() {
