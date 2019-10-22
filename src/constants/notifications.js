@@ -12,6 +12,7 @@ export const TOKEN_NOT_FOUND = 'token-not-found';
 export const SHARE_STORY_LOAD = 'share-story-load';
 export const SHARE_STORY_SUCCESS = 'share-story-success';
 export const SHARE_STORY_ERROR = 'share-story-error';
+export const SHARE_STORY_QR_ERROR = 'share-story-qr-error';
 
 export const RULES = 'rules';
 
@@ -87,6 +88,12 @@ export default {
         imageType: 'error',
         title: 'Что-то пошло не так...',
         message: 'История не опубликована'
+    },
+    [SHARE_STORY_QR_ERROR]: {
+        type: 'info',
+        imageType: 'connect',
+        title: 'Погоди-погоди...',
+        message: 'Твой QR код ещё не готов, поэтому пока мы не можем опубликовать твою историю'
     },
 
     [RULES]: {

@@ -208,7 +208,11 @@ export default function App() {
         if (qrCodeRef && qrCodeRef.current) {
             const svg = qrCodeRef.current.firstElementChild;
             dispatch(fetchShareStory(connect, svg, showNotification));
+
+            return;
         }
+
+        dispatch(showNotification(NOTIFICATION.SHARE_STORY_QR_ERROR));
     }
 
     function modalBack() {
