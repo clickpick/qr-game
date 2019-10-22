@@ -3,6 +3,8 @@ export const NOTIFICATION_DELAY = 5000;
 export const QR_LOAD = 'qr-load';
 export const QR_SUCCESS = 'qr-success';
 export const QR_ERROR = 'qr-error';
+export const QR_NOT_FOUND = 'qr-not-found';
+export const QR_SERVER_ERROR = 'qr-server-error';
 export const QR_LOAD_DELAY = 7000;
 
 export const TOKEN_NOT_FOUND = 'token-not-found';
@@ -48,6 +50,18 @@ export default {
         imageType: 'error',
         title: 'Хм...',
         message: 'Зачем ты сканируешь свой QR код?'
+    },
+    [QR_NOT_FOUND]: {
+        type: 'danger',
+        imageType: 'error',
+        title: 'Ой...',
+        message: 'А тут ничего нет'
+    },
+    [QR_SERVER_ERROR]: {
+        type: 'info',
+        imageType: 'danger',
+        title: 'Ой...',
+        message: 'На нашей стороне какие-то неполадки. Мы их уже решаем'
     },
 
     [TOKEN_NOT_FOUND]: {

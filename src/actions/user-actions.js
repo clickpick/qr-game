@@ -1,6 +1,6 @@
 import { auth, activeProjectKey } from 'api';
 import * as types from 'constants/types';
-import { QR_LOAD, QR_LOAD_DELAY, QR_SUCCESS, QR_ERROR, QR_NOT_FOUND } from 'constants/notifications';
+import { QR_LOAD, QR_LOAD_DELAY, QR_SUCCESS, QR_ERROR, QR_NOT_FOUND, QR_SERVER_ERROR } from 'constants/notifications';
 
 const fetchUserLoad = () => ({
     type: types.FETCH_USER_LOAD
@@ -66,7 +66,7 @@ const fetchActivateKey = (token, notification, callbackAction) => async (dispatc
         setTimeout(() => {
             dispatch(fetchUserLoadEnd());
 
-            if (e.response.status === 422 || e.response.status === 500) {
+            if (e.response.status === 422) {
                 let symbol = '';
                 if (e.response.data && e.response.data.data && e.response.data.data.value) {
                     symbol = e.response.data.data.value;
@@ -84,6 +84,10 @@ const fetchActivateKey = (token, notification, callbackAction) => async (dispatc
 
             if (e.response.status === 404) {
                 dispatch(notification(QR_NOT_FOUND));
+            }
+
+            if (e.response.status === 500) {
+                dispatch(notification(QR_SERVER_ERROR));
             }
         }, QR_LOAD_DELAY);
     }
