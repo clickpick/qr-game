@@ -23,3 +23,7 @@ export const NOTIFICATION_CLOSE = 'notification-close';
 export const FETCH_REQUEST_FUNING_LOAD = 'fetch-request-funding-load';
 export const FETCH_REQUEST_FUNING_SUCCESS = 'fetch-request-funding-success';
 export const FETCH_REQUEST_FUNING_ERROR = 'fetch-request-funding-error';
+
+export const SHOW_CHEAT = 'show-cheat';
+export const HIDE_CHEAT = 'hide-cheat';
+export const FETCH_CHEAT_LOAD = 'fetch-cheat-load';

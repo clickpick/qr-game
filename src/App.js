@@ -32,13 +32,14 @@ import { fetchShareStory } from 'actions/share-story-actions';
 import { showDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
 import { showNotification, closeNotification } from 'actions/notification-actions';
 import { fetchRequestFunding } from 'actions/request-funding-actions';
+import { getCheat, hideCheat } from 'actions/cheat-actions';
 
 import { debounce, getHash } from 'helpers';
 
 const osname = platform();
 
 export default function App() {
-    const { user, project, shareStory, donateForm, notification, requestFunding } = useSelector(state => state);
+    const { user, project, shareStory, donateForm, notification, requestFunding, cheat } = useSelector(state => state);
     const dispatch = useDispatch();
 
     const [activeView, setActiveView] = useState(VIEW.SPINNER);
@@ -270,6 +271,26 @@ export default function App() {
 
             {(notification) &&
                 <Popup {...notification} onClose={() => dispatch(closeNotification())} />}
+
+            <Popup
+                visible={cheat.visible}
+                {...NOTIFICATION.CHEAT}
+                actions={[
+                    {
+                        theme: 'info',
+                        title: 'Отмена',
+                        action: () => dispatch(hideCheat()),
+                        disabled: cheat.loading
+                    },
+                    {
+                        theme: 'primary',
+                        title: 'Пожертвовать 50 ₽',
+                        full: true,
+                        action: () => dispatch(getCheat(connect)),
+                        disabled: cheat.loading
+                    }
+                ]}
+                onClose={() => dispatch(hideCheat())} />
         </PopupContainer>
     </>;
 }

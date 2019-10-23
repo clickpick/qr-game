@@ -36,6 +36,15 @@ export const FETCH_REQUEST_FUNDING_DELAY = 2000;
 
 export const OFFLINE = 'offline';
 
+export const CHEAT = {
+    type: 'danger',
+    imageType: 'cheat',
+    title: 'Неудачно, но есть ЧИТ!',
+    message: 'Поддержи фонд и получи новый символ!'
+};
+export const CHEAT_SUCCESS = 'cheat-success';
+export const CHEAT_ERROR = 'cheat-error';
+
 export default {
     [QR_LOAD]: {
         type: 'info',
@@ -166,5 +175,17 @@ export default {
         imageType: 'error',
         title: 'Что-то пошло не так...',
         message: 'Твоя заявка, к сожалению, не отправлена. Мы уже работаем над этой проблемой'
-    }
+    },
+
+    [CHEAT_SUCCESS]: {
+        type: 'success',
+        imageType: 'success',
+        title: 'Умничка!',
+        message: 'Получай свой символ',
+    },
+    [CHEAT_ERROR]: {
+        type: 'info',
+        imageType: 'info',
+        title: 'Ничего страшного',
+    },
 };

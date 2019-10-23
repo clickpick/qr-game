@@ -5,6 +5,7 @@ import shareStoryReducer from 'reducers/share-story-reducer';
 import donateFormReducer from 'reducers/donate-form-reducer';
 import notificationReducer from 'reducers/notification-reducer';
 import requestFundingReducer from 'reducers/request-funding-reducer';
+import cheatReducer from 'reducers/cheat-reducer';
 
 const rootReducer = combineReducers({
     user: userReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     shareStory: shareStoryReducer,
     donateForm: donateFormReducer,
     notification: notificationReducer,
-    requestFunding: requestFundingReducer
+    requestFunding: requestFundingReducer,
+    cheat: cheatReducer,
 });
 
 export default rootReducer;
