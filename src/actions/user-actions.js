@@ -1,6 +1,14 @@
 import { auth, activeProjectKey } from 'api';
 import * as types from 'constants/types';
-import { QR_LOAD, QR_LOAD_DELAY, QR_SUCCESS, QR_ERROR, QR_NOT_FOUND, QR_SERVER_ERROR } from 'constants/notifications';
+
+import { showNotification } from 'actions/notification-actions';
+import { finishProject } from 'actions/project-actions';
+
+import {
+    QR_LOAD, QR_LOAD_DELAY,
+    QR_SUCCESS, QR_ERROR,
+    QR_NOT_FOUND, QR_SERVER_ERROR
+} from 'constants/notifications';
 
 const fetchUserLoad = () => ({
     type: types.FETCH_USER_LOAD
@@ -39,7 +47,7 @@ async function fetchUser(dispatch) {
     }
 }
 
-const fetchActivateKey = (token, notification, callbackAction) => async (dispatch, getState) => {
+const fetchActivateKey = (token) => async (dispatch, getState) => {
     const { project } = getState();
 
     if (!project.data) {
@@ -49,45 +57,51 @@ const fetchActivateKey = (token, notification, callbackAction) => async (dispatc
     }
 
     dispatch(fetchUserLoad());
-    dispatch(notification(QR_LOAD, { message: getRandomFact(project.data.project_facts) }, 0));
+    dispatch(showNotification(QR_LOAD, { message: getRandomFact(project.data.project_facts) }, 0));
 
     try {
         const response = await activeProjectKey(project.data.id, token);
 
         setTimeout(() => {
             dispatch(addNewKey(response.data));
-            dispatch(notification(QR_SUCCESS, { message: `Ты открыл новый символ “${response.data.value.toUpperCase()}”!` }));
+            dispatch(showNotification(QR_SUCCESS, { message: `Ты открыл новый символ “${response.data.value.toUpperCase()}”!` }));
 
             if (response.data.is_last) {
-                dispatch(callbackAction());
+                dispatch(finishProject());
             }
         }, QR_LOAD_DELAY);
     } catch (e) {
         setTimeout(() => {
             dispatch(fetchUserLoadEnd());
 
+            if (e.response.status === 403) {
+                dispatch(showNotification(QR_ERROR));
+            }
+
+            if (e.response.status === 404) {
+                dispatch(showNotification(QR_NOT_FOUND));
+            }
+
             if (e.response.status === 422) {
                 let symbol = '';
-                if (e.response.data && e.response.data.data && e.response.data.data.value) {
-                    symbol = e.response.data.data.value;
+                if (e.response.data && e.response.data.data) {
+                    if (e.response.data.data.value) {
+                        symbol = e.response.data.data.value;
+                    }
+
+                    if (e.response.data.data.has_cheat) {
+                        // todo
+                    }
                 }
 
-                dispatch(notification(QR_ERROR, {
+                dispatch(showNotification(QR_ERROR, {
                     title: 'Sorry',
                     message: `Символ “${symbol.toUpperCase()}” у тебя уже есть.`
                 }));
             }
 
-            if (e.response.status === 403) {
-                dispatch(notification(QR_ERROR));
-            }
-
-            if (e.response.status === 404) {
-                dispatch(notification(QR_NOT_FOUND));
-            }
-
             if (e.response.status === 500) {
-                dispatch(notification(QR_SERVER_ERROR));
+                dispatch(showNotification(QR_SERVER_ERROR));
             }
         }, QR_LOAD_DELAY);
     }

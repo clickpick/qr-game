@@ -27,7 +27,7 @@ import DonateForm from 'components/DonateForm';
 import RequestFundingForm from 'components/RequestFundingForm';
 
 import { fetchUser, fetchActivateKey } from 'actions/user-actions';
-import { fetchProject, finishProject } from 'actions/project-actions';
+import { fetchProject } from 'actions/project-actions';
 import { fetchShareStory } from 'actions/share-story-actions';
 import { showDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
 import { showNotification, closeNotification } from 'actions/notification-actions';
@@ -88,7 +88,7 @@ export default function App() {
             return;
         }
 
-        dispatch(fetchActivateKey(token, showNotification, finishProject));
+        dispatch(fetchActivateKey(token));
     }, 200), [dispatch]);
 
     useEffect(() => {
