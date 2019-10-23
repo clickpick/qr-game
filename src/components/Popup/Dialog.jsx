@@ -49,7 +49,8 @@ const Dialog = ({ className, animationType, type, imageType, title, message, chi
             size="medium"
             children={action.title}
             full={action.full}
-            onClick={action.action} />;
+            onClick={action.action}
+            disabled={action.disabled} />;
     }
 
     return (
