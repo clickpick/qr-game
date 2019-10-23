@@ -1,8 +1,9 @@
-import { getVKPayParamsWithCheat } from 'api';
+import { getVKPayParamsWithCheat, activateCheat } from 'api';
 import * as types from 'constants/types';
 import * as VK from 'constants/vk';
+import { addNewKey } from 'actions/user-actions';
 import { showNotification } from 'actions/notification-actions';
-import { CHEAT_SUCCESS, CHEAT_ERROR } from 'constants/notifications';
+import { CHEAT_PROCESSING, CHEAT_SUCCESS, CHEAT_ERROR, CHEAT_NOT_FOUND } from 'constants/notifications';
 
 const showCheat = () => ({
     type: types.SHOW_CHEAT
@@ -30,13 +31,29 @@ const getCheat = (connect) => async (dispatch) => {
             });
 
             dispatch(hideCheat());
-            
-            if (payResponse.status) {
-                dispatch(showNotification(CHEAT_SUCCESS, {}, 8000));
-            } else {
-                dispatch(showNotification(CHEAT_ERROR));
-            }
-            
+            dispatch(showNotification(CHEAT_PROCESSING, {}, 0));
+
+            const orderId = JSON.parse(payResponse.extra).order_id;
+
+            setTimeout(async () => {
+                let i = 2;
+                while (i--) {
+                    try {
+                        const keyResponse = await activateCheat(orderId);
+
+                        dispatch(addNewKey(keyResponse.data));
+                        dispatch(showNotification(CHEAT_SUCCESS, { message: `Ты открыл новый символ “${keyResponse.data.value.toUpperCase()}”!` }, 0));
+                        break;
+                    } catch (e) {
+                        if (i === 1) {
+                            continue;
+                        }
+
+                        dispatch(hideCheat());
+                        dispatch(showNotification(CHEAT_NOT_FOUND));
+                    }
+                }
+            }, 3000);
         } catch (e) {            
             dispatch(hideCheat());
             dispatch(showNotification(CHEAT_ERROR));

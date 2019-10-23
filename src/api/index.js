@@ -45,3 +45,5 @@ export const requestFunding = (data) =>
 export const getVKPayParams = (amount) => requestPost('/vk-pay-order', { amount });
 
 export const getVKPayParamsWithCheat = () => requestPost('/vk-pay-cheat-order');
+
+export const activateCheat = (order_id) => requestPost('/activate-cheat', { order_id });

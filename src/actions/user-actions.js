@@ -125,4 +125,4 @@ function getRandomIndexFact(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-export { fetchUser, fetchActivateKey };
+export { fetchUser, fetchActivateKey, addNewKey };

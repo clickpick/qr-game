@@ -42,8 +42,10 @@ export const CHEAT = {
     title: 'Неудачно, но есть ЧИТ!',
     message: 'Поддержи фонд и получи новый символ!'
 };
+export const CHEAT_PROCESSING = 'cheat-processing';
 export const CHEAT_SUCCESS = 'cheat-success';
 export const CHEAT_ERROR = 'cheat-error';
+export const CHEAT_NOT_FOUND = 'cheat-not-found';
 
 export default {
     [QR_LOAD]: {
@@ -177,15 +179,25 @@ export default {
         message: 'Твоя заявка, к сожалению, не отправлена. Мы уже работаем над этой проблемой'
     },
 
+    [CHEAT_PROCESSING]: {
+        type: 'info',
+        imageType: 'loading',
+        title: 'Отлично!',
+        message: 'Твой платёж обрабатывается. Мы сообщим, когда ты получишь новый символ'
+    },
     [CHEAT_SUCCESS]: {
         type: 'success',
-        imageType: 'success',
+        imageType: 'cheat',
         title: 'Умничка!',
-        message: 'Получай свой символ',
     },
     [CHEAT_ERROR]: {
         type: 'info',
         imageType: 'info',
         title: 'Ничего страшного',
     },
+    [CHEAT_NOT_FOUND]: {
+        type: 'danger',
+        imageType: 'error',
+        title: 'С твоим ЧИТом что-то не так...'
+    }
 };
