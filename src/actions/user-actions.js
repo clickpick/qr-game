@@ -1,8 +1,9 @@
 import { auth, activeProjectKey } from 'api';
 import * as types from 'constants/types';
 
-import { showNotification } from 'actions/notification-actions';
+import { showNotification, closeNotification } from 'actions/notification-actions';
 import { finishProject } from 'actions/project-actions';
+import { showCheat } from 'actions/cheat-actions';
 
 import {
     QR_LOAD, QR_LOAD_DELAY,
@@ -90,7 +91,10 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
                     }
 
                     if (e.response.data.data.has_cheat) {
-                        // todo
+                        dispatch(closeNotification());
+                        dispatch(showCheat());
+
+                        return;
                     }
                 }
 
