@@ -26,10 +26,7 @@ const donate = (connect, amount) => async (dispatch) => {
             const payResponse = await connect.sendPromise('VKWebAppOpenPayForm', {
                 app_id: VK.APP_ID,
                 action: 'pay-to-service',
-                params: {
-                    ...response.data,
-                    type_f: '1'
-                }
+                params: response.data
             });
 
             dispatch(hideDonateForm());
