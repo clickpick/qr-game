@@ -5,7 +5,7 @@ export const QR_SUCCESS = 'qr-success';
 export const QR_ERROR = 'qr-error';
 export const QR_NOT_FOUND = 'qr-not-found';
 export const QR_SERVER_ERROR = 'qr-server-error';
-export const QR_LOAD_DELAY = 7000;
+export const QR_LOAD_DELAY = 2000;
 
 export const TOKEN_NOT_FOUND = 'token-not-found';
 
@@ -27,6 +27,7 @@ export const DONATE_FORM = {
 };
 export const DONATE_FORM_SUCCESS = 'donate-form-success';
 export const DONATE_FORM_ERROR = 'donate-form-error';
+export const DONATE_FORM_SERVER_ERROR = 'donate-form-server-error';
 
 export const FETCH_REQUEST_FUNDING_LOAD = 'fetch-request-funding-load';
 export const FETCH_REQUEST_FUNDING_SUCCESS = 'fetch-request-funding-success';
@@ -134,6 +135,12 @@ export default {
         imageType: 'info',
         title: 'Ничего страшного',
         message: 'Ты сможешь сделать пожертвование в другой раз'
+    },
+    [DONATE_FORM_SERVER_ERROR]: {
+        type: 'danger',
+        imageType: 'info',
+        title: 'Хм...',
+        message: 'У нас какие-то неполадки. Мы уже устраняем их'
     },
 
     [OFFLINE]: {

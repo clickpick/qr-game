@@ -102,7 +102,7 @@ const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
 
             <Input
                 className={classNames('DonateForm__Input', { 'DonateForm__Input--disabled': checkedValue !== '' })}
-                top="Или введите свою сумму (₽)"
+                top="Или введи свою сумму (₽)"
                 placeholder="550"
                 value={amount}
                 status={(error) && 'error'}
