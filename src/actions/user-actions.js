@@ -7,7 +7,7 @@ import { showCheat } from 'actions/cheat-actions';
 
 import {
     QR_LOAD, QR_LOAD_DELAY,
-    QR_SUCCESS, QR_ERROR,
+    QR_SUCCESS, QR_FINISH_GAME, QR_ERROR,
     QR_NOT_FOUND, QR_SERVER_ERROR
 } from 'constants/notifications';
 
@@ -65,11 +65,19 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
 
         setTimeout(() => {
             dispatch(addNewKey(response.data));
-            dispatch(showNotification(QR_SUCCESS, { message: `Ты открыл новый символ “${response.data.value.toUpperCase()}”!` }));
 
             if (response.data.is_last) {
+                dispatch(showNotification(QR_FINISH_GAME, {
+                    message: `Ты открыл последний символ “${response.data.value.toUpperCase()}”!`
+                }, 5000));
                 dispatch(finishProject());
+
+                return;
             }
+
+            dispatch(showNotification(QR_SUCCESS, {
+                message: `Ты открыл новый символ “${response.data.value.toUpperCase()}”!`
+            }));
         }, QR_LOAD_DELAY);
     } catch (e) {
         setTimeout(() => {

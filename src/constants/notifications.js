@@ -5,7 +5,8 @@ export const QR_SUCCESS = 'qr-success';
 export const QR_ERROR = 'qr-error';
 export const QR_NOT_FOUND = 'qr-not-found';
 export const QR_SERVER_ERROR = 'qr-server-error';
-export const QR_LOAD_DELAY = 2000;
+export const QR_FINISH_GAME = 'qr-finish-game';
+export const QR_LOAD_DELAY = 7000;
 
 export const TOKEN_NOT_FOUND = 'token-not-found';
 
@@ -75,6 +76,11 @@ export default {
         imageType: 'error',
         title: 'Ой...',
         message: 'На нашей стороне какие-то неполадки. Мы их уже решаем'
+    },
+    [QR_FINISH_GAME]: {
+        type: 'success',
+        imageType: 'cheat',
+        title: 'Поздравляем, ты выиграл!'
     },
 
     [TOKEN_NOT_FOUND]: {
@@ -194,6 +200,7 @@ export default {
         type: 'info',
         imageType: 'info',
         title: 'Ничего страшного',
+        message: 'Восмпользуешься ЧИТом в следующий раз'
     },
     [CHEAT_NOT_FOUND]: {
         type: 'danger',
