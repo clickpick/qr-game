@@ -31,30 +31,34 @@ const getCheat = (connect) => async (dispatch) => {
             });
 
             dispatch(hideCheat());
-            dispatch(showNotification(CHEAT_PROCESSING, {}, 0));
 
-            const orderId = JSON.parse(payResponse.extra).order_id;
+            if (payResponse.status) {
+                dispatch(showNotification(CHEAT_PROCESSING, {}, 0));
 
-            setTimeout(async () => {
-                let i = 2;
-                while (i--) {
-                    try {
-                        const keyResponse = await activateCheat(orderId);
+                const orderId = JSON.parse(payResponse.extra).order_id;
 
-                        dispatch(addNewKey(keyResponse.data));
-                        dispatch(showNotification(CHEAT_SUCCESS, { message: `Ты открыл новый символ “${keyResponse.data.value.toUpperCase()}”!` }, 0));
-                        break;
-                    } catch (e) {
-                        if (i === 1) {
-                            continue;
+                setTimeout(async () => {
+                    let i = 2;
+                    while (i--) {
+                        try {
+                            const keyResponse = await activateCheat(orderId);
+
+                            dispatch(addNewKey(keyResponse.data));
+                            dispatch(showNotification(CHEAT_SUCCESS, { message: `Ты открыл новый символ “${keyResponse.data.value.toUpperCase()}”!` }, 0));
+                            break;
+                        } catch (e) {
+                            if (i === 1) {
+                                continue;
+                            }
+
+                            dispatch(showNotification(CHEAT_NOT_FOUND));
                         }
-
-                        dispatch(hideCheat());
-                        dispatch(showNotification(CHEAT_NOT_FOUND));
                     }
-                }
-            }, 3000);
-        } catch (e) {            
+                }, 3000);
+            } else {
+                dispatch(showNotification(CHEAT_ERROR));    
+            }
+        } catch (e) {
             dispatch(hideCheat());
             dispatch(showNotification(CHEAT_ERROR));
         }
