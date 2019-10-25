@@ -6,7 +6,7 @@ import './Popup.css';
 
 import Dialog from './Dialog';
 
-const Popup = ({ className, visible, onClose, isHeaderPadding, type, imageType, title, message, children, actions }) => {
+const Popup = ({ className, visible, disabled, onClose, isHeaderPadding, type, imageType, title, message, children, actions }) => {
     const [show, setShow] = useState(false);
     const [animationType, setAnimationType] = useState('leave');
 
@@ -29,12 +29,18 @@ const Popup = ({ className, visible, onClose, isHeaderPadding, type, imageType, 
         }
     }
 
+    function close() {
+        if (!disabled && onClose) {
+            onClose();
+        }
+    }
+
     return (
         <div
             style={style}
             className={classNames(className, 'Popup', `Popup--fade-${animationType}`)}
             tabIndex={-1}
-            onClick={onClose}
+            onClick={close}
             onAnimationEnd={animationEnd}>
             <div className="Popup__mask" />
             <Dialog
@@ -55,6 +61,7 @@ const Popup = ({ className, visible, onClose, isHeaderPadding, type, imageType, 
 Popup.propTypes = {
     className: string,
     visible: bool,
+    disabled: bool,
     isHeaderPadding: bool,
     type: oneOf(['info', 'success', 'danger']),
     imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),

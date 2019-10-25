@@ -53,6 +53,7 @@ export const CHEAT_NOT_FOUND = 'cheat-not-found';
 
 export default {
     [QR_LOAD]: {
+        disabled: true,
         type: 'info',
         imageType: 'loading',
         title: 'Обработка QR кода'
@@ -105,6 +106,7 @@ export default {
         message: 'Что-то не получилось у нас показать тебе твою историю'
     },
     [SHARE_STORY_LOAD]: {
+        disabled: true,
         type: 'info',
         imageType: 'loading',
         title: 'Публикуем твою историю'
@@ -185,6 +187,7 @@ export default {
     },
 
     [OFFLINE]: {
+        disabled: true,
         type: 'info',
         imageType: 'connect',
         title: 'Погоги-погоди',
