@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { string, bool, func, oneOf, arrayOf, shape, oneOfType, node } from 'prop-types';
+import { string, bool, func, oneOf, arrayOf, shape } from 'prop-types';
 import classNames from 'classnames';
 
 import './Popup.css';
@@ -56,7 +56,7 @@ Popup.propTypes = {
     type: oneOf(['info', 'success', 'danger']),
     imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
     title: string.isRequired,
-    message: oneOfType([string, node, arrayOf(node)]),
+    message: string,
     onClose: func,
     actions: arrayOf(shape({
         theme: oneOf(['primary', 'secondary', 'info']),

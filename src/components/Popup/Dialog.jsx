@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, oneOf, arrayOf, shape, bool, func, oneOfType, node } from 'prop-types';
+import { string, oneOf, arrayOf, shape, bool, func } from 'prop-types';
 import classNames from 'classnames';
 
 import './Dialog.css';
@@ -64,7 +64,7 @@ const Dialog = ({ className, animationType, type, imageType, title, message, chi
             onClick={handleClick}>
             {getImage()}
             <h3 className="Dialog__title" children={title} />
-            {message && <p className="Dialog__message" children={message} />}
+            {message && <p className="Dialog__message" dangerouslySetInnerHTML={{ __html: message }} />}
             {children}
 
             {(Array.isArray(actions) && actions.length > 0) &&
@@ -79,7 +79,7 @@ Dialog.propTypes = {
     type: oneOf(['info', 'success', 'danger']),
     imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
     title: string.isRequired,
-    message: oneOfType([string, node, arrayOf(node)]),
+    message: string,
     actions: arrayOf(shape({
         theme: oneOf(['primary', 'secondary', 'info']),
         title: string,

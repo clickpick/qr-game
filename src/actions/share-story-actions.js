@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { shareStory, draw, svgPrepare, svgToBase64 } from 'helpers';
 import * as types from 'constants/types';
 import { APP_LINK } from 'constants/vk';
@@ -29,7 +27,7 @@ const previewShareStory = (connect, svg) => async (dispatch) => {
 
         dispatch(showNotification(SHARE_STORY_PREVIEW, {
             imageType: undefined,
-            message: <img src={img} alt="история" style={{ marginTop: 12 }} />,
+            message: `<img src="${img}" alt="история" style="margin-top: 12px" />`,
             actions: [
                 {
                     theme: 'info',
