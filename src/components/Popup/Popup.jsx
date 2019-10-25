@@ -39,6 +39,7 @@ const Popup = ({ className, visible, onClose, type, imageType, title, message, c
             <div className="Popup__mask" />
             <Dialog
                 className="Popup__Dialog"
+                visible={show}
                 animationType={animationType}
                 type={type}
                 imageType={imageType}

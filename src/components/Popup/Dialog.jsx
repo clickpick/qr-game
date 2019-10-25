@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { string, oneOf, arrayOf, shape, bool, func } from 'prop-types';
 import classNames from 'classnames';
 
@@ -6,6 +6,8 @@ import './Dialog.css';
 
 import Loader from 'components/Loader';
 import Button from 'components/Button';
+
+import { ReactComponent as IconArrowDown } from 'svg/arrow-down.svg';
 
 import success from 'images/success.png';
 import info from 'images/info.png';
@@ -25,7 +27,28 @@ const images = {
     cheat
 };
 
-const Dialog = ({ className, animationType, type, imageType, title, message, children, actions }) => {
+const Dialog = ({ className, visible, animationType, type, imageType, title, message, children, actions }) => {
+    const rootRef = useRef();
+    const [showFooter, setShowFooter] = useState(false);
+
+    useEffect(() => {        
+        if (visible) {
+            if (rootRef && rootRef.current) {
+                rootRef.current.scrollTop = 0;
+                const { scrollHeight, offsetHeight } = rootRef.current;
+                
+                setShowFooter(scrollHeight > offsetHeight);
+            }
+        }
+    }, [visible, rootRef]);
+    
+
+    function handleScroll(e) {
+        const scrolledHeight = e.target.scrollTop + e.target.offsetHeight + 30;
+
+        setShowFooter(scrolledHeight < e.target.scrollHeight);
+    }
+    
     function handleClick(e) {
         e.stopPropagation();
     }
@@ -61,7 +84,9 @@ const Dialog = ({ className, animationType, type, imageType, title, message, chi
                 `Dialog--${type}`,
                 `Dialog--slide-down-${animationType}`
             )}
-            onClick={handleClick}>
+            onClick={handleClick}
+            onScroll={handleScroll}
+            ref={rootRef}>
             {getImage()}
             <h3 className="Dialog__title" children={title} />
             {message && <p className="Dialog__message" dangerouslySetInnerHTML={{ __html: message }} />}
@@ -69,12 +94,17 @@ const Dialog = ({ className, animationType, type, imageType, title, message, chi
 
             {(Array.isArray(actions) && actions.length > 0) &&
                 <div className="Dialog__actions" children={actions.map(renderAction)} />}
+            
+            <footer className={classNames('Dialog__footer', { 'Dialog__footer--show': showFooter })}>
+                <IconArrowDown />
+            </footer>
         </div>
     );
 };
 
 Dialog.propTypes = {
     className: string,
+    visible: bool,
     animationType: oneOf(['enter', 'leave']).isRequired,
     type: oneOf(['info', 'success', 'danger']),
     imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
