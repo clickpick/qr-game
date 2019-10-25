@@ -35,7 +35,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
         }
 
         if (isNaN(values.goal_funds)) {
-            setErrorMessage('Значение должно быть числом');
+            setErrorMessage('Значение суммы сборов должно быть числом');
             setErrors(errors => ({ ...errors, goal_funds: true }));
             return;
         }
@@ -43,7 +43,13 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
         const goal = Number(values.goal_funds);
 
         if (goal < 1) {
-            setErrorMessage('Значение должно быть больше нуля');
+            setErrorMessage('Значение суммы сборов должно быть больше 1');
+            setErrors(errors => ({ ...errors, goal_funds: true }));
+            return;
+        }
+
+        if (goal > 2147483648 * 2) {
+            setErrorMessage('Введите сумму сборов поменьше');
             setErrors(errors => ({ ...errors, goal_funds: true }));
             return;
         }
