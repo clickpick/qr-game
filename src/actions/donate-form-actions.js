@@ -16,14 +16,14 @@ const fetchDonateForm = () => ({
     type: types.FETCH_DONATE_FORM
 });
 
-const openDonateForm = (supportDonate) => (dispatch) => {
-    if (supportDonate) {
-        dispatch(showDonateForm());
+const openDonateForm = (dontSupportDonate) => (dispatch) => {
+    if (dontSupportDonate) {
+        dispatch(showNotification(DONATE_FORM_INFO, {}, 0));
 
         return;
     }
 
-    dispatch(showNotification(DONATE_FORM_INFO, {}, 0));
+    dispatch(showDonateForm());
 };
 
 const donate = (connect, amount) => async (dispatch) => {
