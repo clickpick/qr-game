@@ -6,10 +6,8 @@ import { APP_LINK } from 'constants/vk';
 import { TEMPLATE_URL } from 'constants/story';
 import { showNotification, closeNotification } from 'actions/notification-actions';
 import {
-    SHARE_STORY_PREVIEW,
-    SHARE_STORY_LOAD,
-    SHARE_STORY_SUCCESS,
-    SHARE_STORY_ERROR
+    SHARE_STORY_PREVIEW, SHARE_STORY_PREVIEW_ERROR,
+    SHARE_STORY_LOAD, SHARE_STORY_SUCCESS, SHARE_STORY_ERROR
 } from 'constants/notifications';
 
 const shareStoryLoad = () => ({
@@ -47,7 +45,7 @@ const previewShareStory = (connect, svg) => async (dispatch) => {
             ]
         }, 0));
     } catch (e) {
-        console.log(e);
+        dispatch(showNotification(SHARE_STORY_PREVIEW_ERROR));
     }
 }
 

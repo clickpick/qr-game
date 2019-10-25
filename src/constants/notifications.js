@@ -11,6 +11,7 @@ export const QR_LOAD_DELAY = 7000;
 export const TOKEN_NOT_FOUND = 'token-not-found';
 
 export const SHARE_STORY_PREVIEW = 'share-story-preview';
+export const SHARE_STORY_PREVIEW_ERROR = 'share-story-preview-error';
 export const SHARE_STORY_LOAD = 'share-story-load';
 export const SHARE_STORY_SUCCESS = 'share-story-success';
 export const SHARE_STORY_ERROR = 'share-story-error';
@@ -94,6 +95,12 @@ export default {
     [SHARE_STORY_PREVIEW]: {
         type: 'info',
         title: 'Так будет выглядить твоя история',
+    },
+    [SHARE_STORY_PREVIEW_ERROR]: {
+        type: 'danger',
+        imageType: 'info',
+        title: 'Упс...',
+        message: 'Что-то не получилось у нас показать тебе твою историю'
     },
     [SHARE_STORY_LOAD]: {
         type: 'info',
