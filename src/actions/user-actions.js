@@ -48,7 +48,7 @@ async function fetchUser(dispatch) {
     }
 }
 
-const fetchActivateKey = (token) => async (dispatch, getState) => {
+const fetchActivateKey = (token, supportCheat) => async (dispatch, getState) => {
     const { project } = getState();
 
     if (!project.data) {
@@ -98,7 +98,7 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
                         symbol = e.response.data.data.value;
                     }
 
-                    if (e.response.data.data.has_cheat) {
+                    if (e.response.data.data.has_cheat && supportCheat) {
                         dispatch(closeNotification());
                         dispatch(showCheat());
 
