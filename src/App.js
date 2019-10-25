@@ -111,6 +111,7 @@ export default function App() {
         if (fetchUserError && !errorSet) {
             dispatch(showNotification(NOTIFICATION.FETCH_USER_ERROR, {
                 actions: [{
+                    disabled: true,
                     theme: 'primary',
                     title: 'Попробовать ещё раз',
                     full: true,
@@ -124,6 +125,7 @@ export default function App() {
         if (fetchProjectError && !errorSet) {
             dispatch(showNotification(NOTIFICATION.FETCH_USER_ERROR, {
                 actions: [{
+                    disabled: true,
                     theme: 'primary',
                     title: 'Попробовать ещё раз',
                     full: true,
