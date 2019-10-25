@@ -18,8 +18,6 @@ import App from './App';
 
 // import registerServiceWorker from './sw';
 
-window.isIOS = platform() === IOS;
-
 window.axios = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
@@ -41,6 +39,7 @@ if ('addEventListener' in document) {
 connect.send('VKWebAppInit');
 
 if (process.env.NODE_ENV !== 'development') {
+    window.isIOS = platform() === IOS;
     Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DNS });
 }
 
