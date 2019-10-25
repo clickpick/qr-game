@@ -67,4 +67,4 @@ const shareStory = (connect, qrcode, reply, link = APP_LINK) => new Promise((res
         }).catch((chain) => reject({ error_code: 1, error_text: "Can't get access_token", error_chain: chain }));
 });
 
-export { shareStory };
+export { draw, shareStory };
