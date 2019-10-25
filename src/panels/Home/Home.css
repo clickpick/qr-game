@@ -19,8 +19,6 @@
 }
 
 .Home__actions {
-    display: flex;
-
     max-width: 262px;
     margin-right: auto;
     margin-bottom: 20px;
@@ -28,11 +26,11 @@
 }
 
 .Home__action {
-    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .Home__action:last-child {
-    margin-right: 0;
+    margin-bottom: 0;
 }
 
 .Home__action--scan {

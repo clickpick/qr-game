@@ -42,9 +42,10 @@ const Home = ({
 						disabled={disabledOpenQR} />
 					<Button
 						className="Home__action  Home__action--share"
-						children={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
+						before={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
+						children="Поделиться в истории"
 						size="medium"
-						theme="info"
+						full
 						onClick={share}
 						disabled={disabledShare} />
 				</div>
