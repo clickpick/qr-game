@@ -7,19 +7,18 @@ import { Provider } from 'react-redux';
 import configureStore from 'store/configureStore';
 import { INITIAL_STATE } from 'constants/store';
 
-import connect from '@vkontakte/vk-connect';
+import { platform, IOS } from '@vkontakte/vkui';
 import fastclick from 'fastclick';
 import axios from 'axios';
 import { parseQueryString, getTimezoneOffset } from 'helpers';
+import connect from '@vkontakte/vk-connect';
 import * as Sentry from '@sentry/browser';
 
 import App from './App';
 
-if ('addEventListener' in document) {
-    document.addEventListener('DOMContentLoaded', function () {
-        fastclick.attach(document.getElementById('popup'));
-    }, false);
-}
+// import registerServiceWorker from './sw';
+
+window.isIOS = platform() === IOS;
 
 window.axios = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -31,14 +30,19 @@ window.axios = axios.create({
         'Accept': 'application/json'
     },
 });
-// import registerServiceWorker from './sw';
 
-if (process.env.NODE_ENV !== 'development') {
-    Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DNS });
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function () {
+        fastclick.attach(document.getElementById('popup'));
+    }, false);
 }
 
 // Init VK  Mini App
 connect.send('VKWebAppInit');
+
+if (process.env.NODE_ENV !== 'development') {
+    Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DNS });
+}
 
 // Если вы хотите, чтобы ваше веб-приложение работало в оффлайне и загружалось быстрее,
 // расскомментируйте строку с registerServiceWorker();

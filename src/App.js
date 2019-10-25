@@ -29,7 +29,7 @@ import RequestFundingForm from 'components/RequestFundingForm';
 import { fetchUser, fetchActivateKey } from 'actions/user-actions';
 import { fetchProject } from 'actions/project-actions';
 import { previewShareStory } from 'actions/share-story-actions';
-import { showDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
+import { openDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
 import { showNotification, closeNotification } from 'actions/notification-actions';
 import { fetchRequestFunding } from 'actions/request-funding-actions';
 import { getCheat, hideCheat } from 'actions/cheat-actions';
@@ -89,7 +89,7 @@ export default function App() {
             return;
         }
 
-        dispatch(fetchActivateKey(token));
+        dispatch(fetchActivateKey(token, window.isIOS));
     }, 200), [dispatch]);
 
     useEffect(() => {
@@ -137,7 +137,7 @@ export default function App() {
          */
         if (checkFetchSuccess(user) && checkFetchSuccess(project)) {
             if (project.data.is_finished) {
-                setTimeout(() => setActiveView(VIEW.MAIN), 200);   
+                setTimeout(() => setActiveView(VIEW.FINISH), 200);   
             } else if (activeView === VIEW.SPINNER) {
                 setTimeout(() => {
                     setActiveView(VIEW.MAIN);
@@ -241,7 +241,7 @@ export default function App() {
                     disabledOpenQR={user.loading}
                     share={share}
                     disabledShare={shareStory.sharing}
-                    openDonateForm={() => dispatch(showDonateForm())}
+                    openDonateForm={() => dispatch(openDonateForm(window.isIOS))}
                     showRules={showRules}
                     openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)} />
             </View>
@@ -250,7 +250,7 @@ export default function App() {
                     id="finish"
                     user={user.data}
                     project={project.data}
-                    openDonateForm={() => dispatch(showDonateForm())} />
+                    openDonateForm={() => dispatch(openDonateForm(window.isIOS))} />
             </View>
             <View id={VIEW.SPINNER} activePanel="spinner">
                 <Spinner id="spinner" />

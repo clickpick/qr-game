@@ -69,6 +69,7 @@ const Home = ({
 					<ProjectCard
 						className="Home__ProjectCard"
 						{...project}
+						actionTitle={(window.isIOS) ? 'Подробнее' : undefined}
 						onDonate={openDonateForm} />
 
 					<Button

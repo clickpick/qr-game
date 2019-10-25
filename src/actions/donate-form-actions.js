@@ -2,7 +2,7 @@ import { getVKPayParams } from 'api';
 import * as types from 'constants/types';
 import * as VK from 'constants/vk';
 import { showNotification } from 'actions/notification-actions';
-import { DONATE_FORM_SUCCESS, DONATE_FORM_ERROR, DONATE_FORM_SERVER_ERROR } from 'constants/notifications';
+import { DONATE_FORM_INFO, DONATE_FORM_SUCCESS, DONATE_FORM_ERROR, DONATE_FORM_SERVER_ERROR } from 'constants/notifications';
 
 const showDonateForm = () => ({
     type: types.SHOW_DONATE_FORM
@@ -15,6 +15,15 @@ const hideDonateForm = () => ({
 const fetchDonateForm = () => ({
     type: types.FETCH_DONATE_FORM
 });
+
+const openDonateForm = (showInfo) => (dispatch) => {
+    if (showInfo) {
+        dispatch(showNotification(DONATE_FORM_INFO, {}, 0));
+        return;
+    }
+
+    dispatch(showDonateForm());
+};
 
 const donate = (connect, amount) => async (dispatch) => {
     dispatch(fetchDonateForm());
@@ -47,4 +56,4 @@ const donate = (connect, amount) => async (dispatch) => {
     }
 };
 
-export { showDonateForm, hideDonateForm, donate };
+export { openDonateForm, hideDonateForm, donate };
