@@ -27,7 +27,7 @@ const images = {
     cheat
 };
 
-const Dialog = ({ className, visible, animationType, type, imageType, title, message, children, actions }) => {
+const Dialog = ({ className, visible, isHeaderPadding, animationType, type, imageType, title, message, children, actions }) => {
     const rootRef = useRef();
     const [showFooter, setShowFooter] = useState(false);
 
@@ -37,7 +37,7 @@ const Dialog = ({ className, visible, animationType, type, imageType, title, mes
                 rootRef.current.scrollTop = 0;
                 const { scrollHeight, offsetHeight } = rootRef.current;
                 
-                setShowFooter(scrollHeight > offsetHeight);
+                setShowFooter(scrollHeight > offsetHeight + 30);
             }
         }
     }, [visible, rootRef]);
@@ -81,6 +81,7 @@ const Dialog = ({ className, visible, animationType, type, imageType, title, mes
             className={classNames(
                 className,
                 'Dialog',
+                { 'Dialog--header-padding': isHeaderPadding },
                 `Dialog--${type}`,
                 `Dialog--slide-down-${animationType}`
             )}
@@ -105,6 +106,7 @@ const Dialog = ({ className, visible, animationType, type, imageType, title, mes
 Dialog.propTypes = {
     className: string,
     visible: bool,
+    isHeaderPadding: bool,
     animationType: oneOf(['enter', 'leave']).isRequired,
     type: oneOf(['info', 'success', 'danger']),
     imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
@@ -120,6 +122,7 @@ Dialog.propTypes = {
 
 Dialog.defaultProps = {
     type: 'info',
+    isHeaderPadding: true,
 };
 
 export default Dialog;

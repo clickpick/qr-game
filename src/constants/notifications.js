@@ -94,6 +94,7 @@ export default {
     },
 
     [SHARE_STORY_PREVIEW]: {
+        isHeaderPadding: false,
         type: 'info',
         title: 'Так будет выглядить твоя история',
     },

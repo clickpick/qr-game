@@ -6,7 +6,7 @@ import './Popup.css';
 
 import Dialog from './Dialog';
 
-const Popup = ({ className, visible, onClose, type, imageType, title, message, children, actions }) => {
+const Popup = ({ className, visible, onClose, isHeaderPadding, type, imageType, title, message, children, actions }) => {
     const [show, setShow] = useState(false);
     const [animationType, setAnimationType] = useState('leave');
 
@@ -40,6 +40,7 @@ const Popup = ({ className, visible, onClose, type, imageType, title, message, c
             <Dialog
                 className="Popup__Dialog"
                 visible={show}
+                isHeaderPadding={isHeaderPadding}
                 animationType={animationType}
                 type={type}
                 imageType={imageType}
@@ -54,6 +55,7 @@ const Popup = ({ className, visible, onClose, type, imageType, title, message, c
 Popup.propTypes = {
     className: string,
     visible: bool,
+    isHeaderPadding: bool,
     type: oneOf(['info', 'success', 'danger']),
     imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
     title: string.isRequired,
