@@ -34,7 +34,12 @@ const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
 
         const value = e.target.value.trim();
         const amount = Number(value);
-        const isNumber = !isNaN(value) && amount !== 0 && !(amount > 0 && amount < 1) && value !== 'Infinity';
+        const isNumber =
+            !isNaN(value) &&
+            amount !== 0 &&
+            !(amount > 0 && amount < 1) &&
+            value !== 'Infinity' &&
+            value.toLowerCase().indexOf('e') === -1;
 
         if (isNumber || value === '') {
             setAmount(value);
