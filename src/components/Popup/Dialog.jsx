@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, oneOf, arrayOf, shape, bool, func  } from 'prop-types';
+import { string, oneOf, arrayOf, shape, bool, func, oneOfType, node } from 'prop-types';
 import classNames from 'classnames';
 
 import './Dialog.css';
@@ -79,7 +79,7 @@ Dialog.propTypes = {
     type: oneOf(['info', 'success', 'danger']),
     imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
     title: string.isRequired,
-    message: string,
+    message: oneOfType([string, node, arrayOf(node)]),
     actions: arrayOf(shape({
         theme: oneOf(['primary', 'secondary', 'info']),
         title: string,
