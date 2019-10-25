@@ -83,6 +83,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
                 onChange={handleChange} />
             <Input
                 name="goal_funds"
+                pattern="[0-9]*"
                 top="Сколько нужно собрать (в ₽)"
                 placeholder="Например, 200000"
                 value={values.goal_funds || ''}
