@@ -1,7 +1,12 @@
-import { shareStory, svgPrepare, svgToBase64 } from 'helpers';
+import React from 'react';
+
+import { shareStory, draw, svgPrepare, svgToBase64 } from 'helpers';
 import * as types from 'constants/types';
 import { APP_LINK } from 'constants/vk';
+import { TEMPLATE_URL } from 'constants/story';
+import { showNotification, closeNotification } from 'actions/notification-actions';
 import {
+    SHARE_STORY_PREVIEW,
     SHARE_STORY_LOAD,
     SHARE_STORY_SUCCESS,
     SHARE_STORY_ERROR
@@ -20,9 +25,35 @@ const shareStoryError = (error) => ({
     error
 });
 
-const fetchShareStory = (connect, svg, notification) => async (dispatch, getState) => {
+const previewShareStory = (connect, svg) => async (dispatch) => {
+    try {
+        const img = await draw(TEMPLATE_URL, svgToBase64(svgPrepare(svg)));
+
+        dispatch(showNotification(SHARE_STORY_PREVIEW, {
+            imageType: undefined,
+            message: <img src={img} alt="история" style={{ marginTop: 12 }} />,
+            actions: [
+                {
+                    theme: 'info',
+                    title: 'Отмена',
+                    action: () => dispatch(closeNotification())
+                },
+                {
+                    theme: 'primary',
+                    title: 'Опубликовать',
+                    full: true,
+                    action: () => dispatch(fetchShareStory(connect, svg))
+                }
+            ]
+        }, 0));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+const fetchShareStory = (connect, svg) => async (dispatch) => {
     dispatch(shareStoryLoad());
-    dispatch(notification(SHARE_STORY_LOAD, {}, 0));
+    dispatch(showNotification(SHARE_STORY_LOAD, {}, 0));
 
     let link = `${APP_LINK}#utm_medium=story`;
     // const { user } = getState();
@@ -33,11 +64,11 @@ const fetchShareStory = (connect, svg, notification) => async (dispatch, getStat
     try {
         await shareStory(connect, svgToBase64(svgPrepare(svg)), null, link);
         dispatch(shareStorySuccess());
-        dispatch(notification(SHARE_STORY_SUCCESS));
+        dispatch(showNotification(SHARE_STORY_SUCCESS));
     } catch (e) {
         dispatch(shareStoryError());
-        dispatch(notification(SHARE_STORY_ERROR));
+        dispatch(showNotification(SHARE_STORY_ERROR));
     }
 }
 
-export { fetchShareStory };
+export { previewShareStory };

@@ -28,7 +28,7 @@ import RequestFundingForm from 'components/RequestFundingForm';
 
 import { fetchUser, fetchActivateKey } from 'actions/user-actions';
 import { fetchProject } from 'actions/project-actions';
-import { fetchShareStory } from 'actions/share-story-actions';
+import { previewShareStory } from 'actions/share-story-actions';
 import { showDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
 import { showNotification, closeNotification } from 'actions/notification-actions';
 import { fetchRequestFunding } from 'actions/request-funding-actions';
@@ -137,7 +137,7 @@ export default function App() {
          */
         if (checkFetchSuccess(user) && checkFetchSuccess(project)) {
             if (project.data.is_finished) {
-                setTimeout(() => setActiveView(VIEW.FINISH), 200);   
+                setTimeout(() => setActiveView(VIEW.MAIN), 200);   
             } else if (activeView === VIEW.SPINNER) {
                 setTimeout(() => {
                     setActiveView(VIEW.MAIN);
@@ -196,7 +196,7 @@ export default function App() {
     function share() {
         if (qrCodeRef && qrCodeRef.current) {
             const svg = qrCodeRef.current.firstElementChild;
-            dispatch(fetchShareStory(connect, svg, showNotification));
+            dispatch(previewShareStory(connect, svg));
 
             return;
         }
