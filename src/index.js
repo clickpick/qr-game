@@ -7,11 +7,11 @@ import { Provider } from 'react-redux';
 import configureStore from 'store/configureStore';
 import { INITIAL_STATE } from 'constants/store';
 
-import { platform, IOS } from '@vkontakte/vkui';
 import fastclick from 'fastclick';
 import axios from 'axios';
 import { parseQueryString, getTimezoneOffset } from 'helpers';
 import connect from '@vkontakte/vk-connect';
+import { platform, IOS } from '@vkontakte/vkui';
 import * as Sentry from '@sentry/browser';
 
 import App from './App';
