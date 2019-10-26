@@ -24,7 +24,7 @@ export function userPicPrepare(url, callback) {
     };
 
     img.crossOrigin = 'Anonymous';
-    img.src = url;
+    img.src = 'https://cors-anywhere.herokuapp.com/' + url;
 }
 
 export function svgToBase64(svg) {
