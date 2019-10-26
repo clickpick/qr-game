@@ -4,16 +4,16 @@ import classNames from 'classnames';
 
 import vkQr from '@vkontakte/vk-qr';
 import { APP_LINK } from 'constants/vk';
-import { toDataURL } from 'helpers';
+import { userPicPrepare } from 'helpers';
 
 import './QRCode.css';
 
 const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, loader }, ref) => {
     const [qrSvg, setQrSvg] = useState('');
 
-    useEffect(() => {        
+    useEffect(() => {
         if (userPic) {
-            toDataURL(userPic, (logoData) => setQrSvg(
+            userPicPrepare(userPic, (logoData) => setQrSvg(
                 vkQr.createQR(`${APP_LINK}#token=${token}`, {
                     qrSize: 262,
                     isShowLogo: true,
