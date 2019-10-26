@@ -47,6 +47,7 @@ const Popup = ({ className, visible, disabled, onClose, isHeaderPadding, type, i
                 className="Popup__Dialog"
                 visible={show}
                 isHeaderPadding={isHeaderPadding}
+                onClose={close}
                 animationType={animationType}
                 type={type}
                 imageType={imageType}
