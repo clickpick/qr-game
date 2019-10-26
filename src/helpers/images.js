@@ -1,20 +1,6 @@
-export function toDataURL(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            callback(reader.result);
-        }
-        reader.readAsDataURL(xhr.response);
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-}
-
 export function userPicPrepare(url, callback) {
     const img = new Image();
-    const canvas = document.createElement("canvas");
+    const canvas = document.createElement('canvas');
 
     img.onload = () => {
         const width = img.naturalWidth || img.width;
@@ -24,12 +10,12 @@ export function userPicPrepare(url, callback) {
         canvas.width = width;
         canvas.height = height;
 
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext('2d');
 
         const radius = vmin / 2;
 
         ctx.beginPath();
-        ctx.arc(0, 0, radius, 0, Math.PI * 2, true);
+        ctx.arc(radius, radius, radius, 0, Math.PI * 2, true);
         ctx.clip();
 
         ctx.drawImage(img, 0, 0);
@@ -37,6 +23,7 @@ export function userPicPrepare(url, callback) {
         callback(canvas.toDataURL());
     };
 
+    img.crossOrigin = 'Anonymous';
     img.src = url;
 }
 
