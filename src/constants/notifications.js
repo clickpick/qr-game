@@ -152,13 +152,12 @@ export default {
         title: 'Призы!',
         message: `
             <strong>1 место – Powerbank WWF</strong><br />
-            <strong>2 место – Футболка Час Земли</strong><br />
+            <strong>2 место – Кепка WWF</strong><br />
             <strong>3 место – Футболка WWF</strong><br />
             4 место – Значок со снежным барсом<br />
-            5 место – Блокнот WWF <br />
-            6 место – Сумка WWF<br />
-            7 место – Кепка WWF<br />
-            8-10 место – Значок
+            5-6 место – Сумка WWF<br />
+            7-8 место – Блокнот WWF<br />
+            9-10 – Футболка Час Земли
         `
     },
 
