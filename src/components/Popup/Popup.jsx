@@ -64,7 +64,7 @@ Popup.propTypes = {
     disabled: bool,
     isHeaderPadding: bool,
     type: oneOf(['info', 'success', 'danger']),
-    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
+    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat', 'prize']),
     title: string.isRequired,
     message: string,
     onClose: func,

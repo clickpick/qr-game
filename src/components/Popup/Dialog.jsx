@@ -16,6 +16,7 @@ import rules from 'images/rules.png';
 import leopard from 'images/leopard.png';
 import connect from 'images/connect.png';
 import cheat from 'images/cheat.png';
+import prize from 'images/prize.png';
 
 const images = {
     success,
@@ -24,7 +25,8 @@ const images = {
     rules,
     leopard,
     connect,
-    cheat
+    cheat,
+    prize
 };
 
 const Dialog = ({ className, visible, isHeaderPadding, animationType, type, imageType, title, message, children, actions }) => {
@@ -54,14 +56,15 @@ const Dialog = ({ className, visible, isHeaderPadding, animationType, type, imag
     }
 
     function getImage() {
-        switch (imageType) {
-            case 'loading':
-                return <div className="Dialog__status"><Loader className="Dialog__loader" /></div>
-            case 'success': case 'info': case 'error': case 'rules': case 'leopard': case 'connect': case 'cheat':
-                return <div className="Dialog__status"><img className="Dialog__image" src={images[imageType]} alt="" /></div>;
-            default:
-                return null;
+        if (imageType === undefined) {
+            return null;
         }
+
+        if (imageType === 'loading') {
+            return <div className="Dialog__status"><Loader className="Dialog__loader" /></div>;
+        }
+        
+        return <div className="Dialog__status"><img className="Dialog__image" src={images[imageType]} alt="" /></div>;
     }
 
     function renderAction(action, index) {
@@ -109,7 +112,7 @@ Dialog.propTypes = {
     isHeaderPadding: bool,
     animationType: oneOf(['enter', 'leave']).isRequired,
     type: oneOf(['info', 'success', 'danger']),
-    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
+    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat', 'prize']),
     title: string.isRequired,
     message: string,
     actions: arrayOf(shape({
