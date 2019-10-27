@@ -21,6 +21,8 @@ export const RULES = 'rules';
 
 export const GAME_INFO = 'game-info';
 
+export const PRIZE = 'prize';
+
 export const FETCH_USER_ERROR = 'fetch-user-error';
 export const FETCH_PROJECT_ERROR = 'fetch-project-error';
 
@@ -142,6 +144,22 @@ export default {
         imageType: 'leopard',
         title: 'Защитим снежного барса',
         message: `Снежный барс – один из самых скрытных крупных хищников. В России их осталось не более 90 особей. Ты можешь помочь привлечь внимание к проблеме, сыграв в “QR Game”. Также ты можешь поддержать их, сделав пожертвование во Всемирный фонд дикой природы.`,
+    },
+
+    [PRIZE]: {
+        type: 'info',
+        imageType: 'prize',
+        title: 'Призы!',
+        message: `
+            <strong>1 место – Powerbank WWF</strong><br />
+            <strong>2 место – Футболка Час Земли</strong><br />
+            <strong>3 место – Футболка WWF</strong><br />
+            4 место – Значок со снежным барсом<br />
+            5 место – Блокнот WWF <br />
+            6 место – Сумка WWF<br />
+            7 место – Кепка WWF<br />
+            8-10 место – Значок
+        `
     },
 
     [FETCH_USER_ERROR]: {

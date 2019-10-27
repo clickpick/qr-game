@@ -20,6 +20,7 @@ const Home = ({
 	share, disabledShare,
 	showRules,
 	openDonateForm,
+	showPrize,
 	openRequestFundingModal
 }) =>
 	<Panel id={id} className="Home">
@@ -73,10 +74,17 @@ const Home = ({
 						onDonate={openDonateForm} />
 
 					<Button
-						children="Вашему фонду нужно финансирование?"
+						className="Home__prize"
+						theme="primary"
 						size="medium"
+						children="Призы за участие"
+						full
+						onClick={showPrize} />
+
+					<Button
 						theme="secondary"
-						data-to="finansing"
+						size="medium"
+						children="Вашему фонду нужно финансирование?"
 						full
 						onClick={openRequestFundingModal} />
 				</div>
@@ -107,6 +115,7 @@ Home.propTypes = {
 	disabledShare: bool,
 	showRule: func,
 	openDonateForm: func,
+	showPrize: func,
 	openRequestFundingModal: func
 };
 

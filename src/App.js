@@ -217,6 +217,17 @@ export default function App() {
         dispatch(fetchRequestFunding(data, showNotification));
     }
 
+    const showPrize = useCallback(() => {
+        dispatch(showNotification(NOTIFICATION.PRIZE, {
+            actions: [{
+                theme: 'info',
+                title: 'Класс!',
+                full: true,
+                action: () => dispatch(closeNotification())
+            }]
+        }, 0));
+    }, [dispatch]);
+
     const mainModal = (
         <ModalRoot activeModal={activeModal}>
             <ModalPage
@@ -247,6 +258,7 @@ export default function App() {
                     disabledShare={shareStory.sharing}
                     openDonateForm={() => dispatch(openDonateForm(window.isIOS))}
                     showRules={showRules}
+                    showPrize={showPrize}
                     openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)} />
             </View>
             <View id={VIEW.FINISH} activePanel="finish">
