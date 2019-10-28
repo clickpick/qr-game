@@ -26,9 +26,7 @@ const Home = ({
 	showPrize,
 	openRequestFundingModal
 }) => {
-	const platform = useSelector(state => state.platform);
-	const supportQRScan = platform !== MOBILE_WEB;
-	const supportDonate = platform !== IOS;	
+	const supportDonate = useSelector(state => state.platform) !== IOS;	
 
 	return (
 		<Panel id={id} className="Home">
@@ -41,15 +39,14 @@ const Home = ({
 						loader={<Loader />}
 						ref={qrCodeRef} />
 					<div className="Home__actions">
-						{(supportQRScan) &&
-							<Button
-								className="Home__action  Home__action--scan"
-								children="Сканировать QR код"
-								size="medium"
-								theme="info"
-								full
-								onClick={openQR}
-								disabled={disabledOpenQR} />}
+						<Button
+							className="Home__action  Home__action--scan"
+							children="Сканировать QR код"
+							size="medium"
+							theme="info"
+							full
+							onClick={openQR}
+							disabled={disabledOpenQR} />
 						<Button
 							className="Home__action  Home__action--share"
 							before={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
