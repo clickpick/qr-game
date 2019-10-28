@@ -43,7 +43,7 @@ const Popup = ({ className, visible, disabled, onClose, isHeaderPadding, type, i
             onClick={close}
             onAnimationEnd={animationEnd}>
             <div className="Popup__mask" />
-            <Dialog
+            {(show) && <Dialog
                 className="Popup__Dialog"
                 visible={show}
                 isHeaderPadding={isHeaderPadding}
@@ -53,7 +53,7 @@ const Popup = ({ className, visible, disabled, onClose, isHeaderPadding, type, i
                 title={title}
                 message={message}
                 children={children}
-                actions={actions} />
+                actions={actions} />}
         </div>
     );
 };
