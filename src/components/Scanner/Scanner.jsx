@@ -1,4 +1,5 @@
 import React, { useRef, useState, useCallback } from 'react';
+import { func } from 'prop-types';
 
 import './Scanner.css';
 
@@ -9,22 +10,22 @@ import { debounce } from 'helpers';
 import useMount from 'hooks/use-mount';
 import useUnmount from 'hooks/use-unmount';
 
-export default function Scanner({ onResult }) {
+const Scanner = ({ onScanned }) => {
     const video = document.createElement('video');
     const canvasRef = useRef();
 
     const [status, setStatus] = useState('Ждём твое разрешение');
 
     const getResult = debounce((code) => {
-        if (onResult) {
-            onResult(code);
+        if (onScanned) {
+            onScanned(code);
         }
     }, 3000);
 
-    const stop = useCallback(() => {        
+    const stop = useCallback(() => {
         if (video) {
             let stream = video.srcObject;
-            
+
             if (stream) {
                 let tracks = stream.getTracks();
 
@@ -100,4 +101,10 @@ export default function Scanner({ onResult }) {
             <canvas className="Scanner__camera" id="canvas" ref={canvasRef} hidden />
         </div>
     );
-}
+};
+
+Scanner.propTypes = {
+    onScanned: func
+};
+
+export default Scanner;
