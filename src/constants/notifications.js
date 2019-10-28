@@ -53,6 +53,8 @@ export const CHEAT_SUCCESS = 'cheat-success';
 export const CHEAT_ERROR = 'cheat-error';
 export const CHEAT_NOT_FOUND = 'cheat-not-found';
 
+export const MOBILE_SCANNER = 'mobile-scanner';
+
 export default {
     [QR_LOAD]: {
         disabled: true,
@@ -250,5 +252,10 @@ export default {
         type: 'danger',
         imageType: 'error',
         title: 'С твоим ЧИТом что-то не так...'
+    },
+
+    [MOBILE_SCANNER]: {
+        type: 'info',
+        title: 'Наведи, чтобы отсканировать',
     }
 };
