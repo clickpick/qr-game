@@ -42,7 +42,12 @@ import { debounce, getHash } from 'helpers';
 const osname = platform();
 
 export default function App() {
-    const { user, project, shareStory, donateForm, notification, requestFunding, cheat } = useSelector(state => state);
+    const {
+        user, project,
+        shareStory, donateForm,
+        notification, requestFunding, cheat,
+        platform: currentPlatform
+    } = useSelector(state => state);
     const dispatch = useDispatch();
 
     const [activeView, setActiveView] = useState(VIEW.SPINNER);
@@ -202,8 +207,8 @@ export default function App() {
 
     const qrCodeRef = createRef();
 
-    function openQR() {
-        if (platform === MOBILE_WEB) {
+    function openQR() {        
+        if (currentPlatform === MOBILE_WEB) {
             dispatch(showNotification(NOTIFICATION.MOBILE_SCANNER, {
                 children: <Scanner onScanned={activateProjectKey} />
             }, 0));

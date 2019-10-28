@@ -19,7 +19,13 @@
 }
 
 .Scanner__status {
-    line-height: 262px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 200px;
+
     text-align: center;
     color: var(--color-light-black);
 }
