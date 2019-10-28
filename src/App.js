@@ -14,7 +14,7 @@ import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import * as VIEW from 'constants/views';
 import * as MODAL from 'constants/modals';
 import * as NOTIFICATION from 'constants/notifications';
-import { MOBILE_WEB } from 'constants/platform';
+import { MOBILE_WEB, WEB } from 'constants/platform';
 
 import './App.css';
 
@@ -208,7 +208,7 @@ export default function App() {
     const qrCodeRef = createRef();
 
     function openQR() {        
-        if (currentPlatform === MOBILE_WEB) {
+        if (currentPlatform === MOBILE_WEB || currentPlatform === WEB) {
             dispatch(showNotification(NOTIFICATION.MOBILE_SCANNER, {
                 children: <Scanner onScanned={activateProjectKey} />
             }, 0));
