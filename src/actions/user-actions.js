@@ -1,5 +1,6 @@
 import { auth, activeProjectKey } from 'api';
 import * as types from 'constants/types';
+import { IOS } from 'constants/platform';
 
 import { showNotification, closeNotification } from 'actions/notification-actions';
 import { finishProject } from 'actions/project-actions';
@@ -48,14 +49,16 @@ async function fetchUser(dispatch) {
     }
 }
 
-const fetchActivateKey = (token, supportCheat) => async (dispatch, getState) => {
-    const { project } = getState();
+const fetchActivateKey = (token) => async (dispatch, getState) => {
+    const { project, platform } = getState();
 
     if (!project.data) {
         // todo
         console.log('no-project');
         return;
     }
+
+    const supportCheat = platform !== IOS;
 
     dispatch(fetchUserLoad());
     dispatch(showNotification(QR_LOAD, { message: getRandomFact(project.data.project_facts) }, 0));

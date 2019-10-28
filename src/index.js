@@ -11,7 +11,6 @@ import fastclick from 'fastclick';
 import axios from 'axios';
 import { parseQueryString, getTimezoneOffset } from 'helpers';
 import connect from '@vkontakte/vk-connect';
-import { platform, IOS } from '@vkontakte/vkui';
 import * as Sentry from '@sentry/browser';
 
 import App from './App';
@@ -39,7 +38,6 @@ if ('addEventListener' in document) {
 connect.send('VKWebAppInit');
 
 if (process.env.NODE_ENV !== 'development') {
-    window.isIOS = platform() === IOS;
     Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DNS });
 }
 

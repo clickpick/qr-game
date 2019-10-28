@@ -27,3 +27,5 @@ export const FETCH_REQUEST_FUNING_ERROR = 'fetch-request-funding-error';
 export const SHOW_CHEAT = 'show-cheat';
 export const HIDE_CHEAT = 'hide-cheat';
 export const FETCH_CHEAT_LOAD = 'fetch-cheat-load';
+
+export const SET_PLATFORM = 'set-platform';

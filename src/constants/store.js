@@ -31,6 +31,8 @@ export const CHEAT_INITIAL_STATE = {
     visible: false
 };
 
+export const PLATFORM_INITIAL_STATE = null;
+
 export const INITIAL_STATE = {
     user: USER_INITIAL_STATE,
     project: PROJECT_INITIAL_STATE,
@@ -38,5 +40,6 @@ export const INITIAL_STATE = {
     donateForm: DONATE_FORM_INITIAL_STATE,
     notification: NOTIFICATION_INITIAL_STATE,
     requestFunding: REQUEST_FUNDING_INITIAL_STATE,
-    cheat: CHEAT_INITIAL_STATE
+    cheat: CHEAT_INITIAL_STATE,
+    platform: PLATFORM_INITIAL_STATE
 };

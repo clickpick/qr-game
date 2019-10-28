@@ -1,5 +1,8 @@
 import React from 'react';
 import { string, object, func } from 'prop-types';
+import { useSelector } from 'react-redux';
+
+import { IOS } from 'constants/platform';
 
 import { Panel } from '@vkontakte/vkui';
 
@@ -9,6 +12,7 @@ import ProjectCard from 'components/ProjectCard';
 import './Finish.css';
 
 const Finish = ({ id, user, project, openDonateForm }) => {
+    const supportDonate = useSelector(state => state.platform) !== IOS;
     // const allowNotifications = () => connect.send("VKWebAppAllowNotifications", {});
 
     // const isDeni = !Boolean(Number(user.notifications_are_enabled));
@@ -20,7 +24,7 @@ const Finish = ({ id, user, project, openDonateForm }) => {
                 <ProjectCard
                     className="Finish__ProjectCard"
                     {...project}
-                    actionTitle={(window.isIOS) ? 'Подробнее' : undefined}
+                    supportDonate={supportDonate}
                     onDonate={openDonateForm} />
             </div>
         </Panel>

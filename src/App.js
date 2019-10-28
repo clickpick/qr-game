@@ -33,6 +33,7 @@ import { openDonateForm, hideDonateForm, donate } from 'actions/donate-form-acti
 import { showNotification, closeNotification } from 'actions/notification-actions';
 import { fetchRequestFunding } from 'actions/request-funding-actions';
 import { getCheat, hideCheat } from 'actions/cheat-actions';
+import { setPlatform } from 'actions/platform-actions';
 
 import { debounce, getHash } from 'helpers';
 
@@ -89,7 +90,7 @@ export default function App() {
             return;
         }
 
-        dispatch(fetchActivateKey(token, window.isIOS));
+        dispatch(fetchActivateKey(token));
     }, 200), [dispatch]);
 
     useEffect(() => {
@@ -182,10 +183,16 @@ export default function App() {
             if (type === 'VKWebAppOpenQRResult') {
                 activateProjectKey(data.qr_data);
             }
+
+            if (type === 'VKWebAppGetClientVersionResult') {
+                dispatch(setPlatform(data.platform));
+            }
         });
     }, [activateProjectKey, dispatch]);
 
     useEffect(() => {
+        connect.send('VKWebAppGetClientVersion');
+
         if (connect.supports('VKWebAppSetViewSettings')) {
             connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark', action_bar_color: '#fff' });
         }
@@ -256,7 +263,7 @@ export default function App() {
                     disabledOpenQR={user.loading}
                     share={share}
                     disabledShare={shareStory.sharing}
-                    openDonateForm={() => dispatch(openDonateForm(window.isIOS))}
+                    openDonateForm={() => dispatch(openDonateForm())}
                     showRules={showRules}
                     showPrize={showPrize}
                     openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)} />
@@ -266,7 +273,7 @@ export default function App() {
                     id="finish"
                     user={user.data}
                     project={project.data}
-                    openDonateForm={() => dispatch(openDonateForm(window.isIOS))} />
+                    openDonateForm={() => dispatch(openDonateForm())} />
             </View>
             <View id={VIEW.SPINNER} activePanel="spinner">
                 <Spinner id="spinner" />
