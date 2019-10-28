@@ -14,6 +14,7 @@ import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import * as VIEW from 'constants/views';
 import * as MODAL from 'constants/modals';
 import * as NOTIFICATION from 'constants/notifications';
+import { MOBILE_WEB } from 'constants/platform';
 
 import './App.css';
 
@@ -25,6 +26,7 @@ import PopupContainer from 'components/PopupContainer';
 import Popup from 'components/Popup';
 import DonateForm from 'components/DonateForm';
 import RequestFundingForm from 'components/RequestFundingForm';
+import Scanner from 'components/Scanner';
 
 import { fetchUser, fetchActivateKey } from 'actions/user-actions';
 import { fetchProject } from 'actions/project-actions';
@@ -201,6 +203,14 @@ export default function App() {
     const qrCodeRef = createRef();
 
     function openQR() {
+        if (platform === MOBILE_WEB) {
+            dispatch(showNotification(NOTIFICATION.MOBILE_SCANNER, {
+                children: <Scanner onScanned={activateProjectKey} />
+            }, 0));
+
+            return;
+        }
+
         connect.send('VKWebAppOpenQR');
     }
 
