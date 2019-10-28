@@ -2,7 +2,7 @@ import React from 'react';
 import { string, func, shape, number, array, object, bool } from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { IOS, MOBILE_WEB } from 'constants/platform';
+import { IOS } from 'constants/platform';
 
 import { Panel } from '@vkontakte/vkui';
 import Loader from 'components/Loader';
