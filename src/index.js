@@ -42,6 +42,7 @@ if (process.env.NODE_ENV !== 'development') {
     Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DNS });
 }
 
+const root = document.getElementById('root');
 mVKMiniAppsScrollHelper(root);
 
 // Если вы хотите, чтобы ваше веб-приложение работало в оффлайне и загружалось быстрее,
@@ -54,5 +55,5 @@ render(
     <Provider store={configureStore(INITIAL_STATE)}>
         <App />
     </Provider>,
-    document.getElementById('root')
+    root
 );
