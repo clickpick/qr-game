@@ -7,6 +7,8 @@ import './Dialog.css';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 
+import useLockBody from 'hooks/use-lock-body';
+
 import { ReactComponent as IconArrowDown } from 'svg/arrow-down.svg';
 
 import success from 'images/success.png';
@@ -29,20 +31,20 @@ const images = {
     prize
 };
 
-const Dialog = ({ className, visible, isHeaderPadding, animationType, type, imageType, title, message, children, actions }) => {
+const Dialog = ({ className, isHeaderPadding, animationType, type, imageType, title, message, children, actions }) => {
+    useLockBody(true);
+
     const rootRef = useRef();
     const [showFooter, setShowFooter] = useState(false);
 
-    useEffect(() => {        
-        if (visible) {
-            if (rootRef && rootRef.current) {
-                rootRef.current.scrollTop = 0;
-                const { scrollHeight, offsetHeight } = rootRef.current;
-                
-                setShowFooter(scrollHeight > offsetHeight + 30);
-            }
+    useEffect(() => {
+        if (rootRef && rootRef.current) {
+            rootRef.current.scrollTop = 0;
+            const { scrollHeight, offsetHeight } = rootRef.current;
+            
+            setShowFooter(scrollHeight > offsetHeight + 30);
         }
-    }, [visible, rootRef]);
+    }, [rootRef]);
     
 
     function handleScroll(e) {
@@ -108,7 +110,6 @@ const Dialog = ({ className, visible, isHeaderPadding, animationType, type, imag
 
 Dialog.propTypes = {
     className: string,
-    visible: bool,
     isHeaderPadding: bool,
     animationType: oneOf(['enter', 'leave']).isRequired,
     type: oneOf(['info', 'success', 'danger']),

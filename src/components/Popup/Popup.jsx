@@ -45,7 +45,6 @@ const Popup = ({ className, visible, disabled, onClose, isHeaderPadding, type, i
             <div className="Popup__mask" />
             {(show) && <Dialog
                 className="Popup__Dialog"
-                visible={show}
                 isHeaderPadding={isHeaderPadding}
                 animationType={animationType}
                 type={type}
