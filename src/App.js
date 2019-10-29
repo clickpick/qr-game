@@ -207,7 +207,7 @@ export default function App() {
 
     const qrCodeRef = createRef();
 
-    function openQR() {        
+    function openQR() {
         if (currentPlatform === MOBILE_WEB || currentPlatform === WEB) {
             dispatch(showNotification(NOTIFICATION.MOBILE_SCANNER, {
                 children: <Scanner onScanned={activateProjectKey} />
