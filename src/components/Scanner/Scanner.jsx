@@ -4,17 +4,26 @@ import { func } from 'prop-types';
 import './Scanner.css';
 
 import jsQR from "jsqr";
+import { platform, ANDROID } from '@vkontakte/vkui';
 
 import { debounce } from 'helpers';
 
 import useMount from 'hooks/use-mount';
 import useUnmount from 'hooks/use-unmount';
 
+const statuses = {
+    wait: 'Ждём твое разрешение',
+    connect: 'Подключаемся...',
+    error: (platform() === ANDROID)
+        ? 'Ты не дал доступ к камере :( Можешь дать его в настройках'
+        : 'Ты не дал доступ к камере :( Нажми сюда, чтобы разрешить'
+};
+
 const Scanner = ({ onScanned }) => {
     const video = document.createElement('video');
     const canvasRef = useRef();
 
-    const [status, setStatus] = useState('Ждём твое разрешение');
+    const [status, setStatus] = useState(statuses.wait);
 
     const getResult = debounce((code) => {
         if (onScanned) {
@@ -86,16 +95,16 @@ const Scanner = ({ onScanned }) => {
         try {
             if (hasGetUserMedia()) {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-                setStatus('Подключаемся...');
+                setStatus(statuses.connect);
 
                 video.srcObject = stream;
                 video.setAttribute('playsinline', true); // required to tell iOS safari we don't want fullscreen
                 video.play();
 
-                requestAnimationFrame(tick);   
+                requestAnimationFrame(tick);
             }
         } catch (e) {            
-            setStatus('Ты не дал разрешение :( Нажми сюда, чтобы разрешить');
+            setStatus(statuses.error);
         }
     }, [tick, video, hasGetUserMedia]);
 
