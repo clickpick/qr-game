@@ -22,6 +22,11 @@ const Scanner = ({ onScanned }) => {
         }
     }, 3000);
 
+    const hasGetUserMedia = useCallback(() => {
+        return !!(navigator.mediaDevices &&
+            navigator.mediaDevices.getUserMedia);
+    }, []);
+
     const stop = useCallback(() => {
         if (video) {
             let stream = video.srcObject;
@@ -77,17 +82,19 @@ const Scanner = ({ onScanned }) => {
         }
     }, [getResult, video]);
 
-    const start = useCallback(async () => {
+    const start = useCallback(async () => {        
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-            setStatus('Подключаемся...');
+            if (hasGetUserMedia()) {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                setStatus('Подключаемся...');
 
-            video.srcObject = stream;
-            video.setAttribute('playsinline', true); // required to tell iOS safari we don't want fullscreen
-            video.play();
+                video.srcObject = stream;
+                video.setAttribute('playsinline', true); // required to tell iOS safari we don't want fullscreen
+                video.play();
 
-            requestAnimationFrame(tick);
-        } catch (e) {
+                requestAnimationFrame(tick);   
+            }
+        } catch (e) {            
             setStatus('Ты не дал разрешение :( Нажми сюда, чтобы разрешить');
         }
     }, [tick, video]);
