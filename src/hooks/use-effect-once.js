@@ -1,5 +1,5 @@
-import { useEffect, EffectCallback } from 'react';
+import { useEffect } from 'react';
 
-export default function useEffectOnce(effect = EffectCallback) {
+export default function useEffectOnce(effect) {
     useEffect(effect, []);
 }
