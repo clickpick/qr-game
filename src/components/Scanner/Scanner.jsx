@@ -88,7 +88,7 @@ const Scanner = ({ onScanned }) => {
 
             requestAnimationFrame(tick);
         } catch (e) {
-            setStatus('Ты не дал разрешение :( Тапни, чтобы разрешить');
+            setStatus('Ты не дал разрешение :( Нажми сюда, чтобы разрешить');
         }
     }, [tick, video]);
 
