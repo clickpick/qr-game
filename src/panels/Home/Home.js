@@ -80,7 +80,7 @@ const Home = ({
 							onDonate={openDonateForm} />
 
 						<Button
-							className="Home__prize"
+							className="Home__Button  Home__Button--prize"
 							theme="primary"
 							size="medium"
 							children="Призы за участие"
@@ -88,6 +88,7 @@ const Home = ({
 							onClick={showPrize} />
 
 						<Button
+							className="Home__Button"
 							theme="secondary"
 							size="medium"
 							children="Вашему фонду нужно финансирование?"

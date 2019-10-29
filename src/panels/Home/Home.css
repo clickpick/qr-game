@@ -49,9 +49,15 @@
 }
 
 .Home__blue-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     flex: 1;
+
     padding-top: 50px;
+
     background-color: var(--color-primary);
+
     overflow: hidden;
 }
 
@@ -73,9 +79,15 @@
 }
 
 .Home__ProjectCard {
+    max-width: 600px;
     margin-bottom: 15px;
 }
 
-.Home__prize {
+.Home__Button {
+    display: block;
+    max-width: 600px !important;
+}
+
+.Home__Button--prize {
     margin-bottom: 20px;
 }
