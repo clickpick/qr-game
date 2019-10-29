@@ -97,7 +97,7 @@ const Scanner = ({ onScanned }) => {
         } catch (e) {            
             setStatus('Ты не дал разрешение :( Нажми сюда, чтобы разрешить');
         }
-    }, [tick, video]);
+    }, [tick, video, hasGetUserMedia]);
 
     useMount(start);
     useUnmount(stop);
