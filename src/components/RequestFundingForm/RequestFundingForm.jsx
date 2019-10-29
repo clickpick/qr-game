@@ -84,6 +84,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
             <Input
                 name="goal_funds"
                 pattern="[0-9]*"
+                inputMode="numeric"
                 top="Сколько нужно собрать (в ₽)"
                 placeholder="Например, 200000"
                 value={values.goal_funds || ''}

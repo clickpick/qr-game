@@ -108,6 +108,7 @@ const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
             <Input
                 className={classNames('DonateForm__Input', { 'DonateForm__Input--disabled': checkedValue !== '' })}
                 pattern="[0-9]*"
+                inputMode="numeric"
                 top="Или введи свою сумму (₽)"
                 placeholder="550"
                 value={amount}
