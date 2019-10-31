@@ -16,8 +16,13 @@ const ProjectCard = ({
 }) => {
     const showProgress = goal_funds !== null && goal_funds > 0;
     let progress;
+
     if (showProgress) {
         progress = (raised_funds / goal_funds) * 100;
+
+        if (progress > 100) {
+            progress = 100;
+        }
     }
 
     const projectCardStyle = {
