@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, number, func } from 'prop-types';
+import { string, number, func, bool } from 'prop-types';
 import classNames from 'classnames';
 
 import { Avatar, Progress, Button } from '@vkontakte/vkui';
@@ -11,13 +11,18 @@ import './ProjectCard.css';
 const ProjectCard = ({
     className,
     poster_url, banner_url, name, description, raised_funds, goal_funds,
-    actionTitle,
+    supportDonate,
     onDonate
 }) => {
     const showProgress = goal_funds !== null && goal_funds > 0;
     let progress;
+
     if (showProgress) {
         progress = (raised_funds / goal_funds) * 100;
+
+        if (progress > 100) {
+            progress = 100;
+        }
     }
 
     const projectCardStyle = {
@@ -26,6 +31,8 @@ const ProjectCard = ({
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
     };
+
+    const buttonTitle = (supportDonate) ? 'Пожертвовать от 1 ₽' : 'Подробнее';
 
     return (
         <div className={classNames(className, 'ProjectCard')} style={projectCardStyle}>
@@ -47,7 +54,7 @@ const ProjectCard = ({
 
                 <Button
                     className="ProjectCard__Button"
-                    children={actionTitle}
+                    children={buttonTitle}
                     onClick={onDonate} />
             </div>
         </div>
@@ -62,12 +69,12 @@ ProjectCard.propTypes = {
     description: string.isRequired,
     raised_funds: number.isRequired,
     goal_funds: number,
-    actionTitle: string,
+    supportDonate: bool,
     onDonate: func
 };
 
 ProjectCard.defaultProps = {
-    actionTitle: 'Пожертвовать от 1 ₽',
+    supportDonate: true
 };
 
 export default ProjectCard;

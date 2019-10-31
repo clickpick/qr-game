@@ -92,6 +92,9 @@ const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
 
     return (
         <FormLayout className={classNames(className, 'DonateForm')} onSubmit={handleSubmit}>
+            {/* only testing period */}
+            <FormStatus title="Во время тестирования все платежи приравниваются к 1 ₽ вне зависимости от суммы, которую ты ввёл" state="error" />
+
             {(error) &&
                 <FormStatus title={error} state="error" />}
 
@@ -108,6 +111,7 @@ const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
             <Input
                 className={classNames('DonateForm__Input', { 'DonateForm__Input--disabled': checkedValue !== '' })}
                 pattern="[0-9]*"
+                inputMode="numeric"
                 top="Или введи свою сумму (₽)"
                 placeholder="550"
                 value={amount}

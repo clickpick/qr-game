@@ -43,9 +43,8 @@ const Popup = ({ className, visible, disabled, onClose, isHeaderPadding, type, i
             onClick={close}
             onAnimationEnd={animationEnd}>
             <div className="Popup__mask" />
-            <Dialog
+            {(show) && <Dialog
                 className="Popup__Dialog"
-                visible={show}
                 isHeaderPadding={isHeaderPadding}
                 onClose={close}
                 animationType={animationType}
@@ -54,7 +53,7 @@ const Popup = ({ className, visible, disabled, onClose, isHeaderPadding, type, i
                 title={title}
                 message={message}
                 children={children}
-                actions={actions} />
+                actions={actions} />}
         </div>
     );
 };
@@ -65,7 +64,7 @@ Popup.propTypes = {
     disabled: bool,
     isHeaderPadding: bool,
     type: oneOf(['info', 'success', 'danger']),
-    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
+    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat', 'prize']),
     title: string.isRequired,
     message: string,
     onClose: func,

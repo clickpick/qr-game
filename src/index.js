@@ -11,8 +11,8 @@ import fastclick from 'fastclick';
 import axios from 'axios';
 import { parseQueryString, getTimezoneOffset } from 'helpers';
 import connect from '@vkontakte/vk-connect';
-import { platform, IOS } from '@vkontakte/vkui';
 import * as Sentry from '@sentry/browser';
+import mVKMiniAppsScrollHelper from '@vkontakte/mvk-mini-apps-scroll-helper';
 
 import App from './App';
 
@@ -39,9 +39,11 @@ if ('addEventListener' in document) {
 connect.send('VKWebAppInit');
 
 if (process.env.NODE_ENV !== 'development') {
-    window.isIOS = platform() === IOS;
     Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DNS });
 }
+
+const root = document.getElementById('root');
+mVKMiniAppsScrollHelper(root);
 
 // Если вы хотите, чтобы ваше веб-приложение работало в оффлайне и загружалось быстрее,
 // расскомментируйте строку с registerServiceWorker();
@@ -53,5 +55,5 @@ render(
     <Provider store={configureStore(INITIAL_STATE)}>
         <App />
     </Provider>,
-    document.getElementById('root')
+    root
 );

@@ -40,6 +40,10 @@
     animation: popup-fade-leave 150ms ease-in;
 }
 
+.Popup__Dialog {
+    max-width: 600px;
+}
+
 .Popup__DonateForm {
     margin-top: 27px;
 }

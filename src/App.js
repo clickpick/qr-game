@@ -14,6 +14,7 @@ import Icon24Cancel from '@vkontakte/icons/dist/24/cancel';
 import * as VIEW from 'constants/views';
 import * as MODAL from 'constants/modals';
 import * as NOTIFICATION from 'constants/notifications';
+import { MOBILE_WEB, WEB } from 'constants/platform';
 
 import './App.css';
 
@@ -25,6 +26,7 @@ import PopupContainer from 'components/PopupContainer';
 import Popup from 'components/Popup';
 import DonateForm from 'components/DonateForm';
 import RequestFundingForm from 'components/RequestFundingForm';
+import Scanner from 'components/Scanner';
 
 import { fetchUser, fetchActivateKey } from 'actions/user-actions';
 import { fetchProject } from 'actions/project-actions';
@@ -33,13 +35,19 @@ import { openDonateForm, hideDonateForm, donate } from 'actions/donate-form-acti
 import { showNotification, closeNotification } from 'actions/notification-actions';
 import { fetchRequestFunding } from 'actions/request-funding-actions';
 import { getCheat, hideCheat } from 'actions/cheat-actions';
+import { setPlatform } from 'actions/platform-actions';
 
 import { debounce, getHash } from 'helpers';
 
 const osname = platform();
 
 export default function App() {
-    const { user, project, shareStory, donateForm, notification, requestFunding, cheat } = useSelector(state => state);
+    const {
+        user, project,
+        shareStory, donateForm,
+        notification, requestFunding, cheat,
+        platform: currentPlatform
+    } = useSelector(state => state);
     const dispatch = useDispatch();
 
     const [activeView, setActiveView] = useState(VIEW.SPINNER);
@@ -89,7 +97,7 @@ export default function App() {
             return;
         }
 
-        dispatch(fetchActivateKey(token, window.isIOS));
+        dispatch(fetchActivateKey(token));
     }, 200), [dispatch]);
 
     useEffect(() => {
@@ -182,16 +190,32 @@ export default function App() {
             if (type === 'VKWebAppOpenQRResult') {
                 activateProjectKey(data.qr_data);
             }
+
+            if (type === 'VKWebAppGetClientVersionResult') {
+                dispatch(setPlatform(data.platform));
+            }
         });
     }, [activateProjectKey, dispatch]);
 
     useEffect(() => {
-        connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark', action_bar_color: '#fff' });
+        connect.send('VKWebAppGetClientVersion');
+
+        if (connect.supports('VKWebAppSetViewSettings')) {
+            connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark', action_bar_color: '#fff' });
+        }
     }, []);
 
     const qrCodeRef = createRef();
 
     function openQR() {
+        if (currentPlatform === MOBILE_WEB || currentPlatform === WEB) {
+            dispatch(showNotification(NOTIFICATION.MOBILE_SCANNER, {
+                children: <Scanner onScanned={activateProjectKey} />
+            }, 0));
+
+            return;
+        }
+
         connect.send('VKWebAppOpenQR');
     }
 
@@ -214,6 +238,17 @@ export default function App() {
         modalBack();
         dispatch(fetchRequestFunding(data, showNotification));
     }
+
+    const showPrize = useCallback(() => {
+        dispatch(showNotification(NOTIFICATION.PRIZE, {
+            actions: [{
+                theme: 'info',
+                title: 'Класс!',
+                full: true,
+                action: () => dispatch(closeNotification())
+            }]
+        }, 0));
+    }, [dispatch]);
 
     const mainModal = (
         <ModalRoot activeModal={activeModal}>
@@ -243,8 +278,9 @@ export default function App() {
                     disabledOpenQR={user.loading}
                     share={share}
                     disabledShare={shareStory.sharing}
-                    openDonateForm={() => dispatch(openDonateForm(window.isIOS))}
+                    openDonateForm={() => dispatch(openDonateForm())}
                     showRules={showRules}
+                    showPrize={showPrize}
                     openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)} />
             </View>
             <View id={VIEW.FINISH} activePanel="finish">
@@ -252,7 +288,7 @@ export default function App() {
                     id="finish"
                     user={user.data}
                     project={project.data}
-                    openDonateForm={() => dispatch(openDonateForm(window.isIOS))} />
+                    openDonateForm={() => dispatch(openDonateForm())} />
             </View>
             <View id={VIEW.SPINNER} activePanel="spinner">
                 <Spinner id="spinner" />

@@ -37,3 +37,15 @@
 .App__Cancel {
     padding: 0 !important;
 }
+
+.ios-peek {
+    position: absolute;
+    bottom: calc(100% - 1px);
+    left: 0;
+    z-index: 2;
+    
+    width: 100%;
+    height: 1500px;
+
+    background-color: var(--color-white);
+}

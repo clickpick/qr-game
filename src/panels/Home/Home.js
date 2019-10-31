@@ -1,5 +1,8 @@
 import React from 'react';
 import { string, func, shape, number, array, object, bool } from 'prop-types';
+import { useSelector } from 'react-redux';
+
+import { IOS } from 'constants/platform';
 
 import { Panel } from '@vkontakte/vkui';
 import Loader from 'components/Loader';
@@ -20,69 +23,83 @@ const Home = ({
 	share, disabledShare,
 	showRules,
 	openDonateForm,
+	showPrize,
 	openRequestFundingModal
-}) =>
-	<Panel id={id} className="Home">
-		{(user && project) && <>
-			<div className="Home__white-wrapper">
-				<QRCode
-					className="Home__QRCode"
-					userPic={user.avatar_200}
-					token={user.active_project_token.token}
-					loader={<Loader />}
-					ref={qrCodeRef} />
-				<div className="Home__actions">
-					<Button
-						className="Home__action  Home__action--scan"
-						children="Сканировать QR код"
-						size="medium"
-						theme="info"
-						full
-						onClick={openQR}
-						disabled={disabledOpenQR} />
-					<Button
-						className="Home__action  Home__action--share"
-						before={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
-						children="Поделиться в истории"
-						size="medium"
-						full
-						onClick={share}
-						disabled={disabledShare} />
+}) => {
+	const supportDonate = useSelector(state => state.platform) !== IOS;
+
+	return (
+		<Panel id={id} className="Home">
+			{(user && project) && <>
+				<div className="Home__white-wrapper">
+					<QRCode
+						className="Home__QRCode"
+						userPic={user.avatar_200}
+						token={user.active_project_token.token}
+						loader={<Loader />}
+						ref={qrCodeRef} />
+					<div className="Home__actions">
+						<Button
+							className="Home__action  Home__action--scan"
+							children="Сканировать QR код"
+							size="medium"
+							theme="info"
+							full
+							onClick={openQR}
+							disabled={disabledOpenQR} />
+						<Button
+							className="Home__action  Home__action--share"
+							before={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
+							children="Поделиться в истории"
+							size="medium"
+							full
+							onClick={share}
+							disabled={disabledShare} />
+					</div>
 				</div>
-			</div>
 
-			<div className="Home__blue-wrapper">
-				<Wave className="Home_Wave" />
+				<div className="Home__blue-wrapper">
+					<Wave className="Home_Wave" />
 
-				<div className="Home__content">
-					<h2 className="Home__title">
-						Сканируй QR коды друзей<br />и получи приз за весь шифр
+					<div className="Home__content">
+						<h2 className="Home__title">
+							Сканируй QR коды друзей<br />и получи приз за весь шифр
 					</h2>
 
-					<Cipher
-						className="Home__Cipher"
-						activatedKeys={user.activated_project_keys}
-						onClick={showRules} />
+						<Cipher
+							className="Home__Cipher"
+							activatedKeys={user.activated_project_keys}
+							onClick={showRules} />
 
-					<h2 className="Home__title">При поддержке</h2>
+						<h2 className="Home__title">При поддержке</h2>
 
-					<ProjectCard
-						className="Home__ProjectCard"
-						{...project}
-						actionTitle={(window.isIOS) ? 'Подробнее' : undefined}
-						onDonate={openDonateForm} />
+						<ProjectCard
+							className="Home__ProjectCard"
+							{...project}
+							supportDonate={supportDonate}
+							onDonate={openDonateForm} />
 
-					<Button
-						children="Вашему фонду нужно финансирование?"
-						size="medium"
-						theme="secondary"
-						data-to="finansing"
-						full
-						onClick={openRequestFundingModal} />
+						<Button
+							className="Home__Button  Home__Button--prize"
+							theme="primary"
+							size="medium"
+							children="Призы за участие"
+							full
+							onClick={showPrize} />
+
+						<Button
+							className="Home__Button"
+							theme="secondary"
+							size="medium"
+							children="Вашему фонду нужно финансирование?"
+							full
+							onClick={openRequestFundingModal} />
+					</div>
 				</div>
-			</div>
-		</>}
-	</Panel>;
+			</>}
+		</Panel>
+	);
+};
 
 Home.propTypes = {
 	id: string.isRequired,
@@ -107,7 +124,8 @@ Home.propTypes = {
 	disabledShare: bool,
 	showRule: func,
 	openDonateForm: func,
-	openRequestFundingModal: func
+	showPrize: func,
+	openRequestFundingModal: func,
 };
 
 export default Home;

@@ -78,12 +78,13 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
                 name="description"
                 top="Описание проекта"
                 value={values.description || ''}
-                placeholder="Кому вы хотите помочь и каким образом, на что пойдут собранные средства?"
+                placeholder="Кому Вы хотите помочь и каким образом, на что пойдут собранные средства?"
                 status={(errors.description) ? 'error' : undefined}
                 onChange={handleChange} />
             <Input
                 name="goal_funds"
                 pattern="[0-9]*"
+                inputMode="numeric"
                 top="Сколько нужно собрать (в ₽)"
                 placeholder="Например, 200000"
                 value={values.goal_funds || ''}

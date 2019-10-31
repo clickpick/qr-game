@@ -3,6 +3,7 @@ import * as types from 'constants/types';
 import * as VK from 'constants/vk';
 import { showNotification } from 'actions/notification-actions';
 import { DONATE_FORM_INFO, DONATE_FORM_SUCCESS, DONATE_FORM_ERROR, DONATE_FORM_SERVER_ERROR } from 'constants/notifications';
+import { IOS } from 'constants/platform';
 
 const showDonateForm = () => ({
     type: types.SHOW_DONATE_FORM
@@ -16,8 +17,10 @@ const fetchDonateForm = () => ({
     type: types.FETCH_DONATE_FORM
 });
 
-const openDonateForm = (dontSupportDonate) => (dispatch) => {
-    if (dontSupportDonate) {
+const openDonateForm = () => (dispatch, getState) => {
+    const { platform } = getState();
+
+    if (platform === IOS) {
         dispatch(showNotification(DONATE_FORM_INFO, {}, 0));
 
         return;

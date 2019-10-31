@@ -8,6 +8,7 @@ import Loader from 'components/Loader';
 import Button from 'components/Button';
 
 import { useSwipeable } from 'react-swipeable';
+import useLockBody from 'hooks/use-lock-body';
 
 import { ReactComponent as IconArrowDown } from 'svg/arrow-down.svg';
 
@@ -18,6 +19,7 @@ import rules from 'images/rules.png';
 import leopard from 'images/leopard.png';
 import connect from 'images/connect.png';
 import cheat from 'images/cheat.png';
+import prize from 'images/prize.png';
 
 const images = {
     success,
@@ -26,24 +28,25 @@ const images = {
     rules,
     leopard,
     connect,
-    cheat
+    cheat,
+    prize
 };
 
-const Dialog = ({ className, visible, isHeaderPadding, onClose, animationType, type, imageType, title, message, children, actions }) => {
+const Dialog = ({ className, isHeaderPadding, animationType, type, imageType, title, message, children, actions, onClose }) => {
+    useLockBody(true);
+
     const rootRef = useRef();
     const [showFooter, setShowFooter] = useState(false);
     const [top, setTop] = useState(0);
 
     useEffect(() => {
-        if (visible) {
-            if (rootRef && rootRef.current) {
-                rootRef.current.scrollTop = 0;
-                const { scrollHeight, offsetHeight } = rootRef.current;
+        if (rootRef && rootRef.current) {
+            rootRef.current.scrollTop = 0;
+            const { scrollHeight, offsetHeight } = rootRef.current;
 
-                setShowFooter(scrollHeight > offsetHeight + 30);
-            }
+            setShowFooter(scrollHeight > offsetHeight + 30);
         }
-    }, [visible, rootRef]);
+    }, [rootRef]);
 
     function handleSwiping({ deltaY }) {
         if (deltaY > 0 && !showFooter) {
@@ -89,14 +92,15 @@ const Dialog = ({ className, visible, isHeaderPadding, onClose, animationType, t
     }
 
     function getImage() {
-        switch (imageType) {
-            case 'loading':
-                return <div className="Dialog__status"><Loader className="Dialog__loader" /></div>
-            case 'success': case 'info': case 'error': case 'rules': case 'leopard': case 'connect': case 'cheat':
-                return <div className="Dialog__status"><img className="Dialog__image" src={images[imageType]} alt="" /></div>;
-            default:
-                return null;
+        if (imageType === undefined) {
+            return null;
         }
+
+        if (imageType === 'loading') {
+            return <div className="Dialog__status"><Loader className="Dialog__loader" /></div>;
+        }
+        
+        return <div className="Dialog__status"><img className="Dialog__image" src={images[imageType]} alt="" /></div>;
     }
 
     function renderAction(action, index) {
@@ -142,11 +146,10 @@ const Dialog = ({ className, visible, isHeaderPadding, onClose, animationType, t
 
 Dialog.propTypes = {
     className: string,
-    visible: bool,
     isHeaderPadding: bool,
     animationType: oneOf(['enter', 'leave']).isRequired,
     type: oneOf(['info', 'success', 'danger']),
-    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat']),
+    imageType: oneOf(['loading', 'success', 'error', 'rules', 'info', 'leopard', 'connect', 'cheat', 'prize']),
     title: string.isRequired,
     message: string,
     actions: arrayOf(shape({
