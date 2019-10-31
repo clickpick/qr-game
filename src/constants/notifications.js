@@ -221,7 +221,7 @@ export default {
     [FETCH_REQUEST_FUNDING_SUCCESS]: {
         type: 'success',
         imageType: 'success',
-        title: 'Твоя завяка отправлена!',
+        title: 'Твоя заявка отправлена!',
         message: 'Скоро мы свяжемся с тобой'
     },
     [FETCH_REQUEST_FUNDING_ERROR]: {
