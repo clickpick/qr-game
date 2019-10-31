@@ -12,7 +12,7 @@ const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, l
     const [qrSvg, setQrSvg] = useState('');
 
     useEffect(() => {
-        if (userPic) {
+        if (userPic && userPic.indexOf('https://vk.com/images/camera_200.png') === -1) {
             userPicPrepare(userPic, (logoData) => setQrSvg(
                 vkQr.createQR(`${APP_LINK}#token=${token}`, {
                     qrSize: 262,
