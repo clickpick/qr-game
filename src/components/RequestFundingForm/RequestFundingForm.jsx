@@ -78,7 +78,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
                 name="description"
                 top="Описание проекта"
                 value={values.description || ''}
-                placeholder="Кому вы хотите помочь и каким образом, на что пойдут собранные средства?"
+                placeholder="Кому Вы хотите помочь и каким образом, на что пойдут собранные средства?"
                 status={(errors.description) ? 'error' : undefined}
                 onChange={handleChange} />
             <Input
