@@ -209,7 +209,7 @@ export default {
         disabled: true,
         type: 'info',
         imageType: 'connect',
-        title: 'Погоги-погоди',
+        title: 'Погоди-погоди',
         message: 'А где доступ в Интернет?'
     },
 
