@@ -26,7 +26,7 @@ const Home = ({
 	showPrize,
 	openRequestFundingModal
 }) => {
-	const supportDonate = useSelector(state => state.platform) !== IOS;	
+	const supportDonate = useSelector(state => state.platform) !== IOS;
 
 	return (
 		<Panel id={id} className="Home">
