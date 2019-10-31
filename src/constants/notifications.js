@@ -101,7 +101,7 @@ export default {
     [SHARE_STORY_PREVIEW]: {
         isHeaderPadding: false,
         type: 'info',
-        title: 'Так будет выглядить твоя история',
+        title: 'Так будет выглядeть твоя история',
     },
     [SHARE_STORY_PREVIEW_ERROR]: {
         type: 'danger',
