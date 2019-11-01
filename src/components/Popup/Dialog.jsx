@@ -32,7 +32,7 @@ const images = {
     prize
 };
 
-const Dialog = ({ className, isHeaderPadding, animationType, type, imageType, title, message, children, actions, onClose }) => {
+const Dialog = ({ className, isHeaderPadding, disabled, onClose, animationType, type, imageType, title, message, children, actions }) => {
     useLockBody(true);
 
     const wrapperRef = useRef();
@@ -52,6 +52,10 @@ const Dialog = ({ className, isHeaderPadding, animationType, type, imageType, ti
     }, [wrapperRef]);
 
     function handleSwiping({ deltaY, event }) {    
+        if (disabled) {
+            return;
+        }
+
         if (
             (event.target.classList.contains('Dialog__wrapper') || wrapperRef.current.contains(event.target)) &&
             hasScroll &&

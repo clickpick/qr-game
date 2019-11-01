@@ -39,13 +39,14 @@ const Popup = ({ className, visible, disabled, onClose, isHeaderPadding, type, i
         <div
             style={style}
             className={classNames(className, 'Popup', `Popup--fade-${animationType}`)}
-            tabIndex={-1}
+            tabIndex={-1}            
             onClick={close}
             onAnimationEnd={animationEnd}>
             <div className="Popup__mask" />
             {(show) && <Dialog
                 className="Popup__Dialog"
                 isHeaderPadding={isHeaderPadding}
+                disabled={disabled}
                 onClose={close}
                 animationType={animationType}
                 type={type}
