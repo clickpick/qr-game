@@ -27,6 +27,7 @@ const Home = ({
 	openRequestFundingModal
 }) => {
 	const supportDonate = useSelector(state => state.platform) !== IOS;
+	const disabledScan = disabledOpenQR || user.activated_project_keys.length === 5;
 
 	return (
 		<Panel id={id} className="Home">
@@ -46,7 +47,7 @@ const Home = ({
 							theme="info"
 							full
 							onClick={openQR}
-							disabled={disabledOpenQR} />
+							disabled={disabledScan} />
 						<Button
 							className="Home__action  Home__action--share"
 							before={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
