@@ -30,7 +30,8 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
     function submitCallback(values) {
         if (!isValid()) {
             setErrorMessage('Заполните все поля');
-            setErrors(errors => Object.keys(errors).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
+            setErrors(errors => Object.keys(errors).reduce((acc, key) => ({ ...acc, [key]: !values[key] }), {}));
+
             return;
         }
 
@@ -61,6 +62,9 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
             });
         }
     }
+
+    console.log(errors);
+    
 
     return (
         <FormLayout>
