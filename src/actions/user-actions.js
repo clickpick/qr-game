@@ -71,7 +71,10 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
 
             if (response.data.is_last) {
                 dispatch(showNotification(QR_FINISH_GAME, {
-                    message: `Ты открыл последний символ “${response.data.value.toUpperCase()}”!`
+                    message: `
+                        Ты открыл последний символ “${response.data.value.toUpperCase()}”!<br />
+                        Поздравляем, ты выиграл!
+                    `
                 }, 5000));
                 dispatch(finishProject());
 
