@@ -32,8 +32,8 @@ const Scanner = ({ onScanned }) => {
     }, 3000);
 
     const hasGetUserMedia = useCallback(() => {
-        return !!(navigator.mediaDevices &&
-            navigator.mediaDevices.getUserMedia);
+        return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia || navigator.msGetUserMedia);
     }, []);
 
     const stop = useCallback(() => {
