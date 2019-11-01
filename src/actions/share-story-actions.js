@@ -63,6 +63,18 @@ const fetchShareStory = (connect, svg) => async (dispatch) => {
         dispatch(showNotification(SHARE_STORY_SUCCESS));
     } catch (e) {
         dispatch(shareStoryError());
+
+        if (e.hasOwnProperty('error_code')) {            
+            switch (e.error_code) {
+                case 1: case 2:
+                    dispatch(showNotification(SHARE_STORY_ERROR, { message: 'Ты не разрешил нам публиковать истории :(' }));
+                    return;
+                case 2:
+                    dispatch(showNotification(SHARE_STORY_ERROR));
+                    return;            
+            }
+        }
+
         dispatch(showNotification(SHARE_STORY_ERROR));
     }
 }

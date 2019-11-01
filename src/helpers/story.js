@@ -1,6 +1,6 @@
 import { APP_ID, APP_LINK, USE_API_VERSION } from 'constants/vk';
 import * as constants from "constants/story";
-import { shareStory as upload } from "api";
+import { postStory as upload } from "api";
 
 const load = (src, width, height) => new Promise((resolve, reject) => {
     const img = new Image(width, height);
@@ -54,17 +54,20 @@ const shareStory = (connect, qrcode, reply, link = APP_LINK) => new Promise((res
             connect.sendPromise("VKWebAppCallAPIMethod", {
                 method: "stories.getPhotoUploadServer",
                 params
-            }).then((response) => {
-                const { upload_url } = response.response;
+            })
+                .then((response) => {
+                    const { upload_url } = response.response;
 
-                return draw(constants.TEMPLATE_URL, qrcode)
-                    .then((story) => {
-                        upload(upload_url, story)
-                            .then(() => resolve(response.response.upload_url))
-                            .catch((chain) => reject({ error_code: 3, error_text: "Can't upload story", error_chain: chain }));
-                    });
-            }).catch((chain) => reject({ error_code: 2, error_text: "Can't get upload url", error_chain: chain }));
-        }).catch((chain) => reject({ error_code: 1, error_text: "Can't get access_token", error_chain: chain }));
+                    return draw(constants.TEMPLATE_URL, qrcode)
+                        .then((story) => {
+                            upload(upload_url, story)
+                                .then((response) => resolve(response))
+                                .catch((chain) => reject({ error_code: 3, error_text: "Can\'t upload story", error_chain: chain }));
+                        });
+                })
+                .catch((chain) => reject({ error_code: 2, error_text: "Can\'t get upload url", error_chain: chain }));
+        })
+        .catch((chain) => reject({ error_code: 1, error_text: "Can\'t get access_token", error_chain: chain }));
 });
 
 export { draw, shareStory };
