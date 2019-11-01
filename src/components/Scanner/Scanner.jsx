@@ -99,9 +99,11 @@ const Scanner = ({ onScanned }) => {
 
                 video.srcObject = stream;
                 video.setAttribute('playsinline', true); // required to tell iOS safari we don't want fullscreen
-                video.play();
+                const playPromise = video.play();
 
-                requestAnimationFrame(tick);
+                if (playPromise !== undefined) {
+                    requestAnimationFrame(tick);
+                }
             }
         } catch (e) {            
             setStatus(statuses.error);
