@@ -64,8 +64,6 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
 
     return (
         <FormLayout>
-            {(errorMessage) && <FormStatus title={errorMessage} state="error" />}
-
             <Input
                 type="text"
                 name="name"
@@ -112,6 +110,8 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
                 value={values.contact || ''}
                 status={(errors.contact) ? 'error' : undefined}
                 onChange={handleChange} />
+
+            {(errorMessage) && <FormStatus title={errorMessage} state="error" />}
 
             <Button
                 className="RequestFundingForm__Button"
