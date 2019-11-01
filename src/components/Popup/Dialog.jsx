@@ -71,7 +71,7 @@ const Dialog = ({ className, isHeaderPadding, animationType, type, imageType, ti
         }
     }
 
-    function handleSwiped() {
+    function handleSwipedUp() {
         if (dragging) {
             setDragging(false);
 
@@ -96,7 +96,7 @@ const Dialog = ({ className, isHeaderPadding, animationType, type, imageType, ti
 
     const handlers = useSwipeable({
         onSwiping: handleSwiping,
-        onSwipedUp: handleSwiped,
+        onSwipedUp: handleSwipedUp,
         preventDefaultTouchmoveEvent: false,
         trackMouse: true
     });
