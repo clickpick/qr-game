@@ -1,5 +1,3 @@
-import { default as pureAxios } from 'axios';
-
 const requestPost = (urn, data) =>
     window.axios.post(urn, data)
         .then(({ data: { data }, status }) => ({ data, status }));
