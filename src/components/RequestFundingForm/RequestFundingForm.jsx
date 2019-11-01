@@ -107,7 +107,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
             <Input
                 name="contact"
                 top="Контакты для связи"
-                placeholder="Эл. почта, мессенджеры или соцсети"
+                placeholder="Эл. почта, мессенджеры или соц. сети"
                 value={values.contact || ''}
                 status={(errors.contact) ? 'error' : undefined}
                 onChange={handleChange} />
