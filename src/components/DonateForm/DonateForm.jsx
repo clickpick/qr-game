@@ -114,7 +114,7 @@ const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
                 inputMode="numeric"
                 top="Или введи свою сумму (₽)"
                 placeholder="550"
-                maxLength="20"
+                maxLength="10"
                 value={amount}
                 status={(error) && 'error'}
                 onClick={() => setCheckedValue('')}

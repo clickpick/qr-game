@@ -92,7 +92,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
                 inputMode="numeric"
                 top="Сколько нужно собрать (в ₽)"
                 placeholder="Например, 200000"
-                maxLength="20"
+                maxLength="10"
                 value={values.goal_funds || ''}
                 status={(errors.goal_funds) ? 'error' : undefined}
                 onChange={handleChange} />
