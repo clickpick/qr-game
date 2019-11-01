@@ -41,6 +41,12 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
             return;
         }
 
+        if (values.goal_funds.indexOf('0') === 0) {
+            setErrorMessage('Некорректное значение суммы сборов');
+            setErrors(errors => ({ ...errors, goal_funds: true }));
+            return;
+        }
+
         const goal = Number(values.goal_funds);
 
         if (goal < 1) {
