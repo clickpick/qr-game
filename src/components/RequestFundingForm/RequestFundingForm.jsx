@@ -63,9 +63,6 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
         }
     }
 
-    console.log(errors);
-    
-
     return (
         <FormLayout>
             <Input
