@@ -56,12 +56,15 @@ const Dialog = ({ className, isHeaderPadding, disabled, onClose, animationType, 
             return;
         }
 
-        if (
-            (event.target.classList.contains('Dialog__wrapper') || wrapperRef.current.contains(event.target)) &&
-            hasScroll &&
-            !event.target.classList.contains('Dialog__footer')
-        ) {
-            return;
+        const target = event.target;
+        const wrapper = wrapperRef.current;
+
+        if (target && wrapper) {
+            if ((target.classList.contains('Dialog__wrapper') || wrapper.contains(target)) &&
+                hasScroll &&
+                !target.classList.contains('Dialog__footer')) {
+                return;
+            }
         }
 
         event.preventDefault();
