@@ -35,54 +35,74 @@ const images = {
 const Dialog = ({ className, isHeaderPadding, animationType, type, imageType, title, message, children, actions, onClose }) => {
     useLockBody(true);
 
-    const rootRef = useRef();
+    const wrapperRef = useRef();
     const [showFooter, setShowFooter] = useState(false);
+
     const [top, setTop] = useState(0);
+    const [hasScroll, setHasScroll] = useState(false);
+    const [dragging, setDragging] = useState(false);
 
     useEffect(() => {
-        if (rootRef && rootRef.current) {
-            rootRef.current.scrollTop = 0;
-            const { scrollHeight, offsetHeight } = rootRef.current;
+        if (wrapperRef && wrapperRef.current) {
+            const { scrollHeight, offsetHeight } = wrapperRef.current;
 
-            setShowFooter(scrollHeight > offsetHeight + 30);
+            setShowFooter(scrollHeight > offsetHeight + 20);
+            setHasScroll(scrollHeight > offsetHeight);
         }
-    }, [rootRef]);
+    }, [wrapperRef]);
 
-    function handleSwiping({ deltaY }) {
-        if (deltaY > 0 && !showFooter) {
+    function handleSwiping({ deltaY, event }) {    
+        if (
+            (event.target.classList.contains('Dialog__wrapper') || wrapperRef.current.contains(event.target)) &&
+            hasScroll &&
+            !event.target.classList.contains('Dialog__footer')
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+
+        if (!dragging) {
+            setDragging(true);
+        }
+
+        if (deltaY > 0) {
             setTop(deltaY * (-1));
         }
     }
 
     function handleSwiped() {
-        if (top < -50) {
-            onClose();
-            setTimeout(() => setTop(0), 500);
+        if (dragging) {
+            setDragging(false);
 
-            return;
+            if (top < -50) {
+                onClose();
+
+                return;
+            }
+
+            const timerId = setInterval(() => {
+                setTop((top) => {
+                    if (top === 0) {
+                        clearInterval(timerId);
+                        return 0;
+                    }
+
+                    return top + 1;
+                });
+            }, 1);
         }
-
-        const timerId = setInterval(() => {
-            setTop((top) => {
-                if (top === 0) {
-                    clearInterval(timerId);
-                    return 0;
-                }
-
-                return top + 1;
-            });
-        }, 1);
     }
 
     const handlers = useSwipeable({
         onSwiping: handleSwiping,
-        onSwiped: handleSwiped,
-        preventDefaultTouchmoveEvent: true,
+        onSwipedUp: handleSwiped,
+        preventDefaultTouchmoveEvent: false,
         trackMouse: true
     });
 
     function handleScroll(e) {
-        const scrolledHeight = e.target.scrollTop + e.target.offsetHeight + 30;
+        const scrolledHeight = e.target.scrollTop + e.target.offsetHeight + 20;
 
         setShowFooter(scrolledHeight < e.target.scrollHeight);
     }
@@ -125,21 +145,21 @@ const Dialog = ({ className, isHeaderPadding, animationType, type, imageType, ti
                 `Dialog--slide-down-${animationType}`
             )}
             onClick={handleClick}
-            onScroll={handleScroll}
             {...handlers}
-            ref={rootRef}
             style={{ top: `${top}px` }}>
-            {getImage()}
-            <h3 className="Dialog__title" children={title} />
-            {message && <p className="Dialog__message" dangerouslySetInnerHTML={{ __html: message }} />}
-            {children}
+            <div className="Dialog__wrapper" ref={wrapperRef} onScroll={handleScroll}>
+                {getImage()}
+                <h3 className="Dialog__title" children={title} />
+                {message && <p className="Dialog__message" dangerouslySetInnerHTML={{ __html: message }} />}
+                {children}
 
-            {(Array.isArray(actions) && actions.length > 0) &&
-                <div className="Dialog__actions" children={actions.map(renderAction)} />}
+                {(Array.isArray(actions) && actions.length > 0) &&
+                    <div className="Dialog__actions" children={actions.map(renderAction)} />}
 
-            <footer className={classNames('Dialog__footer', { 'Dialog__footer--show': showFooter })}>
-                <IconArrowDown />
-            </footer>
+                <footer className={classNames('Dialog__footer', { 'Dialog__footer--show': showFooter })}>
+                    <IconArrowDown />
+                </footer>
+            </div>
         </div>
     );
 };
