@@ -207,7 +207,14 @@ export default function App() {
 
     const qrCodeRef = createRef();
 
-    function openQR() {
+    /**
+     * Пробрасываем в debounce,
+     * потому что бывают моменты,
+     * когда пользователь нажимает на кнопку
+     * несколько раз, при это сканер
+     * ещё не открылся в силу мощности устройства.
+     */
+    const openQR = debounce(() => {
         if (currentPlatform === MOBILE_WEB || currentPlatform === WEB) {
             dispatch(showNotification(NOTIFICATION.MOBILE_SCANNER, {
                 children: <Scanner onScanned={activateProjectKey} />
@@ -217,7 +224,7 @@ export default function App() {
         }
 
         connect.send('VKWebAppOpenQR');
-    }
+    }, 200);
 
     function share() {
         if (qrCodeRef && qrCodeRef.current) {
