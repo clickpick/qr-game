@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { string, oneOf, arrayOf, shape, bool, func } from 'prop-types';
 import classNames from 'classnames';
 
@@ -42,7 +42,7 @@ const Dialog = ({ className, isHeaderPadding, disabled, onClose, animationType, 
     const [hasScroll, setHasScroll] = useState(false);
     const [dragging, setDragging] = useState(false);
 
-    useEffect(() => {
+    const initialWrapper = useCallback(() => {
         if (wrapperRef && wrapperRef.current) {
             const { scrollHeight, offsetHeight } = wrapperRef.current;
 
@@ -50,6 +50,16 @@ const Dialog = ({ className, isHeaderPadding, disabled, onClose, animationType, 
             setHasScroll(scrollHeight > offsetHeight);
         }
     }, [wrapperRef]);
+
+    useEffect(() => {
+        initialWrapper();
+
+        window.addEventListener('resize', initialWrapper);
+
+        return () => {
+            window.removeEventListener('resize', initialWrapper);
+        };
+    }, [initialWrapper]);
 
     function handleSwiping({ deltaY, event }) {    
         if (disabled) {
