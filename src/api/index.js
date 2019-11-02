@@ -25,9 +25,6 @@ export const projectFacts = (projectId) =>
 export const toggleNotifications = (enabled) =>
     requestPost('/notifications', { enabled });
 
-export const addFunds = (projectId, value) =>
-    requestPost(`/projects/${projectId}/add-funds`, { value });
-
 export const requestFunding = (data) =>
     requestPost('/request-funding', data);
 
