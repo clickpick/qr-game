@@ -76,6 +76,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
                 name="name"
                 top="Название проекта"
                 placeholder="Борьба за тигра"
+                maxLength="250"
                 value={values.name || ''}
                 status={(errors.name) ? 'error' : undefined}
                 onChange={handleChange} />
@@ -100,6 +101,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
                 name="prize"
                 top="Приз за победу в проекте"
                 placeholder="Сумма, предмет или событие"
+                maxLength="250"
                 value={values.prize || ''}
                 status={(errors.prize) ? 'error' : undefined}
                 onChange={handleChange} />
@@ -107,6 +109,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
                 name="link"
                 top="Подробнее о фонде"
                 placeholder="Опишите фонд или укажите ссылку на сайт"
+                maxLength="250"
                 value={values.link || ''}
                 status={(errors.link) ? 'error' : undefined}
                 onChange={handleChange} />
@@ -114,6 +117,7 @@ const RequestFundingForm = ({ onSubmit, disabledSubmit }) => {
                 name="contact"
                 top="Контакты для связи"
                 placeholder="Эл. почта, мессенджеры или соц. сети"
+                maxLength="250"
                 value={values.contact || ''}
                 status={(errors.contact) ? 'error' : undefined}
                 onChange={handleChange} />
