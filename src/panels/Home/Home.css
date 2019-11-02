@@ -76,6 +76,7 @@
 
 .Home__Cipher {
     margin-bottom: 40px;
+    cursor: pointer;
 }
 
 .Home__ProjectCard {
