@@ -33,11 +33,17 @@ export default (!doc)
                 return;
             }
 
+            function handleTouchMove(e) {
+                e.preventDefault();
+            }
+
             const bodyInfo = bodies.get(body);
 
             if (locked) {
                 if (!bodyInfo) {
                     bodies.set(body, { counter: 1, initialOverflow: body.style.overflow });
+
+                    body.addEventListener('touchmove', handleTouchMove);
                     body.style.overflow = 'hidden';
                 } else {
                     bodies.set(body, { counter: bodyInfo.counter + 1, initialOverflow: bodyInfo.initialOverflow });
@@ -46,6 +52,8 @@ export default (!doc)
                 if (bodyInfo) {
                     if (bodyInfo.counter === 1) {
                         bodies.delete(body);
+
+                        body.removeEventListener('touchmove', handleTouchMove);
                         body.style.overflow = bodyInfo.initialOverflow;
                     } else {
                         bodies.set(body, { counter: bodyInfo.counter - 1, initialOverflow: bodyInfo.initialOverflow });
@@ -59,6 +67,8 @@ export default (!doc)
                 if (bodyInfo) {
                     if (bodyInfo.counter === 1) {
                         bodies.delete(body);
+
+                        body.removeEventListener('touchmove', handleTouchMove);
                         body.style.overflow = bodyInfo.initialOverflow;
                     } else {
                         bodies.set(body, { counter: bodyInfo.counter - 1, initialOverflow: bodyInfo.initialOverflow });
