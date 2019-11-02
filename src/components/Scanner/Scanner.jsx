@@ -3,7 +3,7 @@ import { func } from 'prop-types';
 
 import './Scanner.css';
 
-import jsQR from "jsqr";
+import jsQR from 'jsqr';
 
 import { debounce } from 'helpers';
 
@@ -47,7 +47,7 @@ const Scanner = ({ onScanned }) => {
     const tick = useCallback(() => {
         if (canvasRef.current) {
             const canvasElement = canvasRef.current;
-            const canvas = canvasElement.getContext("2d");
+            const canvas = canvasElement.getContext('2d');
 
             function drawLine(begin, end, color) {
                 canvas.beginPath();
@@ -66,14 +66,14 @@ const Scanner = ({ onScanned }) => {
                 canvas.drawImage(video, 0, 0, 262, 262, video.width / 1.5, video.height / 1.5, 262, 262);
                 const imageData = canvas.getImageData(0, 0, 262, 262);
                 const code = jsQR(imageData.data, imageData.width, imageData.height, {
-                    inversionAttempts: "dontInvert",
+                    inversionAttempts: 'dontInvert',
                 });
 
                 if (code) {
-                    drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
-                    drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
-                    drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
-                    drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+                    drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58');
+                    drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58');
+                    drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58');
+                    drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58');
 
                     getResult(code.data);
                 }
