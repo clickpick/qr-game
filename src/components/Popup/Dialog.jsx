@@ -100,7 +100,7 @@ const Dialog = ({ className, isHeaderPadding, disabled, onClose, animationType, 
 
             const timerId = setInterval(() => {
                 setTop((top) => {
-                    if (top === 0) {
+                    if (top >= 0) {
                         clearInterval(timerId);
                         return 0;
                     }
