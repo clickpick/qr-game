@@ -4,7 +4,6 @@ import { func } from 'prop-types';
 import './Scanner.css';
 
 import jsQR from "jsqr";
-import { platform, ANDROID } from '@vkontakte/vkui';
 
 import { debounce } from 'helpers';
 
@@ -14,9 +13,7 @@ import useUnmount from 'hooks/use-unmount';
 const statuses = {
     wait: 'Ждём твое разрешение',
     connect: 'Подключаемся...',
-    error: (platform() === ANDROID)
-        ? 'Ты не дал доступ к камере :( Можешь дать его в настройках'
-        : 'Ты не дал доступ к камере :( Нажми сюда, чтобы разрешить'
+    error: 'Ты не дал доступ к камере или у тебя её нет :('
 };
 
 const Scanner = ({ onScanned }) => {
@@ -30,11 +27,6 @@ const Scanner = ({ onScanned }) => {
             onScanned(code);
         }
     }, 3000);
-
-    const hasGetUserMedia = useCallback(() => {
-        return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia || navigator.msGetUserMedia);
-    }, []);
 
     const stop = useCallback(() => {
         if (video) {
@@ -93,22 +85,20 @@ const Scanner = ({ onScanned }) => {
 
     const start = useCallback(async () => {        
         try {
-            if (hasGetUserMedia()) {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-                setStatus(statuses.connect);
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+            setStatus(statuses.connect);
 
-                video.srcObject = stream;
-                video.setAttribute('playsinline', true); // required to tell iOS safari we don't want fullscreen
-                const playPromise = video.play();
+            video.srcObject = stream;
+            video.setAttribute('playsinline', true); // required to tell iOS safari we don't want fullscreen
+            const playPromise = video.play();
 
-                if (playPromise !== undefined) {
-                    requestAnimationFrame(tick);
-                }
+            if (playPromise !== undefined) {
+                requestAnimationFrame(tick);
             }
-        } catch (e) {            
+        } catch (e) {
             setStatus(statuses.error);
         }
-    }, [tick, video, hasGetUserMedia]);
+    }, [tick, video]);
 
     useMount(start);
     useUnmount(stop);
