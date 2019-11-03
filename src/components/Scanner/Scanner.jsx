@@ -13,7 +13,9 @@ import useUnmount from 'hooks/use-unmount';
 const statuses = {
     wait: 'Ждём твое разрешение',
     connect: 'Подключаемся...',
-    error: 'Ты не дал доступ к камере или у тебя её нет :('
+    nocam: 'Мы не нашли твою камеру – включи и улыбнись :)',
+    nopermission: 'Ты не дал доступ к камере',
+    nosupport: 'Упс! Похоже система дала сбой'
 };
 
 const Scanner = ({ onScanned }) => {
@@ -83,20 +85,65 @@ const Scanner = ({ onScanned }) => {
         }
     }, [getResult, video]);
 
-    const start = useCallback(async () => {        
+    const start = useCallback(async () => {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+            const { mediaDevices } = navigator;
+
+            if (!mediaDevices) {
+                setStatus(statuses.nosupport);
+                return;
+            }
+
+            const getDevices = mediaDevices.enumerateDevices;
+
+            if (!getDevices) {
+                setStatus(statuses.nosupport);
+                return;
+            }
+
+            const available = (await getDevices()).some((device) => {
+                return device.kind === 'videoinput';
+            });
+
+            if (!available) {
+                setStatus(statuses.nocam);
+                return;
+            }
+
+            const getMedia = mediaDevices.getUserMedia || mediaDevices.webkitGetUserMedia;
+
+            if (!getMedia) {
+                setStatus(statuses.nosupport);
+                return;
+            }
+
+            const stream = await getMedia({ video: { facingMode: 'environment' } });
             setStatus(statuses.connect);
 
-            video.srcObject = stream;
-            video.setAttribute('playsinline', true); // required to tell iOS safari we don't want fullscreen
-            const playPromise = video.play();
-
-            if (playPromise !== undefined) {
-                requestAnimationFrame(tick);
+            if ('srcObject' in video) {
+                video.srcObject = stream;
+            } else {
+                video.src = URL.createObjectURL(stream);
             }
+
+            video.setAttribute('playsinline', true);
+            video.onloadedmetadata = () => {
+                video.play();
+
+                requestAnimationFrame(tick);
+            };
         } catch (e) {
-            setStatus(statuses.error);
+            if (e.name === 'NotAllowedError') {
+                setStatus(statuses.nopermission);
+                return;
+            }
+
+            if (e.name === 'NotFoundError' || e.name === 'NotReadableError') {
+                setStatus(statuses.nocam);
+                return;
+            }
+
+            setStatus(statuses.nosupport);
         }
     }, [tick, video]);
 
