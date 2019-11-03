@@ -13,7 +13,7 @@ import useUnmount from 'hooks/use-unmount';
 const statuses = {
     wait: 'Ждём твое разрешение',
     connect: 'Подключаемся...',
-    nocam: 'Мы не нашли твою камеру – включи и улыбнись :)',
+    nocam: 'Мы не нашли твою камеру. Она у тебя вообще есть?',
     nopermission: 'Ты не дал доступ к камере',
     nosupport: 'Упс! Похоже система дала сбой'
 };
