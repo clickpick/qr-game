@@ -101,7 +101,7 @@ const Scanner = ({ onScanned }) => {
                 return;
             }
 
-            const available = (await getDevices()).some((device) => {
+            const available = (await getDevices.call(mediaDevices)).some((device) => {
                 return device.kind === 'videoinput';
             });
 
@@ -117,7 +117,7 @@ const Scanner = ({ onScanned }) => {
                 return;
             }
 
-            const stream = await getMedia({ video: { facingMode: 'environment' } });
+            const stream = await getMedia.call(mediaDevices, { video: { facingMode: 'environment' } });
             setStatus(statuses.connect);
 
             if ('srcObject' in video) {
@@ -129,7 +129,6 @@ const Scanner = ({ onScanned }) => {
             video.setAttribute('playsinline', true);
             video.onloadedmetadata = () => {
                 video.play();
-
                 requestAnimationFrame(tick);
             };
         } catch (e) {
