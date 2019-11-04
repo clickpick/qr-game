@@ -7,7 +7,7 @@ import './Dialog.css';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 
-import { useSwipeable } from 'react-swipeable';
+import { useSwipeable, UP, DOWN } from 'react-swipeable';
 import useLockBody from 'hooks/use-lock-body';
 
 import { ReactComponent as IconArrowDown } from 'svg/arrow-down.svg';
@@ -40,6 +40,7 @@ const Dialog = ({ className, isHeaderPadding, disabled, onClose, animationType, 
 
     const [top, setTop] = useState(0);
     const [hasScroll, setHasScroll] = useState(false);
+    const [scrolling, setScrolling] = useState(false);
     const [dragging, setDragging] = useState(false);
 
     const initialWrapper = useCallback(() => {
@@ -61,7 +62,7 @@ const Dialog = ({ className, isHeaderPadding, disabled, onClose, animationType, 
         };
     }, [initialWrapper]);
 
-    function handleSwiping({ deltaY, event }) {    
+    function handleSwiping({ deltaY, event, dir }) {
         if (disabled) {
             return;
         }
@@ -70,25 +71,49 @@ const Dialog = ({ className, isHeaderPadding, disabled, onClose, animationType, 
         const wrapper = wrapperRef.current;
 
         if (target && wrapper) {
-            if ((target.classList.contains('Dialog__wrapper') || wrapper.contains(target)) &&
-                hasScroll &&
-                !target.classList.contains('Dialog__footer')) {
-                return;
+            const scrolled = wrapper.scrollTop === wrapper.scrollHeight - wrapper.offsetHeight;
+            const scrollTop = dir === UP;
+            const scrollDown = dir === DOWN;
+
+            if (hasScroll && !target.classList.contains('Dialog__footer')) {
+                setScrolling(true);
+
+                if (scrollTop) {
+                    // eslint-disable-next-line no-mixed-operators
+                    if (!scrolled || scrolling && !dragging) {
+                        return;
+                    }
+                    
+                    setScrolling(false);
+                }
+
+                if (scrollDown) {
+                    // eslint-disable-next-line no-mixed-operators
+                    if (scrolled || scrolling && !dragging) {
+                        return;
+                    }
+                }
             }
         }
 
-        event.preventDefault();
+        if (!scrolling) {
+            event.preventDefault();
 
-        if (!dragging) {
-            setDragging(true);
-        }
+            if (!dragging) {
+                setDragging(true);
+            }
 
-        if (deltaY > 0) {
-            setTop(deltaY * (-1));
+            if (deltaY > 0) {
+                setTop(deltaY * (-1));
+            }
         }
     }
 
     function handleSwipedUp() {
+        if (scrolling) {
+            setScrolling(false);
+        }
+
         if (dragging) {
             setDragging(false);
 

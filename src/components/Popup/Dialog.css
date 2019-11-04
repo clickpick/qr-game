@@ -7,8 +7,6 @@
 
     width: 100%;
     max-height: 94%;
-    padding-right: 20px;
-    padding-left: 20px;
 
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -50,7 +48,9 @@
 .Dialog__wrapper {
     max-height: 94vh;
     padding-top: calc(50px + var(--safe-area-inset-top));
+    padding-right: 20px;
     padding-bottom: 20px;
+    padding-left: 20px;
 
     overflow-y: auto;
 }
@@ -106,6 +106,17 @@
 
 .Dialog__message img {
     max-height: 380px;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge*/
+    user-select: none; 
 }
 
 .Dialog__message a {
