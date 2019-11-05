@@ -165,3 +165,15 @@
     opacity: 1;
     visibility: visible;
 }
+
+@media (min-width: 500px) {
+    .Dialog__status {
+        width: 100px;
+        height: 100px;
+    }
+
+    .Dialog__image {
+        width: 100px;
+        height: 100px;
+    }   
+}
