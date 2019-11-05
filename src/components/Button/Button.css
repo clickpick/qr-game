@@ -34,7 +34,7 @@
 }
 
 .Button.Button--secondary {
-    background-color: rgb(116, 144, 262);
+    background-color: rgba(var(--color-white-rgb), 0.1);
     color: var(--color-white);
 }
 
