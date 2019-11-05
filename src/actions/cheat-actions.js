@@ -35,10 +35,14 @@ const getCheat = (connect) => async (dispatch) => {
             if (payResponse.status) {
                 dispatch(showNotification(CHEAT_PROCESSING, {}, 0));
 
-                const orderId = JSON.parse(payResponse.extra).order_id;
+                let extra = payResponse.extra;
+                if (payResponse.hasOwnProperty('result')) {
+                    extra = payResponse.result.extra;
+                }
+                const orderId = JSON.parse(extra).order_id;
 
                 setTimeout(async () => {
-                    let i = 2;
+                    let i = 5;
                     while (i--) {
                         try {
                             const keyResponse = await activateCheat(orderId);
