@@ -1,6 +1,7 @@
-import { auth, activeProjectKey } from 'api';
+import { auth, activeProjectKey, toggleNotifications } from 'api';
 import * as types from 'constants/types';
 import { IOS } from 'constants/platform';
+import connect from '@vkontakte/vk-connect';
 
 import { showNotification, closeNotification } from 'actions/notification-actions';
 import { finishProject } from 'actions/project-actions';
@@ -50,7 +51,7 @@ async function fetchUser(dispatch) {
 }
 
 const fetchActivateKey = (token) => async (dispatch, getState) => {
-    const { project, platform } = getState();
+    const { project, platform, user } = getState();
 
     if (!project.data) {
         // todo
@@ -65,6 +66,8 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
 
     try {
         const response = await activeProjectKey(project.data.id, token);
+        const isFirstKey = user.data.activated_project_keys.length === 0;
+        const disabledNotifications = user.data.notifications_are_enabled === '0';
 
         setTimeout(() => {
             dispatch(addNewKey(response.data));
@@ -77,6 +80,33 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
                     `
                 }, 5000));
                 dispatch(finishProject());
+
+                return;
+            }
+
+            if (isFirstKey && disabledNotifications) {
+                dispatch(showNotification(QR_SUCCESS, {
+                    message: `
+                        Ты открыл новый символ “${response.data.value.toUpperCase()}”!<br />
+                        Включи уведомления, чтобы узнавать о старте новых игры и следить за текущей.
+                    `,
+                    actions: [
+                        {
+                            theme: 'info',
+                            title: 'Скрыть',
+                            action: () => dispatch(closeNotification())
+                        },
+                        {
+                            theme: 'primary',
+                            title: 'Включить',
+                            full: true,
+                            action: () => {
+                                enableNotifications();
+                                dispatch(closeNotification());
+                            }
+                        }
+                    ]
+                }, 0));
 
                 return;
             }
@@ -137,6 +167,18 @@ function getRandomFact(facts) {
 
 function getRandomIndexFact(max) {
     return Math.floor(Math.random() * Math.floor(max));
+}
+
+const enableNotifications = async () => {
+    try {
+        const response = await connect.sendPromise('VKWebAppAllowNotifications');
+        
+        if (response.result) {
+            toggleNotifications(true);
+        }
+    } catch (e) {
+        toggleNotifications(false);
+    }
 }
 
 export { fetchUser, fetchActivateKey, addNewKey };
