@@ -92,9 +92,6 @@ const DonateForm = ({ className, onSubmit, onCancel, disabledSubmit }) => {
 
     return (
         <FormLayout className={classNames(className, 'DonateForm')} onSubmit={handleSubmit}>
-            {/* only testing period */}
-            <FormStatus title="Во время тестирования все платежи приравниваются к 1 ₽ вне зависимости от суммы, которую ты ввёл" state="error" />
-
             {(error) &&
                 <FormStatus title={error} state="error" />}
 
