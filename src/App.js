@@ -226,7 +226,7 @@ export default function App() {
         connect.send('VKWebAppOpenQR');
     }, 200);
 
-    function share() {
+    const share = debounce(() => {
         if (qrCodeRef && qrCodeRef.current) {
             const svg = qrCodeRef.current.firstElementChild;
             dispatch(previewShareStory(connect, svg));
@@ -235,7 +235,7 @@ export default function App() {
         }
 
         dispatch(showNotification(NOTIFICATION.SHARE_STORY_QR_ERROR));
-    }
+    }, 200);
 
     function modalBack() {
         setActiveModal(null);
