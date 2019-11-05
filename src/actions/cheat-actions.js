@@ -32,13 +32,16 @@ const getCheat = (connect) => async (dispatch) => {
 
             dispatch(hideCheat());
 
-            if (payResponse.status) {
+            let status = payResponse.status;
+            let extra = payResponse.extra;
+            if (payResponse.hasOwnProperty('result')) {
+                status = payResponse.result.status;
+                extra = payResponse.result.extra;
+            }
+
+            if (status) {
                 dispatch(showNotification(CHEAT_PROCESSING, {}, 0));
 
-                let extra = payResponse.extra;
-                if (payResponse.hasOwnProperty('result')) {
-                    extra = payResponse.result.extra;
-                }
                 const orderId = JSON.parse(extra).order_id;
 
                 setTimeout(async () => {
