@@ -8,7 +8,7 @@ import { userPicPrepare } from 'helpers';
 
 import './QRCode.css';
 
-const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, loader }, ref) => {
+const QRCode = React.forwardRef(({ className, userPic, token, theme, loader }, ref) => {
     const [qrSvg, setQrSvg] = useState('');
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, l
                     qrSize: 262,
                     isShowLogo: true,
                     logoData,
-                    foregroundColor,
+                    foregroundColor: '#327CF6'
                 })
             ));
         } else {
@@ -26,11 +26,11 @@ const QRCode = React.forwardRef(({ className, userPic, token, foregroundColor, l
                 vkQr.createQR(`${APP_LINK}#token=${token}`, {
                     qrSize: 262,
                     isShowLogo: false,
-                    foregroundColor,
+                    foregroundColor: '#327CF6'
                 })
             );
         }
-    }, [userPic, token, foregroundColor]);
+    }, [userPic, token, theme]);
 
     className = classNames(className, 'QRCode');
 
@@ -43,12 +43,10 @@ QRCode.propTypes = {
     className: string,
     userPic: string,
     token: string,
-    foregroundColor: string,
     loader: oneOfType([string, node]),
 };
 
 QRCode.defaultProps = {
-    foregroundColor: '#327CF6',
     loader: 'Загрузка...'
 };
 

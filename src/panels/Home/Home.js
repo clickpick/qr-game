@@ -53,6 +53,7 @@ const Home = ({
 							before={<Icon24ShareOutline className="Home__Icon24ShareOutline" />}
 							children="Поделиться в истории"
 							size="medium"
+							theme="info"
 							full
 							onClick={share}
 							disabled={disabledShare} />

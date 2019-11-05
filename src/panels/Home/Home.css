@@ -1,5 +1,5 @@
 .Home {
-    --background_page: var(--color-primary);
+    --background_page: var(--home-blue-background);
 }
 
 .Home .Panel__in {
@@ -9,7 +9,7 @@
 
 .Home__white-wrapper {
     padding-top: calc(85px + var(--safe-area-inset-top));
-    background-color: var(--color-white);
+    background-color: var(--home-white-background);
 }
 
 .Home__QRCode {
@@ -56,7 +56,7 @@
 
     padding-top: 50px;
 
-    background-color: var(--color-primary);
+    background-color: var(--home-blue-background);
 
     overflow: hidden;
 }

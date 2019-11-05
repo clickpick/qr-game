@@ -27,6 +27,65 @@
 
     --background_page: var(--color-white);
     --accent: var(--color-primary);
+
+    --home-blue-background: var(--color-primary);
+    --home-white-background: var(--color-white);
+
+    /**
+     * Кнопки
+    */
+    --button-default-background: var(--color-white);
+    --button-default-color: var(--color-primary);
+    --button-svg-fill: var(--color-primary);
+
+    --button-primary-background: var(--color-primary);
+    --button-primary-color: var(--color-white);
+    --button-primary-svg-fill: var(--color-white);
+
+    --button-secondary-background: rgba(var(--color-white-rgb), 0.1);
+    --button-secondary-color: var(--color-white);
+
+    --button-info-background: rgba(var(--color-primary-rgb), 0.1);
+    --button-info-color: var(--color-primary);
+
+    /**
+     * Волны
+     */
+    --wave-background: var(--home-white-background);
+
+    /**
+     * Шифр
+     */
+    --cipher-background: rgb(130, 157, 244);
+    --cipher-color: var(--color-white);
+
+    /**
+     * Диалог
+     */
+    --dialog-background: var(--color-white);
+    --dialog-arrow-down-fill: var(--color-light-black);
+}
+
+body[scheme="client_dark"],
+body[scheme="space_gray"] {
+    --background_page: #1A222C;
+    
+    --home-white-background: #1A222C;
+    --home-blue-background: #24303F;
+
+    --background_content: #1A222C;
+    --field_background: #24303F;
+    --field_border: rgba(0, 0, 0, 0.15);
+
+    --button-info-background: rgba(var(--color-white-rgb), 0.1);
+    --button-info-color: var(--color-white);
+
+    --wave-background: var(--home-white-background);
+
+    --cipher-background: rgba(var(--color-white-rgb), 0.2);
+
+    --dialog-background: #1A222C;
+    --dialog-arrow-down-fill: var(--color-white);
 }
 
 .PanelHeader,
@@ -47,5 +106,5 @@
     width: 100%;
     height: 1500px;
 
-    background-color: var(--color-white);
+    background-color: var(--background_page);
 }

@@ -16,6 +16,8 @@
     transform: translateX(0);
     backface-visibility: hidden;
     animation: wave linear infinite;
+
+    fill: var(--wave-background);
 }
 
 .Wave__item--1 {

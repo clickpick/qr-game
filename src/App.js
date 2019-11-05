@@ -201,7 +201,12 @@ export default function App() {
         connect.send('VKWebAppGetClientVersion');
 
         if (connect.supports('VKWebAppSetViewSettings')) {
-            connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark', action_bar_color: '#fff' });
+            const scheme = document.body.getAttribute('scheme');
+            if (scheme === 'client_dark' || scheme === 'space_gray') {
+                connect.send('VKWebAppSetViewSettings', { status_bar_style: 'ligth', action_bar_color: '#1A222C' });
+            } else {
+                connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark', action_bar_color: '#fff' });
+            }
         }
     }, []);
 
