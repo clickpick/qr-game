@@ -44,7 +44,12 @@ const donate = (connect, amount) => async (dispatch) => {
 
             dispatch(hideDonateForm());
             
-            if (payResponse.status) {
+            let status = payResponse.status;
+            if (payResponse.hasOwnProperty('result')) {
+                status = payResponse.result.status;
+            }
+
+            if (status) {
                 dispatch(showNotification(DONATE_FORM_SUCCESS, {}, 8000));
             } else {
                 dispatch(showNotification(DONATE_FORM_ERROR));
