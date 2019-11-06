@@ -1,10 +1,26 @@
+.Finish {
+    --background_page: var(--finish-background);
+}
+
 .Finish__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     padding-right: 20px;
     padding-left: 20px;
 }
 
 .Finish__ThankYou,
 .Finish__ProjectCard,
-.Finish__AllowNotification {
+.Finish__AllowNotifications {
+    max-width: 600px;
+    width: 100%;
     margin-bottom: 20px;
+}
+
+.Finish__Loader {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
 }

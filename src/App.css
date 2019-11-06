@@ -31,6 +31,8 @@
     --home-blue-background: var(--color-primary);
     --home-white-background: var(--color-white);
 
+    --finish-background: var(--color-white);
+
     /**
      * Кнопки
     */
@@ -64,6 +66,16 @@
      */
     --dialog-background: var(--color-white);
     --dialog-arrow-down-fill: var(--color-light-black);
+
+    /**
+     * Спасибо
+     */
+    --thank-you-title-color: var(--color-primary);
+
+    /**
+     * Включить уведомления
+     */
+    --allow-notifications-background: var(--color-gray);
 }
 
 body[scheme="client_dark"],
@@ -72,6 +84,9 @@ body[scheme="space_gray"] {
     
     --home-white-background: #1A222C;
     --home-blue-background: #24303F;
+
+    --finish-background: #24303F;
+    --finish-title-color: var(--color-white);
 
     --background_content: #1A222C;
     --field_background: #24303F;
@@ -86,6 +101,10 @@ body[scheme="space_gray"] {
 
     --dialog-background: #1A222C;
     --dialog-arrow-down-fill: var(--color-white);
+
+    --thank-you-title-color: var(--color-white);
+
+    --allow-notifications-background: #1A222C;
 }
 
 .PanelHeader,

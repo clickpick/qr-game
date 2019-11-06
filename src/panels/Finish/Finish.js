@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { string, object, func } from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { IOS } from 'constants/platform';
+import './Finish.css';
 
 import { Panel } from '@vkontakte/vkui';
 
 import ThankYou from 'components/ThankYou';
 import ProjectCard from 'components/ProjectCard';
+import Loader from 'components/Loader';
 
-import './Finish.css';
+import { IOS } from 'constants/platform';
 
-const Finish = ({ id, user, project, openDonateForm }) => {
+const AllowNotifications = lazy(() => import('components/AllowNotifications'));
+
+const Finish = ({ id, user, project, openDonateForm, enableNotifications }) => {
     const supportDonate = useSelector(state => state.platform) !== IOS;
-    // const allowNotifications = () => connect.send("VKWebAppAllowNotifications", {});
-
-    // const isDeni = !Boolean(Number(user.notifications_are_enabled));
+    const isDenied = user.notifications_are_enabled === '0';
 
     return (
         <Panel id={id} className="Finish">
@@ -26,6 +27,11 @@ const Finish = ({ id, user, project, openDonateForm }) => {
                     {...project}
                     supportDonate={supportDonate}
                     onDonate={openDonateForm} />
+                
+                {(isDenied) &&
+                    <Suspense fallback={<Loader className="Finish__Loader" />}>
+                        <AllowNotifications className="Finish__AllowNotifications" enable={enableNotifications} />
+                    </Suspense>}
             </div>
         </Panel>
     );
@@ -35,7 +41,8 @@ Finish.propTypes = {
     id: string.isRequired,
     user: object,
     project: object,
-    openDonateForm: func
+    openDonateForm: func,
+    enableNotifications: func
 };
 
 export default Finish;

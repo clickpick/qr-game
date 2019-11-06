@@ -28,7 +28,7 @@ import DonateForm from 'components/DonateForm';
 import RequestFundingForm from 'components/RequestFundingForm';
 import Scanner from 'components/Scanner';
 
-import { fetchUser, fetchActivateKey } from 'actions/user-actions';
+import { fetchUser, fetchActivateKey, enableNotifications } from 'actions/user-actions';
 import { fetchProject } from 'actions/project-actions';
 import { previewShareStory } from 'actions/share-story-actions';
 import { openDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
@@ -300,7 +300,8 @@ export default function App() {
                     id="finish"
                     user={user.data}
                     project={project.data}
-                    openDonateForm={() => dispatch(openDonateForm())} />
+                    openDonateForm={() => dispatch(openDonateForm())}
+                    enableNotifications={enableNotifications} />
             </View>
             <View id={VIEW.SPINNER} activePanel="spinner">
                 <Spinner id="spinner" />

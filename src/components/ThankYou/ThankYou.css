@@ -1,7 +1,7 @@
 .ThankYou__title {
     font-size: var(--font-size-24);
     text-align: center;
-    color: var(--color-primary);
+    color: var(--thank-you-title-color);
 }
 
 .ThankYou__image {

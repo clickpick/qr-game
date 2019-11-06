@@ -181,4 +181,4 @@ const enableNotifications = async () => {
     }
 }
 
-export { fetchUser, fetchActivateKey, addNewKey };
+export { fetchUser, fetchActivateKey, addNewKey, enableNotifications };
