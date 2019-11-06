@@ -325,6 +325,7 @@ export default function App() {
             <Popup
                 visible={cheat.visible}
                 {...NOTIFICATION.CHEAT}
+                title={(cheat.symbol) ? `Символ “${cheat.symbol}” у тебя уже есть. Но есть ЧИТ!` : NOTIFICATION.CHEAT.title}
                 actions={[
                     {
                         theme: 'info',

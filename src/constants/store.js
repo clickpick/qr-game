@@ -28,7 +28,8 @@ export const NOTIFICATION_INITIAL_STATE = null;
 
 export const CHEAT_INITIAL_STATE = {
     loading: false,
-    visible: false
+    visible: false,
+    symbol: null
 };
 
 export const PLATFORM_INITIAL_STATE = null;

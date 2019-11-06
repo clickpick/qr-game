@@ -131,12 +131,12 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
                 let symbol = '';
                 if (e.response.data && e.response.data.data) {
                     if (e.response.data.data.value) {
-                        symbol = e.response.data.data.value;
+                        symbol = e.response.data.data.value.toUpperCase();
                     }
 
                     if (e.response.data.data.has_cheat && supportCheat) {
                         dispatch(closeNotification());
-                        dispatch(showCheat());
+                        dispatch(showCheat(symbol));
 
                         return;
                     }
@@ -144,7 +144,7 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
 
                 dispatch(showNotification(QR_ERROR, {
                     title: 'Sorry',
-                    message: `Символ “${symbol.toUpperCase()}” у тебя уже есть.`
+                    message: `Символ “${symbol}” у тебя уже есть.`
                 }));
             }
 

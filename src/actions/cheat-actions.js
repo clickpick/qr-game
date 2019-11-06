@@ -5,8 +5,9 @@ import { addNewKey } from 'actions/user-actions';
 import { showNotification } from 'actions/notification-actions';
 import { CHEAT_PROCESSING, CHEAT_SUCCESS, CHEAT_ERROR, CHEAT_NOT_FOUND } from 'constants/notifications';
 
-const showCheat = () => ({
-    type: types.SHOW_CHEAT
+const showCheat = (symbol) => ({
+    type: types.SHOW_CHEAT,
+    symbol
 });
 
 const hideCheat = () => ({
