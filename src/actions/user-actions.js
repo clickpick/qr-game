@@ -88,7 +88,7 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
                 dispatch(showNotification(QR_SUCCESS, {
                     message: `
                         Ты открыл новый символ “${response.data.value.toUpperCase()}”!<br />
-                        Включи уведомления, чтобы узнавать о старте новых игр и следить за текущей.
+                        Включи уведомления, чтобы узнавать о старте новых игр и следить за текущей. А также иногда мы присылаем подсказки по нахождению недостающей буквы
                     `,
                     actions: [
                         {
