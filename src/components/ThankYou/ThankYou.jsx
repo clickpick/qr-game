@@ -1,12 +1,12 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { string, object } from 'prop-types';
 import classNames from 'classnames';
 
 import thankYou from 'images/thankyou.png';
 
 import './ThankYou.css';
 
-const ThankYou = ({ className }) =>
+const ThankYou = ({ className, project }) =>
     <div className={classNames(className, 'ThankYou')}>
         <h1 className="ThankYou__title" children="Спасибо за участие!" />
         <img className="ThankYou__image" src={thankYou} alt="Спасибо!" />
@@ -19,6 +19,7 @@ const ThankYou = ({ className }) =>
 
 ThankYou.propTypes = {
     className: string,
+    project: object.isRequired
 };
 
 export default ThankYou;
