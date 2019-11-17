@@ -36,6 +36,7 @@ import { showNotification, closeNotification } from 'actions/notification-action
 import { fetchRequestFunding } from 'actions/request-funding-actions';
 import { getCheat, hideCheat } from 'actions/cheat-actions';
 import { setPlatform } from 'actions/platform-actions';
+import { fetchWinners } from 'actions/winners-actions';
 
 import { debounce, getHash } from 'helpers';
 
@@ -46,7 +47,8 @@ export default function App() {
         user, project,
         shareStory, donateForm,
         notification, requestFunding, cheat,
-        platform: currentPlatform
+        platform: currentPlatform,
+        winners
     } = useSelector(state => state);
     const dispatch = useDispatch();
 
@@ -146,6 +148,10 @@ export default function App() {
          * Если всё получино, то устанавливаем нужную view
          */
         if (checkFetchSuccess(user) && checkFetchSuccess(project)) {
+            if (!winners.loading && !winners.data) {
+                dispatch(fetchWinners);
+            }
+
             if (project.data.is_finished) {
                 setTimeout(() => setActiveView(VIEW.FINISH), 200);   
             } else if (activeView === VIEW.SPINNER) {
@@ -171,7 +177,7 @@ export default function App() {
                 }, 200);
             }
         }
-    }, [user, project, activeView, showRules, dispatch, activateProjectKey]);
+    }, [user, project, winners, activeView, showRules, dispatch, activateProjectKey]);
 
     useEffect(() => {
         window.addEventListener('online', () => {
@@ -300,6 +306,7 @@ export default function App() {
                     id="finish"
                     user={user.data}
                     project={project.data}
+                    winners={winners.data}
                     openDonateForm={() => dispatch(openDonateForm())}
                     enableNotifications={enableNotifications} />
             </View>

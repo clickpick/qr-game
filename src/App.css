@@ -20,6 +20,7 @@
 
     --font-size-14: 14px;
     --font-size-16: 16px;
+    --font-size-24: 21px;
     --font-size-24: 24px;
     --font-weight-light: 300;
     --font-weight-regular: 400;
@@ -76,6 +77,11 @@
      * Включить уведомления
      */
     --allow-notifications-background: var(--color-gray);
+
+    /**
+     * Список победителей
+     */
+    --winners-name-color: var(--color-black);
 }
 
 body[scheme="client_dark"],
@@ -105,6 +111,8 @@ body[scheme="space_gray"] {
     --thank-you-title-color: var(--color-white);
 
     --allow-notifications-background: #1A222C;
+
+    --winners-name-color: var(--color-white);
 }
 
 .PanelHeader,

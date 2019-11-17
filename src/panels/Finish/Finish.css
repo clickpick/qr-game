@@ -24,3 +24,9 @@
     margin-right: auto;
     margin-left: auto;
 }
+
+.Finish__title {
+    margin-bottom: 20px;
+    font-size: var(--font-size-24);
+    font-weight: var(--font-weight-regular);
+}

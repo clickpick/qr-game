@@ -1,0 +1,53 @@
+.Winners {
+    width: 100%;
+    list-style: none;
+}
+
+.Winners__winner {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 16px;
+}
+
+.Winners__winner:nth-child(-n + 3) .Winner__prize-place {
+    font-weight: var(--font-weight-semibold);
+}
+
+.Winners__Avatar {
+    margin-right: 12px;
+}
+
+.Winner__info {
+    display: flex;
+    flex-direction: column;
+}
+
+.Winners__name {
+    display: inline-block;
+
+    margin-bottom: 4px;
+
+    color: var(--winners-name-color);
+    text-decoration: none;
+}
+
+.Winners__name::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+
+    display: block;
+    content: '';
+
+    width: 100%;
+    height: 100%;
+}
+
+.Winner__prize-place {
+    font-size: var(--font-size-14);
+    color: var(--color-dark-gray);
+}
