@@ -73,14 +73,17 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
         setTimeout(() => {
             dispatch(addNewKey(response.data));
 
-            if (response.data.is_last || isLastKey) {
+            if (isLastKey) {
                 dispatch(showNotification(QR_FINISH_GAME, {
                     message: `
                         Ты открыл последний символ “${response.data.value.toUpperCase()}”!<br />
                         Поздравляем, ты выиграл!
                     `
                 }, 5000));
-                dispatch(finishProject());
+
+                if (response.data.is_last) {
+                    dispatch(finishProject());
+                }
 
                 return;
             }
