@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { string, object, func } from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -16,7 +16,12 @@ const AllowNotifications = lazy(() => import('components/AllowNotifications'));
 
 const Finish = ({ id, user, project, openDonateForm, enableNotifications }) => {
     const supportDonate = useSelector(state => state.platform) !== IOS;
-    const isDenied = user.notifications_are_enabled === '0';
+    const [allowed, setAllowed] = useState(user.notifications_are_enabled !== '0');
+    
+    async function allowNotifications() {
+        const result = await enableNotifications();
+        setAllowed(result);
+    }
 
     return (
         <Panel id={id} className="Finish">
@@ -28,9 +33,9 @@ const Finish = ({ id, user, project, openDonateForm, enableNotifications }) => {
                     supportDonate={supportDonate}
                     onDonate={openDonateForm} />
                 
-                {(isDenied) &&
+                {(!allowed) &&
                     <Suspense fallback={<Loader className="Finish__Loader" />}>
-                        <AllowNotifications className="Finish__AllowNotifications" enable={enableNotifications} />
+                        <AllowNotifications className="Finish__AllowNotifications" enable={allowNotifications} />
                     </Suspense>}
             </div>
         </Panel>

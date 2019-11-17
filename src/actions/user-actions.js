@@ -185,11 +185,15 @@ const enableNotifications = async () => {
         if (response.result) {
             toggleNotifications('1');
             toggleAllowNotifications(true);
+
+            return true;
         }
     } catch (e) {
         toggleNotifications(false);
         toggleAllowNotifications('0');
     }
+
+    return false;
 }
 
 export { fetchUser, fetchActivateKey, addNewKey, enableNotifications };
