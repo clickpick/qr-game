@@ -67,12 +67,13 @@ const fetchActivateKey = (token) => async (dispatch, getState) => {
     try {
         const response = await activeProjectKey(project.data.id, token);
         const isFirstKey = user.data.activated_project_keys.length === 0;
+        const isLastKey = user.data.activated_project_keys.length === 4;
         const disabledNotifications = user.data.notifications_are_enabled === '0';
 
         setTimeout(() => {
             dispatch(addNewKey(response.data));
 
-            if (response.data.is_last) {
+            if (response.data.is_last || isLastKey) {
                 dispatch(showNotification(QR_FINISH_GAME, {
                     message: `
                         Ты открыл последний символ “${response.data.value.toUpperCase()}”!<br />
