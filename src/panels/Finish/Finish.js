@@ -21,7 +21,7 @@ const Finish = ({ id, user, project, openDonateForm, enableNotifications }) => {
     return (
         <Panel id={id} className="Finish">
             <div className="Finish__wrapper">
-                <ThankYou className="Finish__ThankYou" />
+                <ThankYou className="Finish__ThankYou" project={project} />
                 <ProjectCard
                     className="Finish__ProjectCard"
                     {...project}

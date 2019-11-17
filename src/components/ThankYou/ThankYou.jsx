@@ -2,8 +2,6 @@ import React from 'react';
 import { string } from 'prop-types';
 import classNames from 'classnames';
 
-import { gaps } from 'helpers';
-
 import thankYou from 'images/thankyou.png';
 
 import './ThankYou.css';
@@ -15,7 +13,7 @@ const ThankYou = ({ className }) =>
         <p className="ThankYou__message">
             Ты молодец!
             <br />
-            Несмотря на то, что проект закончился, ты можешь пожертвовать средства, которые пойдут на этот или другие проекты этого фонда.
+            Несмотря на то, что игра закончилась, ты можешь пожертвовать средства, которые пойдут на проект "{project.name}".
 		</p>
     </div>;
 
