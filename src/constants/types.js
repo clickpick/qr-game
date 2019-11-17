@@ -30,3 +30,7 @@ export const HIDE_CHEAT = 'hide-cheat';
 export const FETCH_CHEAT_LOAD = 'fetch-cheat-load';
 
 export const SET_PLATFORM = 'set-platform';
+
+export const FETCH_WINNERS_LOAD = 'fetch-winners-load';
+export const FETCH_WINNERS_SUCCESS = 'fetch-winners-success';
+export const FETCH_WINNERS_ERROR = 'fetch-winners-error';

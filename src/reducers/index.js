@@ -7,6 +7,7 @@ import notificationReducer from 'reducers/notification-reducer';
 import requestFundingReducer from 'reducers/request-funding-reducer';
 import cheatReducer from 'reducers/cheat-reducer';
 import platformReducer from 'reducers/platform-reducer';
+import winnersReducer from 'reducers/winners-reducer';
 
 const rootReducer = combineReducers({
     user: userReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     requestFunding: requestFundingReducer,
     cheat: cheatReducer,
     platform: platformReducer,
+    winners: winnersReducer
 });
 
 export default rootReducer;
