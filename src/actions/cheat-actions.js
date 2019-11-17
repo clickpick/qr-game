@@ -46,7 +46,7 @@ const getCheat = (connect) => async (dispatch) => {
                 const orderId = JSON.parse(extra).order_id;
 
                 setTimeout(async () => {
-                    let i = 5;
+                    let i = 10;
                     while (i--) {
                         try {
                             const keyResponse = await activateCheat(orderId);
@@ -62,7 +62,7 @@ const getCheat = (connect) => async (dispatch) => {
                             dispatch(showNotification(CHEAT_NOT_FOUND));
                         }
                     }
-                }, 3000);
+                }, 1500);
             } else {
                 dispatch(showNotification(CHEAT_ERROR));    
             }
