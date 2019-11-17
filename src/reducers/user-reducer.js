@@ -44,7 +44,18 @@ export default function userReducer(state = USER_INITIAL_STATE, action) {
                     ...state.data,
                     activated_project_keys: keys
                 }
-            }
+            };
+
+        case types.TOGGLE_ALLOW_NOTIFICATIONS:
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                data: {
+                    ...state.data,
+                    notifications_are_enabled: action.isEnabled
+                }
+            };
 
         default:
             return state;

@@ -36,6 +36,11 @@ const addNewKey = (key) => ({
     key
 });
 
+const toggleAllowNotifications = (isEnabled) => ({
+    type: types.TOGGLE_ALLOW_NOTIFICATIONS,
+    isEnabled
+});
+
 async function fetchUser(dispatch) {
     dispatch(fetchUserLoad());
 
@@ -178,10 +183,12 @@ const enableNotifications = async () => {
         const response = await connect.sendPromise('VKWebAppAllowNotifications');
         
         if (response.result) {
-            toggleNotifications(true);
+            toggleNotifications('1');
+            toggleAllowNotifications(true);
         }
     } catch (e) {
         toggleNotifications(false);
+        toggleAllowNotifications('0');
     }
 }
 
