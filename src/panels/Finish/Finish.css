@@ -30,3 +30,7 @@
     font-size: var(--font-size-24);
     font-weight: var(--font-weight-regular);
 }
+
+.Finish__Button {
+    margin-bottom: 20px;
+}

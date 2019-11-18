@@ -143,7 +143,7 @@ export default function App() {
                 }]
             }, 0));
         }
-        
+
         /**
          * Если всё получино, то устанавливаем нужную view
          */
@@ -153,7 +153,7 @@ export default function App() {
             }
 
             if (project.data.is_finished) {
-                setTimeout(() => setActiveView(VIEW.FINISH), 200);   
+                setTimeout(() => setActiveView(VIEW.FINISH), 200);
             } else if (activeView === VIEW.SPINNER) {
                 setTimeout(() => {
                     setActiveView(VIEW.MAIN);
@@ -283,7 +283,7 @@ export default function App() {
             </ModalPage>
         </ModalRoot>
     );
-  
+
     return <>
         <Root activeView={activeView}>
             <View id={VIEW.MAIN} activePanel="home" header={false} modal={mainModal}>
@@ -301,14 +301,15 @@ export default function App() {
                     showPrize={showPrize}
                     openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)} />
             </View>
-            <View id={VIEW.FINISH} activePanel="finish">
+            <View id={VIEW.FINISH} activePanel="finish" modal={mainModal}>
                 <Finish
                     id="finish"
                     user={user.data}
                     project={project.data}
                     winners={winners.data}
                     openDonateForm={() => dispatch(openDonateForm())}
-                    enableNotifications={enableNotifications} />
+                    enableNotifications={enableNotifications}
+                    openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)} />
             </View>
             <View id={VIEW.SPINNER} activePanel="spinner">
                 <Spinner id="spinner" />
