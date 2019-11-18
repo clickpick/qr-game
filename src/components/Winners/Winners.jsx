@@ -22,7 +22,7 @@ const Winners = ({ className, winners, prizes }) => {
                         className="Winners__name"
                         href={`https://vk.com/id${winner.vk_user_id}`}
                         target="_blank"
-                        rel="noopenner norefferer"
+                        rel="noopener noreferrer"
                         children={name} />
                     <span className="Winner__prize-place" children={place} />
                 </div>
