@@ -6,8 +6,11 @@
 
 .ThankYou__image {
     display: block;
+
+    width: 100%;
     max-width: 335px;
     height: auto;
+
     margin-right: auto;
     margin-bottom: 20px;
     margin-left: auto;
