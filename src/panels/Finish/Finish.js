@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { string, object, arrayOf, func } from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -13,6 +13,7 @@ import Button from 'components/Button';
 
 import { IOS } from 'constants/platform';
 import { prizes } from 'constants/game';
+import { getHash } from 'helpers/location';
 
 const AllowNotifications = lazy(() => import('components/AllowNotifications'));
 const Winners = lazy(() => import('components/Winners'));
@@ -25,10 +26,20 @@ const Finish = ({
     openDonateForm,
     enableNotifications,
     openRequestFundingModal,
-    thanksWWF
+    showThanskWWF
 }) => {
     const supportDonate = useSelector(state => state.platform) !== IOS;
     const [allowed, setAllowed] = useState(user.notifications_are_enabled !== '0');
+
+    useEffect(() => {
+        if (getHash(window.location.href).indexOf('thanks-wwf') !== -1) {
+            setTimeout(() => {
+                if (showThanskWWF) {
+                    showThanskWWF();
+                }
+            }, 500);
+        }
+    }, [showThanskWWF]);
 
     async function allowNotifications() {
         const result = await enableNotifications();
@@ -56,7 +67,7 @@ const Finish = ({
                     size="medium"
                     children="Спасибо от снежных барсов и WWF"
                     full
-                    onClick={thanksWWF} />
+                    onClick={showThanskWWF} />
 
                 <Button
                     className="Finish__Button"
@@ -87,7 +98,7 @@ Finish.propTypes = {
     openDonateForm: func,
     enableNotifications: func,
     openRequestFundingModal: func,
-    thanksWWF: func
+    showThanskWWF: func
 };
 
 export default Finish;

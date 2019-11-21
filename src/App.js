@@ -268,6 +268,14 @@ export default function App() {
         }, 0));
     }, [dispatch]);
 
+    const showThanskWWF = useCallback(() => {
+        dispatch(showNotification(NOTIFICATION.THANKS_WWF, {
+            title: (user.data && user.data.first_name)
+                ? `Привет, ${user.data.first_name}!`
+                : 'Привет!'
+        }, 0))
+    }, [dispatch, user]);
+
     const mainModal = (
         <ModalRoot activeModal={activeModal}>
             <ModalPage
@@ -310,11 +318,7 @@ export default function App() {
                     openDonateForm={() => dispatch(openDonateForm())}
                     enableNotifications={enableNotifications}
                     openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)}
-                    thanksWWF={() => dispatch(showNotification(NOTIFICATION.THANKS_WWF, {
-                        title: (user.data && user.data.first_name)
-                            ? `Привет, ${user.data.first_name}!`
-                            : 'Привет!'
-                    }, 0))} />
+                    showThanskWWF={showThanskWWF} />
             </View>
             <View id={VIEW.SPINNER} activePanel="spinner">
                 <Spinner id="spinner" />
