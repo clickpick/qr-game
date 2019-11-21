@@ -24,7 +24,8 @@ const Finish = ({
     winners,
     openDonateForm,
     enableNotifications,
-    openRequestFundingModal
+    openRequestFundingModal,
+    thanksWWF
 }) => {
     const supportDonate = useSelector(state => state.platform) !== IOS;
     const [allowed, setAllowed] = useState(user.notifications_are_enabled !== '0');
@@ -48,6 +49,14 @@ const Finish = ({
                     <Suspense fallback={<Loader className="Finish__Loader" />}>
                         <AllowNotifications className="Finish__AllowNotifications" enable={allowNotifications} />
                     </Suspense>}
+
+                <Button
+                    className="Finish__Button"
+                    theme="info"
+                    size="medium"
+                    children="Спасибо от снежных барсов и WWF"
+                    full
+                    onClick={thanksWWF} />
 
                 <Button
                     className="Finish__Button"
@@ -76,7 +85,9 @@ Finish.propTypes = {
     project: object,
     winners: arrayOf(object),
     openDonateForm: func,
-    enableNotifications: func
+    enableNotifications: func,
+    openRequestFundingModal: func,
+    thanksWWF: func
 };
 
 export default Finish;

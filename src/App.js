@@ -309,7 +309,12 @@ export default function App() {
                     winners={winners.data}
                     openDonateForm={() => dispatch(openDonateForm())}
                     enableNotifications={enableNotifications}
-                    openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)} />
+                    openRequestFundingModal={() => setActiveModal(MODAL.REQUEST_FUNDING)}
+                    thanksWWF={() => dispatch(showNotification(NOTIFICATION.THANKS_WWF, {
+                        title: (user.data && user.data.first_name)
+                            ? `Привет, ${user.data.first_name}!`
+                            : 'Привет!'
+                    }, 0))} />
             </View>
             <View id={VIEW.SPINNER} activePanel="spinner">
                 <Spinner id="spinner" />
