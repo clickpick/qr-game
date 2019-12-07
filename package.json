@@ -7,7 +7,8 @@
     "start": "cross-env PORT=10888 react-scripts start",
     "build": "react-scripts build",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "deploy": "vk-miniapps-deploy"
+    "proxy": "ssh -vnNT -R 3000:localhost:10888 forge@dev.ezavalishin.ru",
+    "deploy": "rm -rf build/ && react-scripts build && vk-miniapps-deploy"
   },
   "keywords": [],
   "author": "Nikita Barinov",
