@@ -1,4 +1,4 @@
-import { shareStory, draw, svgPrepare, svgToBase64 } from 'helpers';
+import { shareStory, draw, svgPrepare, svgToBase64, getBlob, svgToPng } from 'helpers';
 import * as types from 'constants/types';
 import { APP_LINK } from 'constants/vk';
 import { TEMPLATE_URL } from 'constants/story';
@@ -7,6 +7,8 @@ import {
     SHARE_STORY_PREVIEW, SHARE_STORY_PREVIEW_ERROR,
     SHARE_STORY_LOAD, SHARE_STORY_SUCCESS, SHARE_STORY_ERROR
 } from 'constants/notifications';
+
+import { tempImage } from 'api'
 
 const shareStoryLoad = () => ({
     type: types.SHARE_STORY_LOAD
@@ -24,6 +26,24 @@ const shareStoryError = (error) => ({
 const previewShareStory = (connect, svg) => async (dispatch) => {
     try {
         const img = await draw(TEMPLATE_URL, svgToBase64(svgPrepare(svg)));
+        
+
+        svgToPng(svg.outerHTML)
+            .then((d) => {
+                console.log(1);
+                
+                console.log(d);
+                
+            })
+            .catch((e) => {
+                console.log(2);
+                
+                console.log(e);
+                
+            });
+        // const r = await tempImage(getBlob(svg.outerHTML));
+        
+        // console.log(r);
 
         dispatch(showNotification(SHARE_STORY_PREVIEW, {
             imageType: undefined,
@@ -32,7 +52,26 @@ const previewShareStory = (connect, svg) => async (dispatch) => {
                 {
                     theme: 'info',
                     title: 'Отмена',
-                    action: () => dispatch(closeNotification())
+                    action: async () => {
+                        try {
+                            const response = await connect.sendPromise('VKWebAppShowStoryBox', {
+                                background_type: 'none',
+                                stickers: [{
+                                    sticker_type: 'renderable',
+                                    sticker: {
+                                        can_delete: 0,
+                                        content_type: 'image',
+                                        // blob
+                                    }
+                                }]
+                            })
+
+                            console.log(response);
+                        } catch (e) {
+                            console.log(e);
+                        }
+                    }
+                    // action: () => dispatch(closeNotification())
                 },
                 {
                     theme: 'primary',
@@ -43,6 +82,8 @@ const previewShareStory = (connect, svg) => async (dispatch) => {
             ]
         }, 0));
     } catch (e) {
+        console.log(e);
+        
         dispatch(showNotification(SHARE_STORY_PREVIEW_ERROR));
     }
 }

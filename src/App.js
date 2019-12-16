@@ -153,7 +153,7 @@ export default function App() {
             }
 
             if (project.data.is_finished) {
-                setTimeout(() => setActiveView(VIEW.FINISH), 200);
+                setTimeout(() => setActiveView(VIEW.MAIN), 200);
             } else if (activeView === VIEW.SPINNER) {
                 setTimeout(() => {
                     setActiveView(VIEW.MAIN);
