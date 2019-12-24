@@ -34,12 +34,4 @@ export const getVKPayParamsWithCheat = () => requestPost('/vk-pay-cheat-order');
 
 export const activateCheat = (order_id) => requestPost('/activate-cheat', { order_id });
 
-export const postStory = (upload_url, image) => requestPost('/post-story', { upload_url, image });
-
 export const winners = (projectId) => requestGet(`/projects/${projectId}/winners`);
-
-export const tempImage = (image) => {
-    const d = new FormData();
-    d.append('image', image);
-    return requestPost('temp-image', d);
-}

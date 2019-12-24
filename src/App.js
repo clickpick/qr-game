@@ -30,7 +30,7 @@ import Scanner from 'components/Scanner';
 
 import { fetchUser, fetchActivateKey, enableNotifications } from 'actions/user-actions';
 import { fetchProject } from 'actions/project-actions';
-import { previewShareStory } from 'actions/share-story-actions';
+import { fetchShareStory } from 'actions/share-story-actions';
 import { openDonateForm, hideDonateForm, donate } from 'actions/donate-form-actions';
 import { showNotification, closeNotification } from 'actions/notification-actions';
 import { fetchRequestFunding } from 'actions/request-funding-actions';
@@ -225,7 +225,7 @@ export default function App() {
      * несколько раз, при это сканер
      * ещё не открылся в силу мощности устройства.
      */
-    const openQR = debounce(() => {
+    const openQR = useCallback(debounce(() => {
         if (currentPlatform === MOBILE_WEB || currentPlatform === WEB) {
             dispatch(showNotification(NOTIFICATION.MOBILE_SCANNER, {
                 children: <Scanner onScanned={activateProjectKey} />
@@ -235,27 +235,20 @@ export default function App() {
         }
 
         connect.send('VKWebAppOpenQR');
-    }, 200);
+    }, 200), [currentPlatform, activateProjectKey]);
 
-    const share = debounce(() => {
-        if (qrCodeRef && qrCodeRef.current) {
-            const svg = qrCodeRef.current.firstElementChild;
-            dispatch(previewShareStory(connect, svg));
-
-            return;
+    const share = useCallback(debounce(() => {
+        if (user.data && user.data.active_project_token.token) {
+            dispatch(fetchShareStory(user.data.active_project_token.token, user.data.avatar_200));
         }
+    }, 200), [user.data, dispatch]);
 
-        dispatch(showNotification(NOTIFICATION.SHARE_STORY_QR_ERROR));
-    }, 200);
+    const modalBack = useCallback(() => setActiveModal(null), []);
 
-    function modalBack() {
-        setActiveModal(null);
-    }
-
-    function handleRequestFundingSubmit(data) {
+    const handleRequestFundingSubmit = useCallback((data) => {
         modalBack();
         dispatch(fetchRequestFunding(data, showNotification));
-    }
+    }, [modalBack, dispatch]);
 
     const showPrize = useCallback(() => {
         dispatch(showNotification(NOTIFICATION.PRIZE, {

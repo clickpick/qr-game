@@ -6,22 +6,13 @@ export default function shareStoryReducer(state = SHARE_STORY_INITIAL_STATE, act
         case types.SHARE_STORY_LOAD:
             return {
                 ...state,
-                sharing: true,
-                error: false
+                sharing: true
             };
 
         case types.SHARE_STORY_SUCCESS:
             return {
                 ...state,
-                sharing: false,
-                error: false
-            };
-
-        case types.SHARE_STORY_ERROR:
-            return {
-                ...state,
-                sharing: false,
-                error: true
+                sharing: false
             };
 
         default:

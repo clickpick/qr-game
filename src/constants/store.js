@@ -11,8 +11,7 @@ export const PROJECT_INITIAL_STATE = {
 };
 
 export const SHARE_STORY_INITIAL_STATE = {
-    sharing: false,
-    error: false
+    sharing: false
 };
 
 export const DONATE_FORM_INITIAL_STATE = {
