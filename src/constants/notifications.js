@@ -10,13 +10,6 @@ export const QR_LOAD_DELAY = 7000;
 
 export const TOKEN_NOT_FOUND = 'token-not-found';
 
-export const SHARE_STORY_PREVIEW = 'share-story-preview';
-export const SHARE_STORY_PREVIEW_ERROR = 'share-story-preview-error';
-export const SHARE_STORY_LOAD = 'share-story-load';
-export const SHARE_STORY_SUCCESS = 'share-story-success';
-export const SHARE_STORY_ERROR = 'share-story-error';
-export const SHARE_STORY_QR_ERROR = 'share-story-qr-error';
-
 export const RULES = 'rules';
 
 export const GAME_INFO = 'game-info';
@@ -62,7 +55,7 @@ export default {
         disabled: true,
         type: 'info',
         imageType: 'loading',
-        title: 'Обработка QR кода'
+        title: 'Обработка QR-кода'
     },
     [QR_SUCCESS]: {
         type: 'success',
@@ -73,7 +66,7 @@ export default {
         type: 'danger',
         imageType: 'error',
         title: 'Хм...',
-        message: 'Зачем ты сканируешь свой QR код?'
+        message: 'Зачем ты сканируешь свой QR-код?'
     },
     [QR_NOT_FOUND]: {
         type: 'danger',
@@ -97,50 +90,14 @@ export default {
         type: 'danger',
         imageType: 'error',
         title: 'Тут ничего нет',
-        message: 'В этом QR коде нет никакого символа'
-    },
-
-    [SHARE_STORY_PREVIEW]: {
-        isHeaderPadding: false,
-        type: 'info',
-        title: 'Так будет выглядeть твоя история',
-    },
-    [SHARE_STORY_PREVIEW_ERROR]: {
-        type: 'danger',
-        imageType: 'info',
-        title: 'Упс...',
-        message: 'Что-то не получилось у нас показать тебе твою историю'
-    },
-    [SHARE_STORY_LOAD]: {
-        disabled: true,
-        type: 'info',
-        imageType: 'loading',
-        title: 'Публикуем твою историю'
-    },
-    [SHARE_STORY_SUCCESS]: {
-        type: 'success',
-        imageType: 'success',
-        title: 'Круто!',
-        message: 'История опубликована'
-    },
-    [SHARE_STORY_ERROR]: {
-        type: 'danger',
-        imageType: 'error',
-        title: 'Что-то пошло не так...',
-        message: 'История не опубликована'
-    },
-    [SHARE_STORY_QR_ERROR]: {
-        type: 'info',
-        imageType: 'connect',
-        title: 'Погоди-погоди...',
-        message: 'Твой QR код ещё не готов, поэтому пока мы не можем опубликовать твою историю'
+        message: 'В этом QR-коде нет никакого символа'
     },
 
     [RULES]: {
         type: 'info',
         imageType: 'rules',
         title: 'Правила',
-        message: 'У тебя и твоих друзей есть QR коды с зашифрованными символами. Твоя задача отыскать 5 уникальных символов для выигрышной комбинации!'
+        message: 'У тебя и твоих друзей есть QR-коды с зашифрованными символами. Твоя задача отыскать 5 уникальных символов для выигрышной комбинации!'
     },
 
     [GAME_INFO]: {

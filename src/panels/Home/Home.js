@@ -42,7 +42,7 @@ const Home = ({
 					<div className="Home__actions">
 						<Button
 							className="Home__action  Home__action--scan"
-							children="Сканировать QR код"
+							children="Сканировать QR-код"
 							size="medium"
 							theme="info"
 							full
@@ -65,8 +65,8 @@ const Home = ({
 
 					<div className="Home__content">
 						<h2 className="Home__title">
-							Сканируй QR коды друзей<br />и получи приз за весь шифр
-					</h2>
+							Сканируй QR-коды друзей<br />и получи приз за весь шифр
+						</h2>
 
 						<Cipher
 							className="Home__Cipher"
